@@ -1,4 +1,9 @@
 # dawn
-A startpage called "dawn"
+A startpage called "dawn" (WIP)
 
-[Live Preview](https://0-l.github.io/dawn/?)
+Press `alt-<n>` to change tabs.
+
+[**Live Preview**](https://0-l.github.io/dawn/?)
+
+### Preview
+![preview](https://i.imgur.com/6ImuuEH.png)

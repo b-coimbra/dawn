@@ -20,16 +20,29 @@ body {
     background: none;
 }
 
-#todo {
+#tabs,
+#links,
+#todo,
+#todo .add,
+#todo::after,
+#todo .addTodo,
+#panels .links,
+.items item::before,
+.items item::after,
+#tabs ul li:last-child,
+#panels, #panels ul,
+#tabs .widgets {
     position: absolute;
-    width: 350px;
+}
+
+#todo {
     right: 0;
+    width: 350px;
     height: 100%;
 }
 
 #todo::after {
     content: '';
-    position: absolute;
     display: block;
     left: 0;
     width: 1px;
@@ -47,7 +60,6 @@ body {
 }
 
 #todo .add {
-    position: absolute;
     top: 30px;
     left: -25px;
     outline: 0;
@@ -130,7 +142,6 @@ body {
 
 .items item::before {
     content: '';
-    position: absolute;
     display: block;
     background: var(--bg);
     border-radius: 50%;
@@ -156,7 +167,6 @@ body {
 
 .items item::after {
     content: '';
-    position: absolute;
     display: block;
     left: -16px;
     top: 0;
@@ -180,10 +190,6 @@ body {
 .items item:hover span {
     color: var(--state) !important;
 }
-
-/*.items item:hover {
-    box-shadow: inset 0 2px 0 var(--state);
-}*/
 
 .items item .added-at {
     font-size: 11px;
@@ -225,7 +231,6 @@ body {
 }
 
 #links {
-    position: absolute;
     left: 0;
     width: calc(100% - 350px);
     height: 100%;
@@ -236,7 +241,6 @@ body {
 }
 
 #todo .addTodo {
-    position: absolute;
     width: 100%;
     height: 100px;
     top: -110px;
@@ -266,7 +270,6 @@ body {
 
 
 #tabs {
-    position: absolute;
     bottom: 0;
     width: 90%;
     height: 30px;
@@ -299,23 +302,23 @@ body {
 }
 
 #tabs ul li:last-child {
-    position: absolute;
+    --flavour: var(--accent);
     width: 35px;
     height: 3px;
-    background: var(--accent);
+    background: var(--flavour);
     bottom: 0;
     transition: all .1s;
 }
 
-#tabs ul li:not(:last-child).active {
+#tabs ul li[active]:not(:last-child) {
     font-weight: 700;
     color: #fff;
     font-size: 16px;
     padding: 6px 0;
 }
 
-#tabs ul li:nth-child(2).active ~ li:last-child { margin: 0 0 0 35px; }
-#tabs ul li:nth-child(3).active ~ li:last-child { margin: 0 0 0 70px; }
+#tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 35px; }
+#tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
 
 #panels {
     overflow: hidden;
@@ -330,33 +333,51 @@ body {
     background: #18181d;
 }
 
-#panels, #panels ul {
-    position: absolute;
-}
-
 #panels ul {
     --panelbg: transparent;
+    --flavour: var(--accent);
     border-radius: 4px 4px 0 0;
     width: 100%;
     height: 100%;
     right: 100%;
-    background: #fff var(--panelbg) repeat center left fixed;
+    background: #fff url("../img/bg-1.gif") repeat center left fixed;
     transition: all .6s;
 }
 
-#panels ul:nth-child(1) { --panelbg: url("img/bg-1.gif"); }
-#panels ul:nth-child(2) { --panelbg: url("img/bg-2.gif"); }
-#panels ul:nth-child(3) { --panelbg: url("img/bg-3.gif"); }
+#panels ul:nth-child(2),
+#tabs ul li[active]:nth-child(2) ~ li:last-child {
+    --flavour: #16a2a2;
+}
 
-#panels ul.active {
+#panels ul:nth-child(3),
+#tabs ul li[active]:nth-child(3) ~ li:last-child {
+    --flavour: #5b52e4;
+}
+
+#panels ul .links {
+    box-shadow: inset -1px 0 var(--flavour);
+}
+
+#panels ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
+#panels ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
+
+#panels ul[active] {
     right: 0;
     z-index: 1;
 }
 
 #tabs .widgets {
-    font-size: 12px;
+    right: 0;
+    margin: auto;
+    height: 100%;
+    padding: 0 2em;
     color: #fff;
+    font-size: 12px;
     background: #1d1d21;
+}
+
+#tabs > cols {
+    position: relative;
 }
 
 #tabs .time {
@@ -387,21 +408,100 @@ body {
 #tabs i[cloudy] { color: #88d8d8; }
 
 #panels .links {
-    position: absolute;
     right: 0;
     width: 70%;
     height: 100%;
     background: #18181d;
-    padding: 1em;
-    /*border-radius: 0 4px 4px 0;*/
+    padding: 5%;
+    flex-wrap: wrap;
 }
 
-#panels .links a {
-    color: #fff;
+#panels .boards .links a {
+    color: #bfbfbf;
     text-decoration: none;
-    font: 700 22px 'Roboto', sans-serif;
+    font: 700 18px 'Roboto', sans-serif;
+    transition: all .2s;
+    display: inline-block;
+    padding: .4em .7em;
+    background: rgba(0, 0, 0, .35);
+    box-shadow: 0 3px #2b2b2b, 0 5px 10px rgba(0, 0, 0, .5);
+    border-radius: 2px;
+    margin-bottom: .7em;
 }
 
-#panels .links a:hover {
-    transform: scale(2.2);
+#panels .boards .links a:not(:last-child) { margin-right: .3em }
+
+#panels .boards .links a:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 #2b2b2b, 0 0 0 rgba(0, 0, 0, .5), 0 -4px 5px rgba(0, 0, 0, .1);
+    color: #fff;
+}
+
+#panels ul::after {
+    content: attr(class);
+    position: absolute;
+    display: flex;
+    text-transform: uppercase;
+    overflow-wrap: break-word;
+    width: 25px;
+    height: 250px;
+    padding: 1em;
+    margin: auto;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 1);
+    left: calc(50% - 40%);
+    bottom: 0;
+    top: 0;
+    background: rgba(0, 0, 0, .4);
+    color: #fff;
+    letter-spacing: 1px;
+    font: 100 30px 'Nunito', sans-serif;
+    text-align: center;
+    flex-wrap: wrap;
+    word-break: break-all;
+    align-items: center;
+    mix-blend-mode: overlay;
+}
+
+#panels .boards .links li:not(:last-child) {
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .07);
+    padding: 0 0 .5em 0;
+    margin-bottom: 1.5em;
+}
+
+#panels .boards .links li h1 {
+    color: #383838;
+    font-size: 22px;
+    margin-bottom: .5em;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+#panels .music li,
+#panels .tech li {
+    padding: .5em;
+    /* display: inline; */
+}
+
+#panels .music li a, #panels .tech li a {
+    color: grey;
+    font: 700 16px 'Roboto', sans-serif;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+#panels .music li a:hover,
+#panels .tech li a:hover {
+    color: #fff;
+}
+
+#panels .music li a:hover::before,
+#panels .tech li a:hover::before {
+    display: inline;
+}
+
+#panels .music li a::before,
+#panels .tech li a::before {
+    content: '> ';
+    font-weight: 400;
+    display: none;
 }

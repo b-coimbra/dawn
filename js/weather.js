@@ -12,7 +12,7 @@ class Weather {
 
   handleWeather(response) {
     let temperature    = response.main.temp.toString(),
-        currentTemp    = (temperature.indexOf('-') != 0 && temperature.indexOf('.') != 2 && temperature.length != 2) ? temperature.substr(0, 1)  : temperature.substr(0, 2),
+        currentTemp    = temperature.substr(0, ((temperature.indexOf('-') != 0 && temperature.indexOf('.') != 2 && temperature.length != 2) ? 1 : 2)),
         currentWeather = response.weather[0].main,
         icon           = 'wb_sunny',
         color          = 'sunny';

@@ -505,3 +505,132 @@ body {
     font-weight: 400;
     display: none;
 }
+
+.weather .edit {
+    width: 100%;
+    height: 100%;
+    background: #1f1f1f;
+    text-transform: uppercase;
+    font: 600 11px 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    color: #fff;
+    border: 0;
+    margin: 40px 0 0 0;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.widgets:hover .edit {
+    margin: 0;
+}
+
+.weather-config {
+    width: 100%;
+    height: 100%;
+    background: #1f1f1f;
+    margin: -100% 0 0 0;
+    transition: all .2s;
+    z-index: 2;
+}
+
+.weather-config input[name="color"] {
+    width: 100%;
+    padding: .6em;
+    border: 0;
+    background: 0;
+    box-shadow: inset 0 -2px #fff;
+    font: 500 12px 'Roboto', sans-serif;
+    color: #fff;
+}
+
+.weather-config.show {
+    margin: 0;
+}
+
+#search {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .8);
+    z-index: 99;
+    opacity: 0;
+    visibility: hidden;
+    top: -100%;
+    transition: all .5s ease-in-out;
+}
+
+#search.active {
+    top: 0;
+    opacity: 1;
+    visibility: visible;
+}
+
+#search div {
+    position: relative;
+    width: 80%;
+}
+
+#search input {
+    border: 0;
+    outline: 0;
+    width: 100%;
+    box-shadow: inset 0 -2px #737373;
+    padding: .5em 0;
+    background: none;
+    font: 500 22px 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    color: #fff;
+}
+
+#search input:focus {
+    box-shadow: inset 0 -2px #fff;
+}
+
+#search input::selection {
+    background: #000;
+    color: #fff;
+}
+
+#search .close {
+    background: 0;
+    border: 0;
+    outline: 0;
+    color: #fff;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    top: 15px;
+}
+
+#search .close:hover {
+    filter: opacity(.5);
+}
+
+.search-engines {
+    list-style: none;
+    color: #7d7d7d;
+    display: block;
+    display: flex;
+    top: 50px;
+    left: 0;
+    margin: 1em 0 0 0;
+}
+
+.search-engines li p {
+    cursor: default;
+    transition: all .2s;
+    font-size: 12px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.search-engines li {
+    margin: 0 1em 0 0;
+}
+
+.search-engines li.active {
+    color: #fff;
+    font-weight: 700;
+}

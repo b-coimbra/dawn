@@ -60,4 +60,4 @@ const strftime = (format = 'c') => {
   });
 
   return result.join('');
-}
+};

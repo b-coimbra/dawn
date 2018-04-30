@@ -58,7 +58,6 @@ class Todo {
     elem.setAttribute((state == 'done' ? 'undone' : 'done'), '');
   };
 
-
   stateHandler() {
     $.qA('.items .close').forEach((elem) => {
       elem.onclick = (e) => {

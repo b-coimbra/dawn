@@ -9,6 +9,13 @@
     <title>~</title>
 </head>
 <body>
+    <div id="search">
+        <div>
+            <input type="text" spellcheck="false" placeholder="search">
+            <button class="close"><i class="material-icons">&#xE5CD;</i></button>
+            <ul class="search-engines"></ul>
+        </div>
+    </div>
     <div id="links" class="-">
         <div id="tabs" class="!-">
             <cols>
@@ -20,7 +27,11 @@
                 </ul>
                 <div class="+ widgets col-end">
                     <p class="time">00<span>:00</span></p>
+                    <div class="!+ + weather-config">
+                        <input name="color" type="text" placeholder="location">
+                    </div>
                     <div class="+ weather">
+                        <button class="!+ edit">edit</button>
                         <p temperature>4ºC</p>
                         <p weather class="+">
                             <i class="material-icons" sunny>wb_sunny</i>
@@ -88,5 +99,6 @@
     <script type="text/javascript" src="js/weather.js"></script>
     <script type="text/javascript" src="js/powerline.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
+    <script type="text/javascript" src="js/search.js"></script>
 </body>
 </html>

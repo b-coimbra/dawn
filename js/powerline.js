@@ -20,7 +20,7 @@ class Powerline {
       }
     };
 
-    $.qS('.time').innerHTML = `${strftime('H')}<span>:${strftime('i')}</span>`;
+    setInterval(() => { $.qS('.time').innerHTML = `${strftime('H')}<span>:${strftime('i')}</span>`; }, 1000);
   }
 
   activate(obj, item) {

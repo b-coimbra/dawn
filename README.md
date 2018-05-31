@@ -5,7 +5,7 @@ A startpage called "dawn" (WIP)
 
 ### Keybindings
 
-- `alt-<n>` switch tabs
+- `Numrow/Numpad` switch tabs
 - `s` open search dialog 
 
 ### Preview

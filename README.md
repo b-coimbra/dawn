@@ -1,7 +1,7 @@
 # dawn
 A startpage called "dawn" (WIP)
 
-[**Live Preview**](https://0-l.github.io/dawn/?)
+[**Live Preview**](https://zjpxshade.github.io/shadydawn/)
 
 ### Keybindings
 

@@ -319,6 +319,7 @@ body {
 
 #tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 35px; }
 #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
+#tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
 
 #panels {
     overflow: hidden;
@@ -346,11 +347,16 @@ body {
 
 #panels ul:nth-child(2),
 #tabs ul li[active]:nth-child(2) ~ li:last-child {
-    --flavour: #16a2a2;
+    --flavour: #e4b852;
 }
 
 #panels ul:nth-child(3),
 #tabs ul li[active]:nth-child(3) ~ li:last-child {
+    --flavour: #16a2a2;
+}
+
+#panels ul:nth-child(4),
+#tabs ul li[active]:nth-child(4) ~ li:last-child {
     --flavour: #5b52e4;
 }
 
@@ -360,6 +366,7 @@ body {
 
 #panels ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
 #panels ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
+#panels ul:nth-child(4) { background: #fff url("../img/bg-4.gif") repeat center left fixed; }
 
 #panels ul[active] {
     right: 0;
@@ -477,12 +484,13 @@ body {
 }
 
 #panels .music li,
-#panels .tech li {
+#panels .tech li,
+#panels .personal li {
     padding: .5em;
     /* display: inline; */
 }
 
-#panels .music li a, #panels .tech li a {
+#panels .music li a, #panels .tech li a, #panels .personal li a {
     color: grey;
     font: 700 16px 'Roboto', sans-serif;
     text-decoration: none;
@@ -490,17 +498,20 @@ body {
 }
 
 #panels .music li a:hover,
-#panels .tech li a:hover {
+#panels .tech li a:hover,
+#panels .personal li a:hover {
     color: #fff;
 }
 
 #panels .music li a:hover::before,
-#panels .tech li a:hover::before {
+#panels .tech li a:hover::before,
+#panels .personal li a::before {
     display: inline;
 }
 
 #panels .music li a::before,
-#panels .tech li a::before {
+#panels .tech li a::before,
+#panels .personal li a::before {
     content: '> ';
     font-weight: 400;
     display: none;

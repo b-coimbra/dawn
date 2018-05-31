@@ -12,7 +12,7 @@ class Powerline {
 
   get on() {
     document.onkeydown = (e) => {
-      if (e.altKey && e != undefined) {
+      if (e != undefined) {
         if (Number.isInteger(parseInt(e.key))) {
           this.activate('#tabs ul li', `#tabs ul li:nth-child(${e.key})`);
           this.activate('#panels ul', `.${this.tabs[e.key]}`);

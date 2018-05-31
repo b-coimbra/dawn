@@ -9,7 +9,7 @@ A startpage called "dawn" (WIP)
 - `s` open search dialog 
 
 ### Browser-Specific Changes
-- To ensure proper alignment on `Chrome`, ensure that padding values in style.css is 0 0 0 0  
+- To ensure proper alignment on `Chrome`, ensure that padding values in style.css are 0 0 0 0  
 - For `Firefox` set it to 0 0 0 25
 
 ### Preview

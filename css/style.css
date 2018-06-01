@@ -372,7 +372,7 @@ to 140px*/
 #panels ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
 #panels ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
 #panels ul:nth-child(4) { background: #fff url("../img/bg-4.gif") repeat center left fixed; }
-/*Copy the preceding line and change the 4 to a 5*/
+/*Copy the preceding line and change the 4 to a 5. Be sure to define a new background image and make it wide enough.*/
 
 #panels ul[active] {
     right: 0;
@@ -450,6 +450,7 @@ to 140px*/
     color: #fff;
 }
 
+/*The following section controls the box with BOARDS, etc. in it*/
 #panels ul::after {
     content: attr(class);
     position: absolute;

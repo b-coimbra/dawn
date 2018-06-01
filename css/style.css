@@ -304,13 +304,14 @@ body {
     transition: all .1s;
 }
 
+/*Controls the colored accent on the bottom bar*/
 #tabs ul li:last-child {
     --flavour: var(--accent);
     width: 35px;
     height: 3px;
     background: var(--flavour);
-    bottom: 0;
-    transition: all .1s;
+    bottom: 0px;
+    transition: all .1s; /*Animation speed*/
 }
 
 #tabs ul li[active]:not(:last-child) {
@@ -323,8 +324,9 @@ body {
 #tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 35px; }
 #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
 #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
+#tabs ul li[active]:nth-child(5) ~ li:last-child { margin: 0 0 0 140px; }
 /*Copy and paste the preceding line, change the 4 to a 5, set last margin
-to 140px*/
+to 175px*/
 
 #panels {
     overflow: hidden;
@@ -364,7 +366,12 @@ to 140px*/
 #tabs ul li[active]:nth-child(4) ~ li:last-child {
     --flavour: #5b52e4;
 }
-/*Copy and paste the preceding four lines and change the 4 to a 5*/
+
+#panels ul:nth-child(5),
+#tabs ul li[active]:nth-child(5) ~ li:last-child {
+    --flavour: #5b52e4;
+}
+/*Copy and paste the preceding four lines and change the 5 to a 6*/
 #panels ul .links {
     box-shadow: inset -1px 0 var(--flavour);
 }
@@ -372,6 +379,7 @@ to 140px*/
 #panels ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
 #panels ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
 #panels ul:nth-child(4) { background: #fff url("../img/bg-4.gif") repeat center left fixed; }
+#panels ul:nth-child(5) { background: #fff url("../img/bg-5.gif") repeat center left fixed; }
 /*Copy the preceding line and change the 4 to a 5. Be sure to define a new background image and make it wide enough.*/
 
 #panels ul[active] {
@@ -420,6 +428,7 @@ to 140px*/
 
 #tabs i[cloudy] { color: #88d8d8; }
 
+/*Controls location of the links on the panel*/
 #panels .links {
     right: 0;
     width: 70%;
@@ -429,6 +438,7 @@ to 140px*/
     flex-wrap: wrap;
 }
 
+/*Controls how the boards links look*/
 #panels .boards .links a {
     color: #bfbfbf;
     text-decoration: none;
@@ -478,7 +488,7 @@ to 140px*/
 
 #panels .boards .links li:not(:last-child) {
     box-shadow: 0 1px 0 rgba(255, 255, 255, .07);
-    padding: 0 0 .5em 0;
+    padding: 0 0 0.53em 0;
     margin-bottom: 1.5em;
 }
 
@@ -495,34 +505,39 @@ expanded with your new class. Just add the code exactly as it appears in
 preceding entries.*/
 #panels .music li,
 #panels .tech li,
+#panels .finance li,
 #panels .personal li {
-    padding: .5em;
+    padding: 0.5em;
     /* display: inline; */
 }
 
 #panels .music li a,
 #panels .tech li a,
+#panels .finance li a,
 #panels .personal li a {
     color: grey;
-    font: 700 16px 'Roboto', sans-serif;
+    font: 700 16px 'Iosevka', sans-serif;
     text-decoration: none;
     letter-spacing: 1px;
 }
 
 #panels .music li a:hover,
 #panels .tech li a:hover,
+#panels .finance li a:hover,
 #panels .personal li a:hover {
     color: #fff;
 }
 
 #panels .music li a:hover::before,
 #panels .tech li a:hover::before,
+#panels .finance li a:hover::before,
 #panels .personal li a:hover::before {
     display: inline;
 }
 
 #panels .music li a::before,
 #panels .tech li a::before,
+#panels .finance li a::before,
 #panels .personal li a::before {
     content: '> ';
     font-weight: 400;

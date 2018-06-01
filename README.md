@@ -5,8 +5,8 @@ A startpage called "dawn" (WIP)
 
 ### Keybindings
 
-- `alt-<n>` switch tabs
-- `s` open search dialog 
+- `Numrow/Numpad` switch tabs (this is for i3. You can change this in powerline.js)
+- `s` open search dialog
 
 ### Preview
 ![preview](https://i.imgur.com/6ImuuEH.png)

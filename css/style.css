@@ -323,6 +323,8 @@ body {
 #tabs ul li[active]:nth-child(2) ~ li:last-child { margin: 0 0 0 35px; }
 #tabs ul li[active]:nth-child(3) ~ li:last-child { margin: 0 0 0 70px; }
 #tabs ul li[active]:nth-child(4) ~ li:last-child { margin: 0 0 0 105px; }
+/*Copy and paste the preceding line, change the 4 to a 5, set last margin
+to 140px*/
 
 #panels {
     overflow: hidden;
@@ -362,7 +364,7 @@ body {
 #tabs ul li[active]:nth-child(4) ~ li:last-child {
     --flavour: #5b52e4;
 }
-
+/*Copy and paste the preceding four lines and change the 4 to a 5*/
 #panels ul .links {
     box-shadow: inset -1px 0 var(--flavour);
 }
@@ -370,6 +372,7 @@ body {
 #panels ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
 #panels ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
 #panels ul:nth-child(4) { background: #fff url("../img/bg-4.gif") repeat center left fixed; }
+/*Copy the preceding line and change the 4 to a 5*/
 
 #panels ul[active] {
     right: 0;
@@ -486,6 +489,9 @@ body {
     letter-spacing: 1px;
 }
 
+/*All sections after this point but before line 526 (.weather) need to be
+expanded with your new class. Just add the code exactly as it appears in
+preceding entries.*/
 #panels .music li,
 #panels .tech li,
 #panels .personal li {
@@ -493,7 +499,9 @@ body {
     /* display: inline; */
 }
 
-#panels .music li a, #panels .tech li a, #panels .personal li a {
+#panels .music li a,
+#panels .tech li a,
+#panels .personal li a {
     color: grey;
     font: 700 16px 'Roboto', sans-serif;
     text-decoration: none;

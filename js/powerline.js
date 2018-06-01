@@ -7,7 +7,10 @@ class Powerline {
       1: 'boards',
       2: 'music',
       3: 'tech',
-      4: 'personal'
+      4: 'personal' //Place new classes below this linea
+//    5: 'newclass' like this. Be sure to put a comma after
+//    line 10 and name it the same thing as the class from
+//    index.html 
     };
   }
 

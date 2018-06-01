@@ -90,16 +90,17 @@ body {
 }
 
 /*Items Section*/
+
 .items {
     background: var(--bg);
     padding: 1em;
     box-sizing: border-box;
-       }
+}
 
-  .items item[done] { --state: var(--done); }
-  .items item[undone] { --state: var(--undone); }
+.items item[done] { --state: var(--done); }
+.items item[undone] { --state: var(--undone); }
 
-  .items item {
+.items item {
     position: relative;
     width: 100%;
     padding: 1em 0 .5em 1em;
@@ -113,7 +114,7 @@ body {
     0 8px 0 0 #18181d;
     transition: all .3s;
     animation: slide .4s ease;
-      }
+}
 
 @-webkit-keyframes slide {
     0% {
@@ -507,7 +508,7 @@ body {
 
 #panels .music li a:hover::before,
 #panels .tech li a:hover::before,
-#panels .personal li a::before {
+#panels .personal li a:hover::before {
     display: inline;
 }
 

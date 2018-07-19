@@ -30,8 +30,8 @@ class Weather {
       });
     });
 
-    $.qS('.weather p[weather]').innerHTML = `<i class="material-icons" ${color}>${icon}</i>`;
-    $.qS('.weather p[temperature]').innerHTML = `${currentTemp}ºC`;
+    $('.weather p[weather]').innerHTML = `<i class="material-icons" ${color}>${icon}</i>`;
+    $('.weather p[temperature]').innerHTML = `${currentTemp}ºC`;
   }
 
   fetchWeather(callback) {

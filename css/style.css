@@ -1,4 +1,9 @@
+@charset "UTF-8";
+
 * {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
     list-style: none;
 }
 
@@ -282,7 +287,7 @@ body {
 
 #tabs ul {
     counter-reset: tabs;
-    margin: 0 0 0 2em;
+    margin: 0 0 0 1.5em;
     height: 100%;
 }
 

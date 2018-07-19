@@ -1,7 +1,5 @@
-const $ = {
-  qS: e => document.querySelector(e),
-  qA: e => document.querySelectorAll(e)
-};
+const $  = (e) => document.querySelector(e),
+      $$ = (e) => document.querySelectorAll(e);
 
 function engines () {
   return {
@@ -16,14 +14,14 @@ function engines () {
 const { parse, stringify } = JSON;
 
 const nodes = (elem) =>
-      Array.prototype.slice.call($.qS(elem).children);
+      Array.prototype.slice.call($(elem).children);
 
 var place = localStorage.place || 'new york';
 
-$.qS('.weather .edit').onclick = () =>
-  $.qS('.weather-config').classList.add('show');
+$('.weather .edit').onclick = () =>
+  $('.weather-config').classList.add('show');
 
-$.qS('.weather-config input').onkeyup = (e) => {
+$('.weather-config input').onkeyup = (e) => {
   if (e.key == 'Enter') {
     localStorage.place = e.target.value;
     window.location.reload();

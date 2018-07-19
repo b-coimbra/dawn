@@ -5,12 +5,12 @@ class Todo {
   constructor() { }
 
   get display() {
-    $.qS('.add').onclick = () => {
-      $.qS('.add').classList.toggle('active');
-      $.qS('.addTodo').classList.toggle('active');
+    $('.add').onclick = () => {
+      $('.add').classList.toggle('active');
+      $('.addTodo').classList.toggle('active');
     };
 
-    $.qS('.addTodo input').onkeydown = (e) => {
+    $('.addTodo input').onkeydown = (e) => {
       if (e.key == 'Enter') {
         let todos = [],
             temp  = localStorage.todo;
@@ -39,7 +39,7 @@ class Todo {
 
     for (let key of todos) {
       for (let item in key) {
-        $.qS('.items').innerHTML +=
+        $('.items').innerHTML +=
           `<item ${key[item][0]}>
             <rows>
                 <p>${key[item][1]}</p>
@@ -59,7 +59,7 @@ class Todo {
   };
 
   stateHandler() {
-    $.qA('.items .close').forEach((elem) => {
+    $$('.items .close').forEach((elem) => {
       elem.onclick = (e) => {
         let parent = e.target.parentNode.parentNode,
             index  = nodes('.items').indexOf(parent) - 1,
@@ -71,12 +71,12 @@ class Todo {
         parent.classList.add('remove');
 
         setTimeout(() => {
-          $.qS('.items').removeChild(parent);
+          $('.items').removeChild(parent);
         }, 250);
       };
     });
 
-    $.qA('.items item').forEach((elem) => {
+    $$('.items item').forEach((elem) => {
       elem.onclick = (e) => {
         let todos = parse(localStorage.todo),
             index = nodes('.items').indexOf(elem) - 1,

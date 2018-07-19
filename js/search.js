@@ -1,25 +1,25 @@
 // +--------+
 // | SEARCH |
 // +--------+
-var search  = $.qS('#search'),
-    input   = $.qS('#search input[type="text"]'),
+var search  = $('#search'),
+    input   = $('#search input[type="text"]'),
     engines = engines();
 
 for (var key in engines)
-  $.qS('.search-engines').innerHTML += `<li><p title="${engines[key][1]}">!${key}</p></li>`;
+  $('.search-engines').innerHTML += `<li><p title="${engines[key][1]}">!${key}</p></li>`;
 
-$.qS('#search .close').onclick = () =>
+$('#search .close').onclick = () =>
   search.classList.remove('active');
 
 document.onkeypress = (e) => {
-  if (document.activeElement !== $.qS('.addTodo input') && document.activeElement !== $.qS('.weather-config input')) {
+  if (document.activeElement !== $('.addTodo input') && document.activeElement !== $('.weather-config input')) {
     if (e.key == 's')
       search.classList.add('active');
 
     input.focus();
     input.scrollIntoView();
 
-    $.qS('#search .close').onclick = () =>
+    $('#search .close').onclick = () =>
       search.classList.remove('active');
 
     search.onkeyup = (e) => {
@@ -28,7 +28,7 @@ document.onkeypress = (e) => {
           engine = engines['g'][0], // default engine
           str    = 0;
 
-      $.qA('.search-engines li p').forEach((eng) => {
+      $$('.search-engines li p').forEach((eng) => {
         let current = eng.parentNode;
 
         (prefix == eng.innerHTML)

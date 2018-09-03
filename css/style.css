@@ -7,6 +7,17 @@
     list-style: none;
 }
 
+#tabs, #panels, #links, .row-end, h1 {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select:none;
+	user-select:none;
+	-o-user-select:none; 
+	unselectable="on";
+	onselectstart="return false;" 
+	onmousedown="return false;"
+}
+
 :root {
     --accent: crimson;
     --bg: #0f0f12;

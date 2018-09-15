@@ -23,10 +23,8 @@ class Weather {
       ['wb_sunny', 'sunny', 'Clear']
     ].forEach((key) => {
       key.slice(2).forEach((elem) => {
-        if (currentWeather == elem) {
-          icon  = key[0];
-          color = key[1];
-        }
+        if (currentWeather == elem)
+          [icon, color] = key;
       });
     });
 
@@ -35,25 +33,11 @@ class Weather {
   }
 
   fetchWeather(callback) {
-    let request = new XMLHttpRequest(),
-        url = `https://api.openweathermap.org/data/2.5/weather?q=${this.location}&units=metric&appid=50a34e070dd5c09a99554b57ab7ea7e2`;
-
-    request.open('GET', url, true);
-
-    request.onload = function () {
-      if (this.status >= 200 && this.status < 400)
-        callback(JSON.parse(this.response));
-      else {
-        console.log("Weather API returned an error: " + this.response);
-        callback(null);
-      }
-    };
-
-    request.onerror = () => {
-      console.log("Request to weather API failed.");
-      callback(null);
-    };
-
-    request.send();
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${this.location}&units=metric&appid=50a34e070dd5c09a99554b57ab7ea7e2`)
+      .then(res  => res.json())
+      .then(json => JSON.stringify(json))
+      .then(json => JSON.parse(json))
+      .then(data => callback(data))
+      .catch(err => console.warn('Weather API returned an error.'));
   }
 }

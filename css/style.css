@@ -1,21 +1,30 @@
 @charset "UTF-8";
 
 * {
-    margin: 0;
+    margin:  0;
+    border:  0;
     padding: 0;
-    text-decoration: none;
-    list-style: none;
-}
+    outline: 0;
 
-#tabs, #panels, #links, .row-end, h1 {
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select:none;
-	user-select:none;
-	-o-user-select:none; 
-	unselectable="on";
-	onselectstart="return false;" 
-	onmousedown="return false;"
+    list-style:      none;
+    text-decoration: none;
+    text-rendering:  optimizeLegibility;
+
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+
+    -webkit-font-smoothing: subpixel-antialiased;
+       -moz-font-smoothing: subpixel-antialiased;
+        -ms-font-smoothing: subpixel-antialiased;
+         -o-font-smoothing: subpixel-antialiased;
+
+    -webkit-user-select: none;
+      -webkit-user-drag: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
 }
 
 :root {
@@ -150,6 +159,8 @@ body {
     font: 400 14px 'Roboto', sans-serif;
     max-width: 250px;
     word-wrap: break-word;
+
+    -webkit-user-select: initial;
 }
 
 .items item:not(:last-child) {

@@ -10,10 +10,9 @@ class Weather {
     return this.fetchWeather(this.handleWeather);
   }
 
-  handleWeather(response) {
-    let temperature    = response.main.temp.toString(),
-        currentTemp    = temperature.substr(0, ((temperature.indexOf('-') != 0 && temperature.indexOf('.') != 2 && temperature.length != 2) ? 1 : 2)),
-        currentWeather = response.weather[0].main,
+  handleWeather(res) {
+    let temperature    = Math.round(res.main.temp),
+        weather        = res.weather[0].main,
         icon           = 'wb_sunny',
         color          = 'sunny';
 
@@ -23,13 +22,13 @@ class Weather {
       ['wb_sunny', 'sunny', 'Clear']
     ].forEach((key) => {
       key.slice(2).forEach((elem) => {
-        if (currentWeather == elem)
+        if (weather == elem)
           [icon, color] = key;
       });
     });
 
     $('.weather p[weather]').innerHTML = `<i class="material-icons" ${color}>${icon}</i>`;
-    $('.weather p[temperature]').innerHTML = `${currentTemp}ºC`;
+    $('.weather p[temperature]').innerHTML = `${temperature}ºC`;
   }
 
   fetchWeather(callback) {

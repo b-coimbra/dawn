@@ -299,7 +299,7 @@ body {
 #tabs {
     bottom: 0;
     width: 90%;
-    height: 30px;
+    height: 32px;
     background: #18181d;
     margin: 2.5em auto;
     border-radius: 4px;
@@ -311,6 +311,7 @@ body {
     counter-reset: tabs;
     margin: 0 0 0 1.5em;
     height: 100%;
+    position: relative;
 }
 
 #tabs ul li:not(:last-child)::after {

@@ -8,7 +8,7 @@ Description: silly strftime function implementation in js without the percentage
 
 USAGE: strftime('H:M p - A') => 21:32 AM - Thursday
        strftime('m/b/Y')     => 1/Jan/2018
-       strtime('do B Y')     => 18th January 2018
+       strftime('do B Y')    => 18th January 2018
 */
 const strftime = (format = 'c') => {
   Number.prototype.pad = function(n = 2) {
@@ -50,13 +50,8 @@ const strftime = (format = 'c') => {
       };
 
   format.split(/(\w|.)/m).forEach((type) => {
-    if (type) {
-      let time = formats[type[0]];
-
-      (time
-        ? result.push(time)
-        : result.push(type));
-    }
+    if (type)
+      result.push(formats[type[0]] || type);
   });
 
   return result.join('');

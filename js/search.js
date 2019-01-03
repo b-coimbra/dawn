@@ -1,6 +1,3 @@
-// +--------+
-// | SEARCH |
-// +--------+
 var search  = $('#search'),
     input   = $('#search input[type="text"]'),
     engines = engines();

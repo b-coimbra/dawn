@@ -1,21 +1,16 @@
-// +-----------+
-// | POWERLINE |
-// +-----------+
 class Powerline {
   constructor() {
-    this.tabs = {
-      1: 'boards',
-      2: 'music',
-      3: 'tech'
-    };
-  }
+    let panels = $$('#panels > ul').length;
 
-  get on() {
+    for (let i = 1; i <= panels; $('.indicator').innerHTML += `<li ${i++}></li>`)
+
     document.onkeydown = (e) => {
       if (e != undefined) {
-        if (Number.isInteger(parseInt(e.key))) {
-          this.activate('#tabs ul li', `#tabs ul li:nth-child(${e.key})`);
-          this.activate('#panels ul', `.${this.tabs[e.key]}`);
+        let key = e.key;
+
+        if (Number.isInteger(parseInt(key)) && key <= panels) {
+          this.activate('#tabs ul li', `#tabs ul li:nth-child(${key})`);
+          this.activate('#panels > ul', `#panels ul:nth-child(${key})`);
         }
       }
     };

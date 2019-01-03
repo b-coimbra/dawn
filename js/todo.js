@@ -1,6 +1,3 @@
-// +-----------+
-// | TODO LIST |
-// +-----------+
 class Todo {
   constructor() { }
 

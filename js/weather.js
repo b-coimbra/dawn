@@ -1,6 +1,3 @@
-// +---------+
-// | WEATHER |
-// +---------+
 class Weather {
   constructor(location) {
     this.location = location;
@@ -11,10 +8,10 @@ class Weather {
   }
 
   handleWeather(res) {
-    let temperature    = Math.round(res.main.temp),
-        weather        = res.weather[0].main,
-        icon           = 'wb_sunny',
-        color          = 'sunny';
+    let temperature = Math.round(res.main.temp),
+        weather     = res.weather[0].main,
+        icon        = 'wb_sunny',
+        color       = 'sunny';
 
     [
       ['cloud_queue', 'cloudy', 'Clouds', 'Mist', 'Haze'],

@@ -37,4 +37,4 @@ $('.weather-config input').onkeyup = (e) => {
 
 new Todo().display;
 new Weather(place).getWeather;
-new Powerline().on;
+new Powerline();

@@ -444,7 +444,7 @@ body {
     flex-wrap: wrap;
 }
 
-#panels .boards .links a {
+#panels > ul:first-child .links a {
     color: #bfbfbf;
     text-decoration: none;
     font: 700 18px 'Roboto', sans-serif;
@@ -457,9 +457,9 @@ body {
     margin-bottom: .7em;
 }
 
-#panels .boards .links a:not(:last-child) { margin-right: .3em }
+#panels > ul:first-child .links a:not(:last-child) { margin-right: .3em }
 
-#panels .boards .links a:hover {
+#panels > ul:first-child .links a:hover {
     transform: scale(1.2);
     box-shadow: 0 0 rgba(0, 0, 0, 0.25), 0 0 0 rgba(0, 0, 0, .5), 0 -4px 5px rgba(0, 0, 0, .1);
     color: #fff;
@@ -490,13 +490,13 @@ body {
     mix-blend-mode: overlay;
 }
 
-#panels .boards .links li:not(:last-child) {
+#panels > ul:first-child .links li:not(:last-child) {
     box-shadow: 0 1px 0 rgba(255, 255, 255, .07);
     padding: 0 0 .5em 0;
     margin-bottom: 1.5em;
 }
 
-#panels .boards .links li h1 {
+#panels > ul:first-child .links li h1 {
     color: #383838;
     font-size: 22px;
     margin-bottom: .5em;
@@ -504,31 +504,27 @@ body {
     letter-spacing: 1px;
 }
 
-#panels .music li,
-#panels .tech li {
+#panels > ul:not(:first-child) li {
     padding: .5em;
     /* display: inline; */
 }
 
-#panels .music li a, #panels .tech li a {
+#panels > ul:not(:first-child) li a {
     color: grey;
     font: 700 16px 'Roboto', sans-serif;
     text-decoration: none;
     letter-spacing: 1px;
 }
 
-#panels .music li a:hover,
-#panels .tech li a:hover {
+#panels > ul:not(:first-child) li a:hover {
     color: #fff;
 }
 
-#panels .music li a:hover::before,
-#panels .tech li a:hover::before {
+#panels > ul:not(:first-child) li a:hover::before {
     display: inline;
 }
 
-#panels .music li a::before,
-#panels .tech li a::before {
+#panels > ul:not(:first-child) li a::before {
     content: '> ';
     font-weight: 400;
     display: none;

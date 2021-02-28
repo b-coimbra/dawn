@@ -1,7 +1,7 @@
 # dawn
-A startpage called "dawn" (WIP)
+A startpage called "dawn".
 
-[**Live Preview**](https://0-l.github.io/dawn/?)
+[**Live Preview**](https://b-coimbra.github.io/dawn/?)
 
 ### Keybindings
 

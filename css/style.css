@@ -11,20 +11,20 @@
     text-rendering:  optimizeLegibility;
 
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 
     -webkit-font-smoothing: subpixel-antialiased;
-       -moz-font-smoothing: subpixel-antialiased;
-        -ms-font-smoothing: subpixel-antialiased;
-         -o-font-smoothing: subpixel-antialiased;
+    -moz-font-smoothing: subpixel-antialiased;
+    -ms-font-smoothing: subpixel-antialiased;
+    -o-font-smoothing: subpixel-antialiased;
 
     -webkit-user-select: none;
-      -webkit-user-drag: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-         -o-user-select: none;
-            user-select: none;
+    -webkit-user-drag: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }
 
 :root {
@@ -81,11 +81,30 @@ body {
     font-size: 24pt;
     color: rgba(255, 255, 255, .1);
     text-align: center;
+}
+
+.todo-header {
     margin: 0 0 1.5em 0;
 }
 
+.todo-count {
+    color: var(--undone);
+    font-weight: bold;
+}
+
+.done-count {
+    color: var(--done);
+    font-weight: bold;
+}
+
+.todo-counter {
+    letter-spacing: 5px;
+    color: rgba(255, 255, 255, .1);
+    font-size: 14px;
+}
+
 #todo .add {
-    top: 30px;
+    top: 25px;
     left: -25px;
     outline: 0;
     border: 0;
@@ -130,10 +149,10 @@ body {
     border-radius: 2px;
     background: #18181d;
     box-shadow: inset 0 2px 0 var(--state),
-    0 1px 0 0 rgba(0, 0, 0, .5),
-    0 4px 0 0 #18181d,
-    0 5px 0 rgba(0, 0, 0, .5),
-    0 8px 0 0 #18181d;
+                0 1px 0 0 rgba(0, 0, 0, .5),
+                0 4px 0 0 #18181d,
+                0 5px 0 rgba(0, 0, 0, .5),
+                0 8px 0 0 #18181d;
     transition: all .3s;
     animation: slide .4s ease;
 }
@@ -271,20 +290,22 @@ body {
     width: 100%;
     height: 100px;
     top: -110px;
-    background: var(--bg);
+    background: #18181d;
     transition: top .5s;
     z-index: 1;
 }
 
 #todo .addTodo input[type="text"] {
-    background: 0;
     outline: 0;
     border: 0;
-    box-shadow: inset 0 -1px 0 #fff;
-    padding: .5em 0;
+    box-shadow: inset 0 0 0 2px #25252d;
+    padding: .5em 1em;
     width: 70%;
     color: #fff;
     font: 400 15px 'Roboto', sans-serif;
+    background: #0f0f12;
+    border-radius: 40px;
+    box-sizing: border-box;
 }
 
 #todo .addTodo.active {
@@ -292,13 +313,14 @@ body {
 }
 
 #todo .addTodo input:focus {
-    box-shadow: inset 0 -2px 0 #fff;
+    box-shadow: inset 0 0 0 2px #3e3e4a;
 }
 
 
 #tabs {
     bottom: 0;
     width: 90%;
+    max-width: 1200px;
     height: 32px;
     background: #18181d;
     margin: 2.5em auto;
@@ -327,6 +349,11 @@ body {
     color: #bbb;
     padding: 6px 0;
     transition: all .1s;
+    cursor: pointer;
+}
+
+#tabs ul li:not(:last-child):hover {
+    background: #34343e;
 }
 
 #tabs ul li:last-child {
@@ -352,6 +379,7 @@ body {
     overflow: hidden;
     border-radius: 5px 0 0 5px;
     width: 90%;
+    max-width: 1200px;
     height: 450px;
     right: 0;
     left: 0;
@@ -368,8 +396,15 @@ body {
     width: 100%;
     height: 100%;
     right: 100%;
-    background: #fff url("../img/bg-1.gif") repeat center left fixed;
+    background: #fff url("../img/bg-1.gif") repeat left;
     transition: all .6s;
+    animation: scroll 25s ease-in-out infinite;
+}
+
+@keyframes scroll {
+    50% {
+        background-position-x: -240px;
+    }
 }
 
 #panels ul:nth-child(2),

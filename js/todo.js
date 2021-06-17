@@ -19,13 +19,26 @@ class Todo {
 
         e.target.value = '';
 
+        this.updateCounter();
         this.show(true);
         this.stateHandler();
       }
     };
 
     this.show();
+    this.updateCounter();
     this.stateHandler();
+  }
+
+  updateCounter() {
+    const todos = parse(localStorage.todo);
+    const states = todos.map(f => Object.values(f)[0][0]);
+
+    const todoCount = states.filter(f => f == 'undone').length;
+    const doneCount = states.filter(f => f == 'done').length;
+
+    $('.todo-count').innerHTML = todoCount;
+    $('.done-count').innerHTML = doneCount;
   }
 
   show(current = false) {
@@ -70,6 +83,8 @@ class Todo {
         setTimeout(() => {
           $('.items').removeChild(parent);
         }, 250);
+
+        this.updateCounter();
       };
     });
 
@@ -89,6 +104,7 @@ class Todo {
           return typeof el != "object" || Array.isArray(el) || Object.keys(el).length > 0;
         }));;
 
+        this.updateCounter();
         this.removeState(elem);
       };
     });

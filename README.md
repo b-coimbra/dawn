@@ -9,4 +9,4 @@ A startpage called "dawn".
 - `s` open search dialog
 
 ### Preview
-![preview](https://i.imgur.com/6ImuuEH.png)
+![preview](https://i.imgur.com/J2xFPu6.png)

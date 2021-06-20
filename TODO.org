@@ -5,6 +5,7 @@
   - [ ] Refactor crappy code (=/refactor= branch)
   - [ ] Use web components for todo/statusbar/panels etc
   - [X] Update low-res task close button
+  - [ ] Create favicon
   - [ ] Update README
   - [ ] Make search bar more accessible
     - [ ] Search statusbar button

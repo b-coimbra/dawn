@@ -82,7 +82,7 @@ class Todo {
 
         setTimeout(() => {
           $('.items').removeChild(parent);
-        }, 250);
+        }, 350);
 
         this.updateCounter();
       };

@@ -52,8 +52,8 @@ class Todo {
         $('.items').insertAdjacentHTML('beforeend',
           `<item ${key[item][0]}>
             <rows>
-                <p>${key[item][1]}</p>
-                <button class="!> close"></button>
+                <p class="todo-title">${key[item][1]}</p>
+                <button class="!> close-task"></button>
                 <p class="row-end added-at">${key[item][2].toLowerCase()} - <span>${item}</span></p>
             </rows>
           </item>`);
@@ -69,7 +69,7 @@ class Todo {
   };
 
   stateHandler() {
-    $$('.items .close').forEach((elem) => {
+    $$('.close-task').forEach((elem) => {
       elem.onclick = (e) => {
         let parent = e.target.parentNode.parentNode,
             index  = nodes('.items').indexOf(parent) - 1,

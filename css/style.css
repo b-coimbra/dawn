@@ -173,13 +173,13 @@ body {
     opacity: 0;
 }
 
-.items item p:not(.added-at) {
+.todo-title {
     color: #e8e8e8;
     font: 400 14px 'Roboto', sans-serif;
     max-width: 250px;
     word-wrap: break-word;
-
     -webkit-user-select: initial;
+    font-weight: bold;
 }
 
 .items item:not(:last-child) {
@@ -254,12 +254,12 @@ body {
     height: 100%;
 }
 
-.items item .close {
+.close-task {
     right: 20px;
     margin: .3em 0 0 0;
-    width: 9px;
-    height: 9px;
-    background: url("../img/close.png") center no-repeat;
+    width: 12px;
+    height: 12px;
+    background: none;
     outline: 0;
     border: 0;
     opacity: 0;
@@ -267,11 +267,33 @@ body {
     transition: all .3s;
 }
 
-.items item:hover .close {
+.close-task::before,
+.close-task::after {
+    content: '';
+    display: block;
+    width: 2px;
+    height: 12px;
+    background: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+}
+
+.close-task::before {
+    transform: rotate(45deg);
+}
+
+.close-task::after {
+    transform: rotate(-45deg);
+}
+
+.items item:hover .close-task {
     opacity: .5;
 }
 
-.items item .close:hover {
+.items item .close-task:hover {
     opacity: 1;
     transform: scale(1.2);
 }

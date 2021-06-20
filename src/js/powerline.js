@@ -6,11 +6,11 @@ class Powerline {
   };
 
   constructor() {
-    let panels = $$(this.refs.panels).length;
+    let panels = $(this.refs.panels).length;
 
     for (let i = 0; i <= panels; $(this.refs.indicator).innerHTML += `<li tab-index=${i++} ${i == 1 ? 'active' : ''}></li>`);
 
-    $$('.indicator li').forEach(elem => {
+    $('.indicator li').forEach(elem => {
       elem.onclick = ({ target }) => {
         this.activateByKey(Number(target.getAttribute('tab-index')) + 1);
       }
@@ -34,7 +34,7 @@ class Powerline {
   }
 
   activate(obj, item) {
-    $$(obj).forEach((i) => i.removeAttribute('active'));
+    $(obj).forEach((i) => i.removeAttribute('active'));
     $(item).setAttribute('active', '');
   };
 }

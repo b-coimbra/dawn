@@ -25,7 +25,7 @@ document.onkeypress = (e) => {
           engine = engines['g'][0], // default engine
           str    = 0;
 
-      $$('.search-engines li p').forEach((eng) => {
+      $('.search-engines li p').forEach((eng) => {
         let current = eng.parentNode;
 
         (prefix == eng.innerHTML)

@@ -69,7 +69,7 @@ class Todo {
   };
 
   stateHandler() {
-    $$('.close-task').forEach((elem) => {
+    $('.close-task').forEach((elem) => {
       elem.onclick = (e) => {
         let parent = e.target.parentNode.parentNode,
             index  = nodes('.items').indexOf(parent) - 1,
@@ -88,7 +88,7 @@ class Todo {
       };
     });
 
-    $$('.items item').forEach((elem) => {
+    $('.items item').forEach((elem) => {
       elem.onclick = (e) => {
         let todos = parse(localStorage.todo),
             index = nodes('.items').indexOf(elem) - 1,

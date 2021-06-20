@@ -141,6 +141,11 @@ body {
 .items item[done] { --state: var(--done); }
 .items item[undone] { --state: var(--undone); }
 
+.items item[done] .todo-title {
+    text-decoration: line-through;
+    color: #ababab;
+}
+
 .items item {
     position: relative;
     width: 100%;
@@ -153,7 +158,9 @@ body {
                 0 4px 0 0 #18181d,
                 0 5px 0 rgba(0, 0, 0, .5),
                 0 8px 0 0 #18181d;
-    transition: all .5s cubic-bezier(0.4, 0, 1, 1);
+    transition: opacity .5s cubic-bezier(0.4, 0, 1, 1),
+                margin .5s cubic-bezier(0.4, 0, 1, 1),
+                box-shadow .2s;
     animation: slide .4s ease-in-out;
 }
 
@@ -200,7 +207,7 @@ body {
     box-shadow: 0 0 0 3px var(--state);
     z-index: 5;
     cursor: pointer;
-    transition: transform .3s, background .3s;
+    transition: transform .2s, background .2s, box-shadow .2s, color .2s;
 }
 
 .items item[done]::before {

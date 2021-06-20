@@ -49,14 +49,14 @@ class Todo {
 
     for (let key of todos) {
       for (let item in key) {
-        $('.items').innerHTML +=
+        $('.items').insertAdjacentHTML('beforeend',
           `<item ${key[item][0]}>
             <rows>
                 <p>${key[item][1]}</p>
                 <button class="!> close"></button>
                 <p class="row-end added-at">${key[item][2].toLowerCase()} - <span>${item}</span></p>
             </rows>
-          </item>`;
+          </item>`);
       }
     }
   }

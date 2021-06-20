@@ -1,0 +1,43 @@
+#+TITLE: Dawn
+
+* [1/23] Roadmap
+
+  - [ ] Refactor crappy code (=/refactor= branch)
+  - [ ] Use web components for todo/statusbar/panels etc
+  - [X] Update low-res task close button
+  - [ ] Update README
+  - [ ] Make search bar more accessible
+    - [ ] Search statusbar button
+  - [ ] Ability to schedule deadlines for tasks
+    - [ ] Add option in the addTodo pane or in the task itself
+    - [ ] =MAYBE= Calendar select
+    - [ ] Time diff when completing tasks
+  - [ ] Task menu
+    - [ ] Change priority
+    - [ ] Edit task title/subtitle
+  - [ ] =MAYBE= Sync todo with google calendar
+  - [ ] Add task subtitle
+  - [ ] Clock toggle on the "boards" banner
+  - [ ] Randomize banner gifs
+  - [ ] =MAYBE= Subtasks with todos
+    - [ ] Progress bar at the top
+  - [ ] Make todo list scrollable
+  - [ ] Store last visited panel
+  - [ ] =MAYBE= Subsections for todo DEADLINE ("today", "upcoming")
+  - [ ] Better animation for marking as "done"
+  - [ ] Task priority ('!' '!!', '!!!') or colour representation (red, yellow, green)
+    - [ ] Could be a little dot representing the priority
+    - [ ] Could be just a number (1, 2, 3)
+  - [ ] Task add hyperlinks
+  - [ ] Settings tab/modal/page
+    - [ ] Statusbar tab indicator (roman numerals, hiragana, numbers)
+    - [ ] Colorscheme manipulation
+    - [ ] =MAYBE= Optional sound fx
+  - [ ] Import/export todos
+  - [ ] Import/export settings
+  - [ ] Ability to add panels dynamically
+    - [ ] Specific folder to keep default settings, localStorage overrides it
+  - [ ] Add more statusbar sections
+    - [ ] Bitcoin/eth currency
+    - [ ] Tab for
+    - [ ] =MAYBE= Terminal section

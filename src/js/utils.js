@@ -1,9 +1,9 @@
 const { parse, stringify } = JSON;
 
-const $ = (e) => {
+const $ = (e, includeAll = false) => {
   const elems = document.querySelectorAll(e);
 
-  if (elems.length > 1) return elems;
+  if (includeAll || elems.length > 1) return elems;
 
   return elems[0];
 };

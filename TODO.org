@@ -7,6 +7,7 @@
   - [X] Update low-res task close button
   - [ ] Create favicon
   - [ ] Update README
+  - [ ] Task reordering
   - [ ] Make search bar more accessible
     - [ ] Search statusbar button
   - [ ] Ability to schedule deadlines for tasks

@@ -1,12 +1,19 @@
 #+TITLE: Dawn
 
-* [1/23] Roadmap
+* [1/21] Roadmap
 
-  - [ ] Refactor crappy code (=/refactor= branch)
-  - [ ] Use web components for todo/statusbar/panels etc
+  - [0/2] Refactor crappy code (=/refactor= branch)
+    - [ ] Use web components for todo/statusbar/panels etc
+    - [ ] Handle component loading (fix pop-in)
   - [X] Update low-res task close button
+  - [1/3] Add more statusbar sections
+    - [X] Bitcoin/eth currency exchange
+    - [ ] =MAYBE= Rss reader
+    - [ ] =MAYBE= Terminal section
   - [ ] Create favicon
-  - [ ] Update README
+  - [0/2] Update README
+    - [ ] List features
+    - [ ] List keybindings
   - [ ] Task reordering
   - [ ] Make search bar more accessible
     - [ ] Search statusbar button
@@ -39,7 +46,3 @@
   - [ ] Import/export settings
   - [ ] Ability to add panels dynamically
     - [ ] Specific folder to keep default settings, localStorage overrides it
-  - [ ] Add more statusbar sections
-    - [ ] Bitcoin/eth currency
-    - [ ] Tab for
-    - [ ] =MAYBE= Terminal section

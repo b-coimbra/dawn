@@ -487,27 +487,33 @@ body {
 
 #tabs .time span {
     font-weight: 400;
-    color: grey;
 }
 
-#tabs .weather {
+#tabs .weather,
+#tabs .clock {
     box-shadow: inset 1px 0 rgba(255, 255, 255, .1);
 }
 
-#tabs .weather p[temperature] {
-    margin: 0 1em 0 1em;
-    color: grey;
+#tabs .weather p[temperature],
+#tabs .time span {
+    color: #b0b0c3;
+}
+
+.weather p[weather] {
+    margin-left: 1em;
+    margin-right: 10px;
 }
 
 #tabs .clock-icon {
     color: #ff7b95;
     font-size: 10pt;
-    margin-right: 5px;
+    margin-right: 10px;
+    margin-left: 1em;
     margin-bottom: 1px;
 }
 
 #tabs i {
-    font-size: 21px !important;
+    font-size: 14pt !important;
 }
 
 #tabs i[sunny] { color: #fd6697; }
@@ -586,7 +592,6 @@ content: attr(class);
 
 #panels > ul:not(:first-child) li {
     padding: .5em;
-    /* display: inline; */
 }
 
 #panels > ul:not(:first-child) li a {
@@ -737,4 +742,13 @@ content: attr(class);
 .search-engines li.active {
     color: #fff;
     font-weight: 700;
+}
+
+crypto-rate {
+    font: 300 10pt 'Roboto', sans-serif;
+    margin-right: 1em;
+}
+
+.crypto-icon {
+    margin-right:jk wh
 }

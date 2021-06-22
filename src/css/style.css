@@ -366,19 +366,27 @@ body {
 }
 
 #tabs ul li:not(:last-child)::after {
-    content: counter(tabs, upper-roman);
+    content: counter(tabs, cjk-ideographic);
     counter-increment: tabs;
-    display: block;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 #tabs ul li:not(:last-child) {
     width: 35px;
     text-align: center;
-    font: 400 13px 'Roboto', serif;
+    font: 100 13px 'Roboto', serif;
     color: #bbb;
     padding: 6px 0;
     transition: all .1s;
     cursor: pointer;
+    line-height: 0;
+    height: 100%;
 }
 
 #tabs ul li:not(:last-child):hover {
@@ -489,6 +497,13 @@ body {
 #tabs .weather p[temperature] {
     margin: 0 1em 0 1em;
     color: grey;
+}
+
+#tabs .clock-icon {
+    color: #ff7b95;
+    font-size: 10pt;
+    margin-right: 5px;
+    margin-bottom: 1px;
 }
 
 #tabs i {

@@ -347,12 +347,11 @@ body {
 
 
 #tabs {
-    bottom: 0;
     width: 90%;
     max-width: 1200px;
     height: 32px;
     background: #18181d;
-    margin: 2.5em auto;
+    margin: 0 auto -550px auto;
     border-radius: 4px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
     overflow: hidden;

@@ -73,7 +73,7 @@ class Crypto extends HTMLElement {
 
   async setExchangeValue() {
     const exchange = await this.exchange.get();
-    this.exchangeValue = parseFloat(exchange[this.to]);
+    this.exchangeValue = parseFloat(exchange[this.to]).toFixed(2);
   }
 
   async connectedCallback() {

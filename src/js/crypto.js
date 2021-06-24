@@ -32,8 +32,8 @@ class Crypto extends Component {
   }
 
   setAttributes() {
-    this.from = this.getAttribute('from');
-    this.to = this.getAttribute('to');
+    this.from = this.getAttribute('from').toUpperCase();
+    this.to = this.getAttribute('to').toUpperCase();
     this.setAttribute('exchange-value', '0');
   }
 

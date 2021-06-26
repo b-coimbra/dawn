@@ -110,7 +110,7 @@ class Crypto extends Component {
 
   exchangeDiffTemplate(exchangeChange) {
     return `
-        <p class="crypto-diff exchange-${ (exchangeChange < 0) ? 'increase' : 'decrease' }">
+        <p class="crypto-diff exchange-${ (exchangeChange < 0) ? 'decrease' : 'increase' }">
             <span class="material-icons crypto-change-indicator-icon">
                 ${ (exchangeChange < 0) ? 'arrow_drop_down' : 'arrow_drop_up' }
             </span>

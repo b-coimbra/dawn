@@ -8,19 +8,12 @@ function engines () {
   };
 }
 
-var place = localStorage.place || 'new york';
-
-$('.weather .edit').onclick = () =>
-  $('.weather-config').classList.add('show');
-
-$('.weather-config input').onkeyup = (e) => {
-  if (e.key == 'Enter') {
-    localStorage.place = e.target.value;
-    window.location.reload();
+const GLOBAL_CONFIG = new Config({
+  crypto: {
+    coin: 'BTC',
+    currency: 'BRL'
   }
-  else if (e.keyCode == 27)
-    e.target.parentNode.classList.remove('show');
-};
+});
 
 (function () {
   if (localStorage.getItem("todo") === null)
@@ -28,5 +21,4 @@ $('.weather-config input').onkeyup = (e) => {
 })();
 
 new Todo().display;
-new Weather(place).getWeather;
 new Powerline();

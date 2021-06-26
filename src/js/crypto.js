@@ -47,62 +47,60 @@ class Crypto extends Component {
 
   style() {
     return `
-        <style>
-            :host {
-                --exchange-increase: #6fd468;
-                --exchange-decrease: #ff7b95;
-            }
+        :host {
+            --exchange-increase: #6fd468;
+            --exchange-decrease: #ff7b95;
+        }
 
-            .crypto-value {
-                display: flex;
-                align-items: center;
-            }
+        .crypto-value {
+            display: flex;
+            align-items: center;
+        }
 
-            .crypto-icon {
-                margin-right: 10px;
-                font-size: 12pt;
-            }
+        .crypto-icon {
+            margin-right: 10px;
+            font-size: 12pt;
+        }
 
-            .crypto-price {
-                white-space: pre;
-            }
+        .crypto-price {
+            white-space: pre;
+        }
 
-            .crypto-icon,
-            .crypto-type {
-                color: var(--exchange-increase);
-            }
+        .crypto-icon,
+        .crypto-type {
+            color: var(--exchange-increase);
+        }
 
-            .crypto-type {
-                font-weight: bold;
-                margin-right: 10px;
-                font-size: 7pt;
-            }
+        .crypto-type {
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 7pt;
+        }
 
-            .crypto-value {
-                font-weight: 400;
-                font-size: 9pt;
-                color: #b0b0c3;
-                white-space: nowrap;
-            }
+        .crypto-value {
+            font-weight: 400;
+            font-size: 9pt;
+            color: #c1c1c1;
+            white-space: nowrap;
+        }
 
-            .crypto-diff {
-                margin-left: 1em;
-            }
+        .crypto-diff {
+            margin-left: 1em;
+        }
 
-            .crypto-diff.exchange-increase {
-                color: var(--exchange-increase);
-            }
+        .crypto-diff.exchange-increase {
+            color: var(--exchange-increase);
+        }
 
-            .crypto-diff.exchange-decrease {
-                color: var(--exchange-decrease);
-            }
+        .crypto-diff.exchange-decrease {
+            color: var(--exchange-decrease);
+        }
 
-            .crypto-change-indicator-icon {
-                vertical-align: bottom;
-                height: 14px;
-                font-size: 13pt;
-            }
-        </style>
+        .crypto-change-indicator-icon {
+            vertical-align: bottom;
+            height: 14px;
+            font-size: 13pt;
+        }
     `;
   }
 
@@ -111,17 +109,11 @@ class Crypto extends Component {
   }
 
   exchangeDiffTemplate(exchangeChange) {
-    let exchangeStatus = 'exchange-increase';
-    let exchangeIndicator = 'arrow_drop_up';
-
-    if (exchangeChange < 0) {
-      exchangeStatus = 'exchange-decrease';
-      exchangeIndicator = 'arrow_drop_down';
-    }
-
     return `
-        <p class="crypto-diff ${exchangeStatus}">
-            <span class="material-icons crypto-change-indicator-icon">${exchangeIndicator}</span>
+        <p class="crypto-diff exchange-${ (exchangeChange < 0) ? 'increase' : 'decrease' }">
+            <span class="material-icons crypto-change-indicator-icon">
+                ${ (exchangeChange < 0) ? 'arrow_drop_down' : 'arrow_drop_up' }
+            </span>
             <span class="crypto-change-value">${Math.abs(this.exchangeChange).toFixed(2)} %</span>
         </p>`;
   }

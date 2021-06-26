@@ -1,4 +1,6 @@
 class Component extends HTMLElement {
+  refs = {};
+
   resources = {
     fonts: {
       roboto: '<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet">',
@@ -19,12 +21,25 @@ class Component extends HTMLElement {
   static template() { }
   static imports() { }
 
-  render() {
+  async render() {
     const html = `
         ${this.imports().join("\n")}
-        ${this.style()}
-        ${this.template()}`;
+        <style>${this.style()}</style>
+        ${await this.template()}`;
 
     this.shadow.innerHTML = html;
+
+    this.refs = this.createRef();
+  }
+
+  createRef() {
+    return new Proxy(this.refs, {
+      get: (target, prop) => {
+        return this.shadow.querySelector(target[prop]);
+      },
+      set: (target, prop, value) => {
+        return this.shadow.querySelector(target[prop]).innerHTML = value;
+      }
+    });
   }
 }

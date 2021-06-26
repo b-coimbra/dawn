@@ -216,6 +216,7 @@ body {
     font-family: 'Material Icons';
     text-align: center;
     font-size: 11px;
+    line-height: 1;
 }
 
 .items item::after {
@@ -493,14 +494,8 @@ body {
     box-shadow: inset 1px 0 rgba(255, 255, 255, .1);
 }
 
-#tabs .weather p[temperature],
 #tabs .time span {
-    color: #b0b0c3;
-}
-
-.weather p[weather] {
-    margin-left: 1em;
-    margin-right: 10px;
+    color: #c1c1c1;
 }
 
 #tabs .clock-icon {
@@ -514,10 +509,6 @@ body {
 #tabs i {
     font-size: 14pt !important;
 }
-
-#tabs i[sunny] { color: #fd6697; }
-
-#tabs i[cloudy] { color: #88d8d8; }
 
 #panels .links {
     right: 0;
@@ -614,44 +605,7 @@ content: attr(class);
     display: none;
 }
 
-.weather .edit {
-    width: 100%;
-    height: 100%;
-    background: #1f1f1f;
-    text-transform: uppercase;
-    font: 600 11px 'Roboto', sans-serif;
-    letter-spacing: 1px;
-    color: #fff;
-    border: 0;
-    margin: 40px 0 0 0;
-    cursor: pointer;
-    transition: all .2s;
-}
-
 .widgets:hover .edit {
-    margin: 0;
-}
-
-.weather-config {
-    width: 100%;
-    height: 100%;
-    background: #1f1f1f;
-    margin: -100% 0 0 0;
-    transition: all .2s;
-    z-index: 2;
-}
-
-.weather-config input[name="color"] {
-    width: 100%;
-    padding: .6em;
-    border: 0;
-    background: 0;
-    box-shadow: inset 0 -2px #fff;
-    font: 500 12px 'Roboto', sans-serif;
-    color: #fff;
-}
-
-.weather-config.show {
     margin: 0;
 }
 
@@ -746,4 +700,13 @@ content: attr(class);
 crypto-rate {
     font: 300 10pt 'Roboto', sans-serif;
     margin-right: 1em;
+}
+
+crypto-rate,
+weather-forecast {
+    height: 15px;
+}
+
+weather-forecast {
+    cursor: pointer;
 }

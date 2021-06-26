@@ -69,7 +69,7 @@ class Todo {
   };
 
   stateHandler() {
-    $('.close-task', true).forEach((elem) => {
+    $('.close-task', { includeAll: true }).forEach((elem) => {
       elem.onclick = (e) => {
         let parent = e.target.parentNode.parentNode,
             index  = nodes('.items').indexOf(parent) - 1,
@@ -88,7 +88,7 @@ class Todo {
       };
     });
 
-    $('.items item', true).forEach((elem) => {
+    $('.items item', { includeAll: true }).forEach((elem) => {
       elem.onclick = (e) => {
         let todos = parse(localStorage.todo),
             index = nodes('.items').indexOf(elem) - 1,
@@ -102,7 +102,7 @@ class Todo {
         todos.splice(index, 1, obj);
         localStorage.todo = stringify(todos.filter((el) => {
           return typeof el != "object" || Array.isArray(el) || Object.keys(el).length > 0;
-        }));;
+        }));
 
         this.updateCounter();
         this.removeState(elem);

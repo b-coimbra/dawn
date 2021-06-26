@@ -6,7 +6,6 @@ A startpage called "dawn".
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 
-
 ### Keybindings
 
 - `Numrow/Numpad` switch tabs
@@ -20,10 +19,10 @@ A startpage called "dawn".
     - [ ] `MAYBE` Terminal section
   - `REFACTOR` Use web components
     - [X] Crypto
+    - [X] Weather
     - [ ] Statusbar
     - [ ] Search
     - [ ] Todo
-    - [ ] Weather
   - [X] Update low-res task close button
   - [ ] Handle component loading (fix pop-in)
   - [ ] Create favicon

@@ -24,8 +24,6 @@ class Powerline {
           this.activateByKey(key)
       }
     };
-
-    setInterval(() => { $('.time').innerHTML = `${strftime('H')}<span>:${strftime('i')}</span>`; }, 1000);
   }
 
   activateByKey(key) {

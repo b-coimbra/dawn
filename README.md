@@ -20,6 +20,7 @@ A startpage called "dawn".
   - `REFACTOR` Use web components
     - [X] Crypto
     - [X] Weather
+    - [X] Clock
     - [ ] Statusbar
     - [ ] Search
     - [ ] Todo

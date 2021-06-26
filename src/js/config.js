@@ -57,6 +57,7 @@ class Config {
 
   // TODO: move to storage.js
   inStorage(value) {
+    if (!localStorage?.config) return false;
     return value in JSON.parse(localStorage.config);
   }
 

@@ -52,17 +52,32 @@ class Config {
 
   // TODO: move to storage.js
   getStorageValue(prop) {
-    return JSON.parse(localStorage.config)[prop] || this.defaults[prop];
+    return parse(localStorage.config)[prop] || this.defaults[prop];
   }
 
   // TODO: move to storage.js
   inStorage(value) {
     if (!localStorage?.config) return false;
-    return value in JSON.parse(localStorage.config);
+    return value in parse(localStorage.config);
   }
 
   // TODO: move to storage.js
   save() {
-    localStorage.config = JSON.stringify(this);
+    localStorage.config = stringify(this);
+  }
+}
+
+class ConfigExporter {
+  constructor() { }
+
+  static exportSettings(settings) {
+    const anchor = document.createElement('a');
+    const filename = 'dawn.config.json';
+    const mimeType = 'data:text/plain;charset=utf-8,';
+
+    anchor.href = mimeType + encodeURIComponent(stringify(settings, null, 2));
+    anchor.download = filename;
+
+    anchor.click();
   }
 }

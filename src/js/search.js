@@ -9,7 +9,7 @@ $('#search .close').onclick = () =>
   search.classList.remove('active');
 
 document.onkeypress = (e) => {
-  if (document.activeElement !== $('.addTodo input') && document.activeElement !== $('.weather-config input')) {
+  if (document.activeElement !== $('todo-list')) {
     if (e.key == 's')
       search.classList.add('active');
 

@@ -11,7 +11,7 @@ function engines () {
 const GLOBAL_CONFIG = new Config({
   crypto: {
     coin: 'BTC',
-    currency: 'BRL'
+    currency: 'USD'
   }
 });
 
@@ -20,5 +20,4 @@ const GLOBAL_CONFIG = new Config({
     localStorage.todo = '[]';
 })();
 
-new Todo().display;
 new Powerline();

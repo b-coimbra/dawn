@@ -8,6 +8,9 @@ class Component extends HTMLElement {
     },
     icons: {
       material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">'
+    },
+    libs: {
+      awoo: '<link rel="stylesheet" type="text/css" href="src/css/awoo.min.css">'
     }
   };
 
@@ -17,28 +20,55 @@ class Component extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' });
   }
 
-  static style() { }
-  static template() { }
-  static imports() { }
+  style()    { return null; }
+  template() { return null; }
+  imports()  { return []; }
 
-  async render() {
-    const html = `
-        ${this.imports().join("\n")}
-        <style>${this.style()}</style>
+  set stylePath(path) {
+    this.resources.style = `<link rel="stylesheet" type="text/css" href="${path}">`;
+  }
+
+  get all_imports() {
+    const imports = this.imports();
+
+    if (this.resources?.style)
+      imports.push(this.resources.style);
+
+    return imports;
+  }
+
+  async buildHTML() {
+    let html = `
+        ${this.all_imports.join("\n")}
         ${await this.template()}`;
 
-    this.shadow.innerHTML = html;
+    if (this.style())
+      html += `<style>${this.style()}</style>`;
 
+    return html;
+  }
+
+  nodes(elem) {
+    return Array.prototype.slice.call(elem.children);
+  }
+
+  async render() {
+    this.shadow.innerHTML = await this.buildHTML();
     this.refs = this.createRef();
   }
 
   createRef() {
     return new Proxy(this.refs, {
       get: (target, prop) => {
-        return this.shadow.querySelector(target[prop]);
+        const elems = this.shadow.querySelectorAll(target[prop]);
+
+        if (elems.length > 1) return elems;
+
+        return elems[0];
       },
       set: (target, prop, value) => {
-        return this.shadow.querySelector(target[prop]).innerHTML = value;
+        this.shadow.querySelector(target[prop]).innerHTML = value;
+        return true;
       }
     });
   }

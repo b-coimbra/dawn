@@ -7,6 +7,8 @@ class Clock extends Component {
 
   constructor() {
     super();
+
+    this.stylePath = 'src/components/clock/clock.style.css';
   }
 
   imports() {
@@ -14,30 +16,6 @@ class Clock extends Component {
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
-  }
-
-  style() {
-    return `
-        .clock-time {
-            white-space: nowrap;
-            font: 300 9pt 'Roboto', sans-serif;
-            color: #c1c1c1;
-            word-spacing: -2px;
-        }
-
-        .clock-hours {
-            font-weight: bold;
-            color: white;
-        }
-
-        .clock-icon {
-            color: #ff7b95;
-            font-size: 10pt;
-            margin-right: 10px;
-            margin-left: 1em;
-            margin-bottom: 1px;
-        }
-    `;
   }
 
   template() {
@@ -53,10 +31,9 @@ class Clock extends Component {
 
   setTime() {
     const date = new Date();
-    const [hours, minutes] = [date.getHours(), date.getMinutes()];
 
-    this.refs.hours = hours;
-    this.refs.minutes = minutes;
+    this.refs.hours = date.strftime('h');
+    this.refs.minutes = date.strftime('i');
   }
 
   connectedCallback() {

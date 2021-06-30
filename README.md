@@ -21,11 +21,11 @@ A startpage called "dawn".
     - [X] Crypto
     - [X] Weather
     - [X] Clock
+    - [X] Todo
     - [ ] Statusbar
     - [ ] Search
-    - [ ] Todo
   - [X] Update low-res task close button
-  - [ ] Handle component loading (fix pop-in)
+  - [X] Handle component loading (fix pop-in)
   - [ ] Create favicon
   - [ ] Task section
     - [ ] Task reordering

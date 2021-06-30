@@ -1,0 +1,54 @@
+:host {
+    --exchange-increase: #6fd468;
+    --exchange-decrease: #ff7b95;
+}
+
+.crypto-value {
+    display: flex;
+    align-items: center;
+}
+
+.crypto-icon {
+    margin-right: 10px;
+    font-size: 12pt;
+}
+
+.crypto-price {
+    white-space: nowrap;
+}
+
+.crypto-icon,
+.crypto-type {
+    color: var(--exchange-increase);
+}
+
+.crypto-type {
+    font-weight: bold;
+    margin-right: 10px;
+    font-size: 7pt;
+}
+
+.crypto-value {
+    font-weight: 400;
+    font-size: 9pt;
+    color: #c1c1c1;
+    white-space: nowrap;
+}
+
+.crypto-diff {
+    margin-left: 1em;
+}
+
+.crypto-diff.exchange-increase {
+    color: var(--exchange-increase);
+}
+
+.crypto-diff.exchange-decrease {
+    color: var(--exchange-decrease);
+}
+
+.crypto-change-indicator-icon {
+    vertical-align: bottom;
+    height: 14px;
+    font-size: 13pt;
+}

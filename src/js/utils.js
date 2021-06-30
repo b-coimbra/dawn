@@ -7,6 +7,3 @@ const $ = (e, options) => {
 
   return elems[0];
 };
-
-const nodes = (elem) =>
-  Array.prototype.slice.call($(elem).children);

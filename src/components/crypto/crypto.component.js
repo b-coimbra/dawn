@@ -1,16 +1,9 @@
-class CryptoExchange {
-  constructor(from, to) {
-    this.url = `https://min-api.cryptocompare.com/data/price?fsym=${from}&tsyms=${to}`;
-  }
-
-  async get() {
-    return await fetch(this.url)
-      .then(data => data.json())
-      .catch(err => console.error(err));
-  }
-}
-
 class Crypto extends Component {
+  refs = {
+    exchangeValue: '.exchange-value',
+    exchangeDiff: '.exchange-diff'
+  };
+
   from;
   to;
   exchange;
@@ -26,6 +19,8 @@ class Crypto extends Component {
 
   constructor() {
     super();
+
+    this.stylePath = "src/components/crypto/crypto.style.css";
 
     this.setAttributes();
     this.setDependencies();
@@ -45,65 +40,6 @@ class Crypto extends Component {
     return [this.resources.icons.material];
   }
 
-  style() {
-    return `
-        :host {
-            --exchange-increase: #6fd468;
-            --exchange-decrease: #ff7b95;
-        }
-
-        .crypto-value {
-            display: flex;
-            align-items: center;
-        }
-
-        .crypto-icon {
-            margin-right: 10px;
-            font-size: 12pt;
-        }
-
-        .crypto-price {
-            white-space: pre;
-        }
-
-        .crypto-icon,
-        .crypto-type {
-            color: var(--exchange-increase);
-        }
-
-        .crypto-type {
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 7pt;
-        }
-
-        .crypto-value {
-            font-weight: 400;
-            font-size: 9pt;
-            color: #c1c1c1;
-            white-space: nowrap;
-        }
-
-        .crypto-diff {
-            margin-left: 1em;
-        }
-
-        .crypto-diff.exchange-increase {
-            color: var(--exchange-increase);
-        }
-
-        .crypto-diff.exchange-decrease {
-            color: var(--exchange-decrease);
-        }
-
-        .crypto-change-indicator-icon {
-            vertical-align: bottom;
-            height: 14px;
-            font-size: 13pt;
-        }
-    `;
-  }
-
   getCurrencySymbol(currency) {
     return this.currency_symbols[currency] || '¤';
   }
@@ -114,20 +50,25 @@ class Crypto extends Component {
             <span class="material-icons crypto-change-indicator-icon">
                 ${ (exchangeChange < 0) ? 'arrow_drop_down' : 'arrow_drop_up' }
             </span>
-            <span class="crypto-change-value">${Math.abs(this.exchangeChange).toFixed(2)} %</span>
+            <span class="crypto-change-value">
+                <span class="crypto-change-value">${Math.abs(this.exchangeChange).toFixed(2)} %</span>
+            </span>
         </p>`;
   }
 
-  template() {
+  async template() {
     const currencySymbol = this.getCurrencySymbol(this.to);
-    const exchangeValue = this.getAttribute('exchange-value');
 
     return `
         <span class="material-icons crypto-icon">show_chart</span>
         <div class="crypto-value">
             <span class="crypto-type">${this.from}</span>
-            <span class="crypto-price">${currencySymbol} ${exchangeValue}</span>
-            ${this.exchangeDiffTemplate(this.exchangeChange)}
+            <span class="crypto-price">${currencySymbol}
+                <span class="exchange-value">0</span>
+            </span>
+            <div class="exchange-diff">
+                ${this.exchangeDiffTemplate(this.exchangeChange)}
+            </div>
         </div`;
   }
 
@@ -148,6 +89,7 @@ class Crypto extends Component {
     const exchangeChangePercent = (exchangeDiff / oldExchange) * 100;
 
     this.exchangeChange = exchangeChangePercent.toFixed(2);
+    this.refs.exchangeDiff = this.exchangeDiffTemplate(this.exchangeChange);
   }
 
   attributeChangedCallback(name, oldExchange, newExchange) {
@@ -159,26 +101,27 @@ class Crypto extends Component {
     return ['exchange-value'];
   }
 
-  async setExchangeValue() {
-    const exchange = await this.exchange.get();
-    const exchangeValue = parseFloat(exchange[this.to]).toFixed(2);
+  async setExchangeRate() {
+    this.exchangeRate = await this.exchange.get();
 
+    const exchangeRate = await this.exchangeRate;
+    const exchangeValue = parseFloat(exchangeRate[this.to]).toFixed(2);
+
+    this.refs.exchangeValue = exchangeValue;
     this.setAttribute('exchange-value', exchangeValue);
+
     localStorage.exchangeValue = exchangeValue;
   }
 
   async connectedCallback() {
     const REFRESH_IN_SECS = 1000 * this.refreshInterval;
 
-    const callbackActions = async () => {
-      await this.setExchangeValue();
-      this.render();
-    };
+    this.render();
 
-    await callbackActions();
+    await this.setExchangeRate();
 
     setInterval(async () =>
-      await callbackActions(),
+      await this.setExchangeRate(),
       REFRESH_IN_SECS);
   }
 }

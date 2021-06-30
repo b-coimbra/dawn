@@ -77,31 +77,28 @@
         </ul>
       </div>
     </div>
-    <div class="|" id="todo">
-      <button class="+ add"><img src="src/img/add.png"></button>
-      <div class="+ addTodo">
-        <input type="text" value="" placeholder="stuff to do ..." spellcheck="false">
-      </div>
-      <rows class="items">
-        <div class="todo-header">
-          <h1 class="+">todo</h1>
-          <p class="+ todo-counter">
-            <span class="todo-count">0</span>|
-            <span class="done-count">0</span>
-          </p>
-        </div>
-      </rows>
-    </div>
+    <todo-list class="|" id="todo"></todo-list>
+
     <script type="text/javascript" src="src/js/utils.js"></script>
     <script type="text/javascript" src="src/js/config.js"></script>
     <script type="text/javascript" src="src/js/strftime.js"></script>
-    <script type="text/javascript" src="src/js/todo.js"></script>
     <script type="text/javascript" src="src/js/powerline.js"></script>
+
     <script type="text/javascript" src="src/js/component.js"></script>
-    <script type="text/javascript" src="src/js/crypto.js"></script>
+
+    <script type="text/javascript" src="src/components/todo/task.component.js"></script>
+    <script type="text/javascript" src="src/components/todo/todo.component.js"></script>
+
     <script type="text/javascript" src="src/js/script.js"></script>
-    <script type="text/javascript" src="src/js/weather.js"></script>
-    <script type="text/javascript" src="src/js/clock.js"></script>
+
+    <script type="text/javascript" src="src/components/crypto/crypto.api.js"></script>
+    <script type="text/javascript" src="src/components/crypto/crypto.component.js"></script>
+
+    <script type="text/javascript" src="src/components/weather/weather.api.js"></script>
+    <script type="text/javascript" src="src/components/weather/weather.component.js"></script>
+
+    <script type="text/javascript" src="src/components/clock/clock.component.js"></script>
+
     <script type="text/javascript" src="src/js/search.js"></script>
   </body>
 </html>

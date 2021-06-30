@@ -82,12 +82,13 @@ class Todo extends Component {
   toggleTaskModal() {
     this.refs.addTaskButton.classList.toggle('active');
     this.refs.addTaskModal.classList.toggle('active');
+    this.refs.addTaskInput.focus();
   }
 
   createTask(event) {
     const { target, key } = event;
 
-    if (key == 'Enter') {
+    if (key === 'Enter') {
       const title = target.value;
       const task = Tasks.create(title);
 
@@ -96,6 +97,9 @@ class Todo extends Component {
 
       target.value = '';
     }
+
+    if (key === 'Escape')
+      this.toggleTaskModal();
   }
 
   setEvents() {

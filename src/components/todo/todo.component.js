@@ -31,7 +31,7 @@ class Todo extends Component {
         <input type="text" value="" placeholder="stuff to do ..." spellcheck="false">
       </div>
       <rows class="tasks">
-        <div class="header">
+        <div class="+ header">
           <h1 class="+ header-title">todo</h1>
           <p class="+ counter">
             <span class="todo-count">0</span>|
@@ -45,14 +45,11 @@ class Todo extends Component {
   }
 
   updateCounter() {
-    const tasks = parse(localStorage.tasks);
+    const tasks = Tasks.getAll();
     const states = tasks.map(f => f.state)
 
-    const todoCount = states.filter(f => f == 0).length;
-    const doneCount = states.filter(f => f == 1).length;
-
-    this.refs.todoCount = todoCount;
-    this.refs.doneCount = doneCount;
+    this.refs.doneCount = states.filter(done => done).length;
+    this.refs.todoCount = states.filter(done => !done).length;
   }
 
   setCounterObserver() {

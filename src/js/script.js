@@ -15,9 +15,4 @@ const GLOBAL_CONFIG = new Config({
   }
 });
 
-(function () {
-  if (localStorage.getItem("todo") === null)
-    localStorage.todo = '[]';
-})();
-
 new Powerline();

@@ -9,6 +9,7 @@ A startpage called "dawn".
 ### Keybindings
 
 - `Numrow/Numpad` switch tabs
+- `t` open create task panel
 - `s` open search dialog
 
 ## Features / TODOs

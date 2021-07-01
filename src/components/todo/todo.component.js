@@ -77,9 +77,11 @@ class Todo extends Component {
   }
 
   toggleTaskModal() {
+    this.refs.addTaskInput.value = '';
     this.refs.addTaskButton.classList.toggle('active');
     this.refs.addTaskModal.classList.toggle('active');
-    this.refs.addTaskInput.focus();
+
+    setTimeout(() => this.refs.addTaskInput.focus(), 10);
   }
 
   createTask(event) {

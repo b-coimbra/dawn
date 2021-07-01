@@ -9,7 +9,11 @@ $('#search .close').onclick = () =>
   search.classList.remove('active');
 
 document.onkeypress = (e) => {
+  // TODO: separate file for launching events based on keypress
   if (document.activeElement !== $('todo-list')) {
+    if (e.key == 't')
+      $('todo-list').shadowRoot.querySelector('.add-task').click();
+
     if (e.key == 's')
       search.classList.add('active');
 

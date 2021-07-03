@@ -6,11 +6,44 @@ A startpage called "dawn".
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 
-### Keybindings
+## Keybindings
 
 - `Numrow/Numpad` switch tabs
 - `t` open create task panel
 - `s` open search dialog
+
+## Configuration
+
+Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `src/js/script.js`. 
+
+### Clock
+
+Change the clock format in the status bar using [strftime.org](https://strftime.org) format.
+
+Config example (`script.js`):
+
+```js
+const GLOBAL_CONFIG = new Config({
+    // ...
+    clock: 'h:i p',        // 13:30 PM
+    clock: 'do B Y - h:i', // 18th January 2021 - 13:30
+    clock: 'h:i - m/b/Y'   // 13:30 - 3/Jul/2021 
+});
+```
+
+### Weather temperature
+
+Change your location and temperature scale (celius, fahrenheit) like such:
+
+```js
+const GLOBAL_CONFIG = new Config({
+  // ...
+  temperature: {
+    location: 'New York',
+    scale: 'C'
+  }
+});
+```
 
 ## Features / TODOs
 

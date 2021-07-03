@@ -1,3 +1,10 @@
+const GLOBAL_CONFIG = new Config({
+  crypto: {
+    coin: 'BTC',
+    currency: 'USD'
+  }
+});
+
 function engines () {
   return {
     g: ['https://google.com/search?q=', 'Google'],
@@ -7,10 +14,3 @@ function engines () {
     w: ['https://en.wikipedia.org/w/index.php?search=', 'Wikipedia']
   };
 }
-
-const GLOBAL_CONFIG = new Config({
-  crypto: {
-    coin: 'BTC',
-    currency: 'USD'
-  }
-});

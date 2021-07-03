@@ -24,7 +24,8 @@ class Statusbar extends Component {
   imports() {
     return [
       this.resources.fonts.roboto,
-      this.resources.libs.awoo
+      this.resources.icons.material,
+      this.resources.libs.awoo,
     ];
   }
 
@@ -32,12 +33,12 @@ class Statusbar extends Component {
     return `
         <div id="tabs">
             <cols>
-            <ul class="- indicator"></ul>
-            <div class="+ widgets col-end">
-                <crypto-rate from="ETH" to="USD" class="+"></crypto-rate>
-                <current-time class="+"></current-time>
-                <weather-forecast class="+ weather"></weather-forecast>
-            </div>
+                <ul class="- indicator"></ul>
+                <div class="+ widgets col-end">
+                    <crypto-rate from="ETH" to="USD" class="+"></crypto-rate>
+                    <current-time class="+"></current-time>
+                    <weather-forecast class="+ weather"></weather-forecast>
+                </div>
             </cols>
         </div>`;
   }

@@ -7,7 +7,8 @@ class Config {
     temperature: {
       location: 'New York',
       scale: 'C'
-    }
+    },
+    clock: 'h:i p'
   };
 
   constructor (config) {

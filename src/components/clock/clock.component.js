@@ -1,14 +1,10 @@
-
 class Clock extends Component {
   refs = {
-    hours: '.clock-hours',
-    minutes: '.clock-minutes'
+    clock: '.clock-time'
   };
 
   constructor() {
     super();
-
-    this.stylePath = 'src/components/clock/clock.style.css';
   }
 
   imports() {
@@ -18,22 +14,36 @@ class Clock extends Component {
     ];
   }
 
+  style() {
+    return `
+        .clock-time {
+            white-space: nowrap;
+            font: 300 9pt 'Roboto', sans-serif;
+            color: #c1c1c1;
+            letter-spacing: .5px;
+        }
+
+        .clock-icon {
+            color: #ff7b95;
+            font-size: 10pt;
+            margin-right: 10px;
+            margin-left: 1em;
+            margin-bottom: 1px;
+        }
+    `;
+  }
+
   template() {
     return `
         <span class="material-icons clock-icon">schedule</span>
-        <p class="clock-time">
-            <span class="clock-hours">00</span>
-            <span>:</span>
-            <span class="clock-minutes">00</span>
-        </p>
+        <p class="clock-time"></p>
     `;
   }
 
   setTime() {
     const date = new Date();
 
-    this.refs.hours = date.strftime('h');
-    this.refs.minutes = date.strftime('i');
+    this.refs.clock = date.strftime(GLOBAL_CONFIG.clock);
   }
 
   connectedCallback() {

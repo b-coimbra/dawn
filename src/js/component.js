@@ -38,12 +38,12 @@ class Component extends HTMLElement {
   }
 
   async buildHTML() {
-    let html = `
-        ${this.all_imports.join("\n")}
-        ${await this.template()}`;
+    let html = `${this.all_imports.join("\n")}`;
 
     if (this.style())
       html += `<style>${this.style()}</style>`;
+
+    html += await this.template();
 
     return html;
   }

@@ -20,6 +20,11 @@ class Weather extends Component {
       conditions: ['clear'],
       icon: 'wb_sunny',
       color: 'sunny'
+    },
+    {
+      conditions: ['thunderstorm'],
+      icon: 'bolt',
+      color: 'cloudy'
     }
   ];
 
@@ -100,11 +105,12 @@ class Weather extends Component {
     for (const forecast of this.forecasts)
       if (forecast.conditions.includes(condition))
         return forecast;
+
+    return this.forecasts[0];
   }
 
   async connectedCallback() {
-    this.render();
-
+    await this.render();
     await this.setWeather();
   }
 }

@@ -1,20 +1,22 @@
 class Crypto extends Component {
   refs = {
     exchangeValue: '.exchange-value',
-    exchangeDiff: '.exchange-diff'
+    cryptoDiff: 'crypto-diff'
   };
 
   from;
   to;
   exchange;
   refreshInterval = 10;
-  exchangeChange = 0;
-  currency_symbols = {
+  currencies = {
     'USD': '$',
     'JPY': '¥',
     'GBP': '£',
     'EUR': '€',
-    'BRL': 'R$'
+    'BRL': 'R$',
+    getSymbol(currency) {
+      return this[currency] || '¤';
+    }
   };
 
   constructor() {
@@ -43,24 +45,8 @@ class Crypto extends Component {
     ];
   }
 
-  getCurrencySymbol(currency) {
-    return this.currency_symbols[currency] || '¤';
-  }
-
-  exchangeDiffTemplate(exchangeChange) {
-    return `
-        <p class="crypto-diff exchange-${ (exchangeChange < 0) ? 'decrease' : 'increase' }">
-            <span class="material-icons crypto-change-indicator-icon">
-                ${ (exchangeChange < 0) ? 'arrow_drop_down' : 'arrow_drop_up' }
-            </span>
-            <span class="crypto-change-value">
-                <span class="crypto-change-value">${Math.abs(this.exchangeChange).toFixed(2)} %</span>
-            </span>
-        </p>`;
-  }
-
   async template() {
-    const currencySymbol = this.getCurrencySymbol(this.to);
+    const currencySymbol = this.currencies.getSymbol(this.to);
 
     return `
         <span class="material-icons crypto-icon">show_chart</span>
@@ -69,9 +55,7 @@ class Crypto extends Component {
             <span class="crypto-price">${currencySymbol}
                 <span class="exchange-value">0</span>
             </span>
-            <div class="exchange-diff">
-                ${this.exchangeDiffTemplate(this.exchangeChange)}
-            </div>
+            <crypto-diff></crypto-diff>
         </div`;
   }
 
@@ -82,17 +66,25 @@ class Crypto extends Component {
     if (oldExchange == 0) {
       const lastExchangeValue = localStorage.exchangeValue;
 
-      if (lastExchangeValue === undefined)
-        oldExchange = newExchange;
-      else
-        oldExchange = lastExchangeValue;
+      oldExchange = !lastExchangeValue ? newExchange : lastExchangeValue;
     }
 
     const exchangeDiff = newExchange - oldExchange;
-    const exchangeChangePercent = (exchangeDiff / oldExchange) * 100;
+    const exchangeDiffPercent = (exchangeDiff / oldExchange) * 100;
 
-    this.exchangeChange = exchangeChangePercent.toFixed(2);
-    this.refs.exchangeDiff = this.exchangeDiffTemplate(this.exchangeChange);
+    this.refs.cryptoDiff.setAttribute('exchange-diff', exchangeDiffPercent.toFixed(2));
+  }
+
+  async setExchangeRate() {
+    this.exchangeRate = await this.exchange.get();
+
+    const exchangeRate = await this.exchangeRate;
+    const exchangeValue = parseFloat(exchangeRate[this.to]).toFixed(2);
+
+    this.refs.exchangeValue = Number(exchangeValue).toLocaleString();
+    this.setAttribute('exchange-value', exchangeValue);
+
+    localStorage.exchangeValue = exchangeValue;
   }
 
   attributeChangedCallback(name, oldExchange, newExchange) {
@@ -102,18 +94,6 @@ class Crypto extends Component {
 
   static get observedAttributes() {
     return ['exchange-value'];
-  }
-
-  async setExchangeRate() {
-    this.exchangeRate = await this.exchange.get();
-
-    const exchangeRate = await this.exchangeRate;
-    const exchangeValue = parseFloat(exchangeRate[this.to]).toFixed(2);
-
-    this.refs.exchangeValue = exchangeValue;
-    this.setAttribute('exchange-value', exchangeValue);
-
-    localStorage.exchangeValue = exchangeValue;
   }
 
   async connectedCallback() {

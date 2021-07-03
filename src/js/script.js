@@ -14,5 +14,3 @@ const GLOBAL_CONFIG = new Config({
     currency: 'USD'
   }
 });
-
-new Powerline();

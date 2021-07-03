@@ -37,7 +37,10 @@ class Crypto extends Component {
   }
 
   imports() {
-    return [this.resources.icons.material];
+    return [
+      this.resources.icons.material,
+      this.resources.fonts.roboto
+    ];
   }
 
   getCurrencySymbol(currency) {

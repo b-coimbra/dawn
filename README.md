@@ -23,7 +23,7 @@ A startpage called "dawn".
     - [X] Weather
     - [X] Clock
     - [X] Todo
-    - [ ] Statusbar
+    - [X] Statusbar
     - [ ] Search
   - [X] Update low-res task close button
   - [X] Handle component loading (fix pop-in)

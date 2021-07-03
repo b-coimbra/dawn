@@ -65,17 +65,13 @@ class Config {
   save() {
     localStorage.config = stringify(this);
   }
-}
 
-class ConfigExporter {
-  constructor() { }
-
-  static exportSettings(settings) {
+  exportSettings() {
     const anchor = document.createElement('a');
     const filename = 'dawn.config.json';
     const mimeType = 'data:text/plain;charset=utf-8,';
 
-    anchor.href = mimeType + encodeURIComponent(stringify(settings, null, 2));
+    anchor.href = mimeType + encodeURIComponent(stringify(this, null, 2));
     anchor.download = filename;
 
     anchor.click();

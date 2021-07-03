@@ -17,18 +17,10 @@
         <ul class="search-engines"></ul>
       </div>
     </div>
+
     <div id="links" class="-">
-      <div id="tabs" class="!-">
-        <cols>
-          <ul class="- indicator">
-          </ul>
-          <div class="+ widgets col-end">
-            <crypto-rate from="ETH" to="USD" class="+"></crypto-rate>
-            <current-time class="+"></current-time>
-            <weather-forecast class="+ weather"></weather-forecast>
-          </div>
-        </cols>
-      </div>
+      <status-bar class="!-"></status-bar>
+
       <div id="panels">
         <ul class="boards" active>
           <div class="links">
@@ -77,19 +69,19 @@
         </ul>
       </div>
     </div>
+
     <todo-list class="|" id="todo"></todo-list>
 
     <script type="text/javascript" src="src/js/utils.js"></script>
     <script type="text/javascript" src="src/js/config.js"></script>
     <script type="text/javascript" src="src/js/strftime.js"></script>
-    <script type="text/javascript" src="src/js/powerline.js"></script>
 
     <script type="text/javascript" src="src/js/component.js"></script>
 
+    <script type="text/javascript" src="src/js/script.js"></script>
+
     <script type="text/javascript" src="src/components/todo/task.component.js"></script>
     <script type="text/javascript" src="src/components/todo/todo.component.js"></script>
-
-    <script type="text/javascript" src="src/js/script.js"></script>
 
     <script type="text/javascript" src="src/components/crypto/crypto.api.js"></script>
     <script type="text/javascript" src="src/components/crypto/crypto.component.js"></script>
@@ -98,6 +90,8 @@
     <script type="text/javascript" src="src/components/weather/weather.component.js"></script>
 
     <script type="text/javascript" src="src/components/clock/clock.component.js"></script>
+
+    <script type="text/javascript" src="src/components/statusbar/statusbar.component.js"></script>
 
     <script type="text/javascript" src="src/js/search.js"></script>
   </body>

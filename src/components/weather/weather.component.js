@@ -26,7 +26,7 @@ class Weather extends Component {
   constructor() {
     super();
 
-    this.stylePath = "src/components/weather/weather.style.css";
+    this.stylePath = 'src/components/weather/weather.style.css';
 
     this.setDependencies();
     this.setEvents();

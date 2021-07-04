@@ -52,20 +52,24 @@ class Crypto extends Component {
         <span class="material-icons crypto-icon">show_chart</span>
         <div class="crypto-value">
             <span class="crypto-type">${this.from}</span>
-            <span class="crypto-price">${currencySymbol}
+            <span class="crypto-price">
+                <span class="currency-symbol">${currencySymbol}</span>
                 <span class="exchange-value">0</span>
             </span>
             <crypto-diff></crypto-diff>
         </div`;
   }
 
+  /**
+   * Calculate new exchange diff percentage when the exchange value is updated
+   * @returns {void}
+   */
   handleExchangeUpdate(oldExchange, newExchange) {
     oldExchange = Number(oldExchange);
     newExchange = Number(newExchange);
 
     if (oldExchange == 0) {
       const lastExchangeValue = localStorage.exchangeValue;
-
       oldExchange = !lastExchangeValue ? newExchange : lastExchangeValue;
     }
 
@@ -75,6 +79,11 @@ class Crypto extends Component {
     this.refs.cryptoDiff.setAttribute('exchange-diff', exchangeDiffPercent.toFixed(2));
   }
 
+  /**
+   * GET current exchange rate value based on the currency and coin specified
+   * @async
+   * @ returns {void}
+   */
   async setExchangeRate() {
     this.exchangeRate = await this.exchange.get();
 

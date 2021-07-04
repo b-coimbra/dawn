@@ -39,27 +39,41 @@ class Todo extends Component {
           </p>
         </div>
         <div class="task-list">
-            ${this.getTasksTemplate()}
+            ${Tasks.getAllTemplates()}
         </div>
       </rows>`;
   }
 
+  setEvents() {
+    this.refs.addTaskButton.onclick  = ()      => this.toggleTaskModal();
+    this.refs.addTaskInput.onkeydown = (event) => this.createTask(event);
+  }
+
+  /**
+   * Update task status counter
+   * @returns {void}
+   */
   updateCounter() {
     const tasks = Tasks.getAll();
-    const states = tasks.map(f => f.state)
+    const states = tasks.map(f => f.state);
 
     this.refs.doneCount = states.filter(done => done).length;
     this.refs.todoCount = states.filter(done => !done).length;
   }
 
+  /**
+   * Watch for changes in the task list, trigger counter update
+   * when a task added, deleted or the status is toggled
+   * @returns {void}
+   */
   setCounterObserver() {
-    const mutationTypes = ['attributes', 'childList']
+    const mutationTypes = ['attributes', 'childList'];
 
     const taskObserver = new MutationObserver(mutations => {
       mutations.forEach(mut => {
         if (mutationTypes.includes(mut.type))
           this.updateCounter();
-      })
+      });
     });
 
     taskObserver.observe(this.refs.taskList, {
@@ -70,12 +84,10 @@ class Todo extends Component {
     });
   }
 
-  getTasksTemplate() {
-    return Tasks.getAll()
-      .map(task => Tasks.template(task))
-      .join('');
-  }
-
+  /**
+   * Toggle modal for creating a new task
+   * @returns {void}
+   */
   toggleTaskModal() {
     this.refs.addTaskInput.value = '';
     this.refs.addTaskButton.classList.toggle('active');
@@ -84,6 +96,10 @@ class Todo extends Component {
     setTimeout(() => this.refs.addTaskInput.focus(), 10);
   }
 
+  /**
+   * Create a new task
+   * @returns {void}
+   */
   createTask(event) {
     const { target, key } = event;
 
@@ -99,11 +115,6 @@ class Todo extends Component {
 
     if (key === 'Escape')
       this.toggleTaskModal();
-  }
-
-  setEvents() {
-    this.refs.addTaskButton.onclick  = ()      => this.toggleTaskModal();
-    this.refs.addTaskInput.onkeydown = (event) => this.createTask(event);
   }
 
   connectedCallback() {

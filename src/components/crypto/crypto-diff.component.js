@@ -19,10 +19,6 @@ class CryptoDiff extends Component {
             --exchange-decrease: #ff7b95;
         }
 
-        .crypto-diff {
-            margin-left: 1em;
-        }
-
         .crypto-diff.exchange-increase {
             color: var(--exchange-increase);
         }

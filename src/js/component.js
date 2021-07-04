@@ -24,10 +24,19 @@ class Component extends HTMLElement {
   template() { return null; }
   imports()  { return []; }
 
+  /**
+   * Reference an external css file
+   * @param {string} path
+   * @returns {void}
+   */
   set stylePath(path) {
     this.resources.style = `<link rel="stylesheet" type="text/css" href="${path}">`;
   }
 
+  /**
+   * Return all the imports that a component requested
+   * @returns {Array<string>} imports
+   */
   get all_imports() {
     const imports = this.imports();
 
@@ -37,6 +46,10 @@ class Component extends HTMLElement {
     return imports;
   }
 
+  /**
+   * Build the component's HTML body
+   * @returns {string} html
+   */
   async buildHTML() {
     let html = `${this.all_imports.join("\n")}`;
 
@@ -48,15 +61,18 @@ class Component extends HTMLElement {
     return html;
   }
 
+  /**
+   * Return all children of a parent node
+   * @returns {Array<HTMLElement>}
+   */
   nodes(elem) {
     return Array.prototype.slice.call(elem.children);
   }
 
-  async render() {
-    this.shadow.innerHTML = await this.buildHTML();
-    this.refs = this.createRef();
-  }
-
+  /**
+   * Create a reference for manipulating DOM elements
+   * @returns {Proxy<HTMLElement | boolean>}
+   */
   createRef() {
     return new Proxy(this.refs, {
       get: (target, prop) => {
@@ -75,5 +91,10 @@ class Component extends HTMLElement {
         return true;
       }
     });
+  }
+
+  async render() {
+    this.shadow.innerHTML = await this.buildHTML();
+    this.refs = this.createRef();
   }
 }

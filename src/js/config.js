@@ -35,6 +35,10 @@ class Config {
     return true;
   }
 
+  /**
+   * Set default config values if not stored in the local storage
+   * @returns {void}
+   */
   autoConfig(config) {
     Object.keys(this.defaults).forEach(setting => {
       if (setting in config)

@@ -74,6 +74,13 @@ class Tasks extends Component {
     return parse(localStorage.tasks);
   }
 
+  static getAllTemplates() {
+    return this
+      .getAll()
+      .map(task => this.template(task))
+      .join('');
+  }
+
   static template(task) {
     return `
         <task status="${this.getStatus(task.state)}" id="${task.id}" onclick="Tasks.toggle(this)">

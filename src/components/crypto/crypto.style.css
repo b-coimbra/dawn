@@ -37,3 +37,11 @@
     color: #c1c1c1;
     white-space: nowrap;
 }
+
+.currency-symbol {
+    color: #848484;
+}
+
+crypto-diff {
+    margin-left: 5px;
+}

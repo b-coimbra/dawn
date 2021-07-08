@@ -35,9 +35,9 @@ class Statusbar extends Component {
             <cols>
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
-                    <crypto-rate from="ETH" to="USD" class="+"></crypto-rate>
-                    <current-time class="+"></current-time>
-                    <weather-forecast class="+ weather"></weather-forecast>
+                    <crypto-rate from="ETH" to="USD" class="+ widget"></crypto-rate>
+                    <current-time class="+ widget"></current-time>
+                    <weather-forecast class="+ widget weather"></weather-forecast>
                 </div>
             </cols>
         </div>`;
@@ -55,7 +55,7 @@ class Statusbar extends Component {
         if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.panels.length)
           this.activateByKey(key - 1);
       }
-    }
+    };
   }
 
   activateByKey(key) {

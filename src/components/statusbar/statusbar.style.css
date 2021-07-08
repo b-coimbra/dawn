@@ -72,14 +72,36 @@
     --flavour: #5b52e4;
 }
 
-#tabs .widgets {
+.widgets {
     right: 0;
     margin: auto;
     height: 32px;
-    padding: 0 2em;
     color: #fff;
     font-size: 12px;
     background: #1d1d21;
+}
+
+.widgets:hover .edit {
+    margin: 0;
+}
+
+.widget {
+    position: relative;
+    height: 100%;
+    padding: 0 1em;
+}
+
+.widget:first-child {
+    padding-left: 2em;
+}
+
+.widget:last-child {
+    padding-right: 2em;
+}
+
+.widget:hover {
+    cursor: pointer;
+    background: rgba(255, 255, 255, .05);
 }
 
 #tabs > cols {
@@ -94,28 +116,12 @@
     font-size: 14pt !important;
 }
 
-.widgets:hover .edit {
-    margin: 0;
-}
-
-/* WEB COMPONENTS */
-
-crypto-rate,
-current-time,
-weather-forecast {
-    height: 15px;
-}
-
-weather-forecast,
-current-time {
-    box-shadow: inset 1px 0 rgba(255, 255, 255, .1);
-}
-
-weather-forecast {
-    cursor: pointer;
-}
-
-current-time,
-crypto-rate {
-    margin-right: 1em;
+.widget:not(:first-child)::before {
+    content: '';
+    position: absolute;
+    display: block;
+    left: 0;
+    height: calc(100% - 15px);
+    width: 1px;
+    background: rgb(255 255 255 / 10%);
 }

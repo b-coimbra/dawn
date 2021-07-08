@@ -20,6 +20,7 @@ class Todo extends Component {
   imports() {
     return [
       this.resources.fonts.roboto,
+      this.resources.icons.material,
       this.resources.libs.awoo
     ];
   }
@@ -33,10 +34,15 @@ class Todo extends Component {
       <rows class="tasks">
         <div class="+ header">
           <h1 class="+ header-title">todo</h1>
-          <p class="+ counter">
-            <span class="todo-count">0</span>|
-            <span class="done-count">0</span>
-          </p>
+          <div class="task-actions">
+            <p class="+ counter task-action">
+              <span class="todo-count">0</span>|
+              <span class="done-count">0</span>
+            </p>
+            <button class="+ clean-tasks task-action">
+              <i class="material-icons clean-tasks-icon">delete</i>
+            </button>
+          </div>
         </div>
         <div class="task-list">
             ${Tasks.getAllTemplates()}

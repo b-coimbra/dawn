@@ -86,8 +86,10 @@ class Tasks extends Component {
         <task status="${this.getStatus(task.state)}" id="${task.id}" onclick="Tasks.toggle(this)">
             <rows>
                 <p class="task-title">${task.title}</p>
-                <button class="!> close-task" onclick="Tasks.remove(this.parentNode.parentNode)"></button>
                 <p class="row-end added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
+                <div class="task-options">
+                  <button class="close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)"></button>
+                </div>
             </rows>
         </task>`;
   }

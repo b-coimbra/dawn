@@ -10,6 +10,7 @@
 button {
     outline: 0;
     border: 0;
+    background: none;
 }
 
 .header {
@@ -123,11 +124,14 @@ button {
     transition: opacity .5s cubic-bezier(0.4, 0, 1, 1),
                 margin .5s cubic-bezier(0.4, 0, 1, 1),
                 box-shadow .2s;
-    animation: slide .4s ease-in-out;
     z-index: 5;
 }
 
-@-webkit-keyframes slide {
+task.slide-in {
+    animation: slide-in .4s ease-in-out;
+}
+
+@keyframes slide-in {
     0% {
         opacity: 0;
         transform: translateY(-100%);
@@ -160,59 +164,8 @@ button {
     font-weight: bold;
 }
 
-.tasks task:not(:last-child) {
+.tasks task {
     margin: 0 0 1.5em 0;
-}
-
-.tasks task::before {
-    content: '';
-    display: block;
-    position: absolute;
-    background: var(--bg);
-    border-radius: 50%;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    left: -22px;
-    width: 12px;
-    height: 12px;
-    box-shadow: 0 0 0 3px var(--state);
-    z-index: 5;
-    cursor: pointer;
-    transition: transform .2s, background .2s, box-shadow .2s, color .2s;
-}
-
-.tasks task[status=done]::before {
-    content: '\E876';
-    position: absolute;
-    color: var(--state);
-    font-family: 'Material Icons';
-    text-align: center;
-    font-size: 11px;
-    line-height: 1;
-}
-
-.tasks task::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -16px;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 50px;
-    width: 1px;
-    background: var(--state);
-    transition: all .5s;
-    opacity: .5;
-}
-
-.tasks task:hover::before {
-    transform: scale(1.4);
-}
-
-.tasks task:hover::after {
-    height: 0;
 }
 
 .tasks task:hover span {
@@ -230,50 +183,6 @@ button {
     color: #fff;
     font-weight: 700 !important;
     transition: color .2s;
-}
-
-.close-task {
-    grid-column: close;
-    position: relative;
-    width: 12px;
-    height: 12px;
-    background: none;
-    outline: 0;
-    border: 0;
-    opacity: 0;
-    cursor: pointer;
-    transition: opacity .3s;
-}
-
-.close-task::before,
-.close-task::after {
-    content: '';
-    display: block;
-    width: 2px;
-    height: 12px;
-    background: white;
-    position: absolute;
-    right: 0;
-    top: 0;
-    left: 0;
-    margin: 0 auto;
-}
-
-.close-task::before {
-    transform: rotate(45deg);
-}
-
-.close-task::after {
-    transform: rotate(-45deg);
-}
-
-.tasks task:hover .close-task {
-    opacity: .7;
-}
-
-.tasks task .close-task:hover {
-    opacity: 1;
-    transform: scale(1.2);
 }
 
 .add-todo {
@@ -313,18 +222,6 @@ button {
     grid-auto-rows: min-content;
 }
 
-.tasks task[status=todo]:hover .task-options {
-    background: var(--task-options-todo-background);
-}
-
-.tasks task[status=done]:hover .task-options {
-    background: var(--task-options-done-background);
-}
-
-.tasks task:hover .task-options {
-    top: -30px;
-}
-
 .tasks task rows {
     height: 100%;
     position: relative;
@@ -336,7 +233,19 @@ button {
                 box-shadow var(--task-options-reveal-time) ease-in;
 }
 
-.tasks task:hover rows {
+task[status=todo] rows:hover .task-options {
+    background: var(--task-options-todo-background);
+}
+
+task[status=done] rows:hover .task-options {
+    background: var(--task-options-done-background);
+}
+
+task rows:hover .task-options {
+    top: -30px;
+}
+
+task rows:hover {
     margin-top: 30px;
     height: calc(100% - 30px);
     box-shadow: 0 -5px 8px rgb(0 0 0 / 45%);
@@ -345,7 +254,9 @@ button {
 .task-options {
     position: absolute;
     display: grid;
-    grid-template-columns: auto [close] 12px;
+    grid-template-columns: [add-task-link] 24px
+                           [move-task-down] 24px auto
+                           [close] 20px;
     align-items: center;
     width: 98%;
     height: 30px;
@@ -359,4 +270,174 @@ button {
     padding: 5px 10px;
     transition: top var(--task-options-reveal-time) ease-in,
                 background var(--task-options-reveal-time) ease-in;
+}
+
+.close-task {
+    grid-column: close;
+}
+
+.close-task i {
+    font-size: 16px;
+}
+
+.add-task-link {
+    display: none; /* hide temporarily */
+    grid-column: add-task-link;
+}
+
+.task-option {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background: none;
+    cursor: pointer;
+    color: white;
+    opacity: .6;
+}
+
+.task-option:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.task-controls {
+    display: grid;
+    grid-template-rows: 10px [task-move-up] 24px [task-toggle] 25px [task-move-down] 24px 10px;
+    height: 100%;
+    position: absolute;
+    z-index: 3;
+    flex-wrap: wrap;
+    width: 24px;
+    left: -28px;
+}
+
+.control-arrows {
+    opacity: 0;
+    transition: opacity .2s, transform .2s, color .2s;
+}
+
+.task-move-down {
+    transform: translateY(-15px) scale(.4);
+}
+
+.task-move-up {
+    transform: translateY(15px) scale(.4);
+}
+
+.control-arrows:hover {
+    color: var(--state);
+    transform: scale(1.5) !important;
+}
+
+.task-control:focus {
+    transform: scale(1);
+}
+
+task:hover .control-arrows {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.task-control {
+    display: flex;
+    justify-content: center;
+    color: #7f7f9a;
+    cursor: pointer;
+}
+
+.task-toggle {
+    position: relative;
+    display: flex;
+    grid-row: task-toggle;
+}
+
+.task-toggle::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 50px;
+    width: 1px;
+    background: var(--state);
+    transition: all .5s;
+    z-index: -1;
+    opacity: .5;
+}
+
+.task-toggle::before {
+    content: '';
+    position: relative;
+    display: flex;
+    grid-row: task-toggle;
+    background: var(--bg);
+    border-radius: 50%;
+    margin: auto;
+    width: 12px;
+    height: 12px;
+    box-shadow: 0 0 0 3px var(--state);
+    cursor: pointer;
+    transition: transform .2s, background .2s, box-shadow .2s, color .2s;
+}
+
+.tasks task:hover .task-toggle::before {
+    transform: scale(1.4);
+}
+
+.tasks task[status=done] .task-toggle::before {
+    content: '\E876';
+    color: var(--state);
+    font-family: 'Material Icons';
+    text-align: center;
+    font-size: 13px;
+    line-height: 0.9;
+}
+
+.tasks task:hover .task-toggle::after {
+    height: 0;
+}
+
+.task-control.task-move-down {
+    grid-row: task-move-down;
+}
+
+.task-control.task-move-up {
+    grid-row: task-move-up;
+}
+
+task.move-up {
+    animation: move-up .5s ease-in-out;
+}
+
+task.move-down {
+    animation: move-down .5s ease-in-out;
+}
+
+task:first-child .task-move-up {
+    display: none;
+}
+
+task:last-child .task-move-down {
+    display: none;
+}
+
+@keyframes move-up {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: -100%;
+    }
+}
+
+@keyframes move-down {
+    0% {
+        top: 0;
+    }
+    100% {
+        top: 100%;
+    }
 }

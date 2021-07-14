@@ -67,16 +67,58 @@ class Todo extends Component {
     this.refs.todoCount = states.filter(done => !done).length;
   }
 
+  moveToDirection(task, direction, animateOnly = false) {
+    const { directions } = Tasks;
+
+    task.classList.remove('slide-in');
+    task.classList.add(direction);
+
+    setTimeout(() => {
+      const previousIndex = Number(task.getAttribute('index'));
+      const currentIndex = Math.max(0, (direction === directions.UP ? previousIndex - 1 : previousIndex + 1));
+
+      task.setAttribute('index', currentIndex);
+
+      if (!animateOnly)
+        if (direction === directions.UP)
+          this.refs.taskList.insertBefore(task, task?.previousElementSibling || task);
+        else
+          this.refs.taskList.insertBefore(task.nextElementSibling, task);
+
+      task.classList.remove(direction);
+    }, 500);
+  }
+
+  move({ id, attributes }) {
+    const direction = attributes['move-direction']?.value;
+    const { directions } = Tasks;
+
+    if (!direction) return;
+
+    const task = Array.from(this.refs.task).find(f => f.id === id);
+
+    this.moveToDirection(task, direction);
+
+    if (direction === directions.UP)
+      this.moveToDirection(task.previousElementSibling, 'move-down', true);
+    else
+      this.moveToDirection(task.nextElementSibling, 'move-up', true);
+
+    task.removeAttribute('move-direction');
+  }
+
   /**
-   * Watch for changes in the task list, trigger counter update
-   * when a task added, deleted or the status is toggled
+   * Watch for changes in the task list, trigger events based on state of the task
    * @returns {void}
    */
-  setCounterObserver() {
+  setTaskObserver() {
     const mutationTypes = ['attributes', 'childList'];
 
     const taskObserver = new MutationObserver(mutations => {
       mutations.forEach(mut => {
+        if (mut.attributeName === 'move-direction')
+          this.move(mut.target);
+
         if (mutationTypes.includes(mut.type))
           this.updateCounter();
       });
@@ -86,7 +128,7 @@ class Todo extends Component {
       subtree: true,
       childList: true,
       attributes: true,
-      attributeFilter: ['status']
+      attributeFilter: ['status', 'move-direction']
     });
   }
 
@@ -126,7 +168,7 @@ class Todo extends Component {
   connectedCallback() {
     this.render().then(() => {
       this.setEvents();
-      this.setCounterObserver();
+      this.setTaskObserver();
       this.updateCounter();
     });
   }

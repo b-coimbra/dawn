@@ -3,6 +3,11 @@ class Tasks extends Component {
     super();
   }
 
+  static directions = {
+    UP: 'move-up',
+    DOWN: 'move-down'
+  };
+
   static create(title) {
     const task = {
       id: this.id,
@@ -77,18 +82,57 @@ class Tasks extends Component {
   static getAllTemplates() {
     return this
       .getAll()
-      .map(task => this.template(task))
+      .map((task, i) => this.template(task, i))
       .join('');
   }
 
-  static template(task) {
+  static move(elem, direction) {
+    elem.setAttribute('move-direction', direction);
+
+    let tasks = this.getAll();
+
+    const index = tasks.findIndex(f => f.id === elem.id);
+    const currentTask = tasks[index];
+    let lookup = index + 1;
+
+    if (direction === this.directions.UP) lookup = index - 1;
+
+    tasks[index] = tasks[lookup];
+    tasks[lookup] = currentTask;
+
+    localStorage.tasks = JSON.stringify(tasks);
+  }
+
+  static getTaskIndex(id) {
+    return this.getAll().findIndex(task => task.id === id);
+  }
+
+  static isLast(idx) {
+    return (this.getAll().length - 1) === idx;
+  }
+
+  static template(task, index = -1) {
     return `
-        <task status="${this.getStatus(task.state)}" id="${task.id}" onclick="Tasks.toggle(this)">
+        <task index="${index}" status="${this.getStatus(task.state)}" id="${task.id}" class="slide-in">
+            <div class="task-controls">
+              <button class='task-control task-move-up control-arrows' onclick=\"Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)\">
+                <i class="material-icons">keyboard_arrow_up</i>
+              </button>
+              <button class="task-toggle" onclick="Tasks.toggle(this.parentNode.parentNode)"></button>
+              <button class='task-control task-move-down control-arrows' onclick=\"Tasks.move(this.parentNode.parentNode, Tasks.directions.DOWN)\">
+                <i class="material-icons">keyboard_arrow_down</i>
+              </button>
+            </div>
             <rows>
                 <p class="task-title">${task.title}</p>
                 <p class="row-end added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
                 <div class="task-options">
-                  <button class="close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)"></button>
+                  <button class="task-option add-task-link">
+                    <i class="material-icons">link</i>
+                  </button>
+                  <button class="task-option close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)">
+                    <i class="material-icons">close</i>
+                  </button>
                 </div>
             </rows>
         </task>`;

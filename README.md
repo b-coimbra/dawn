@@ -14,7 +14,7 @@ A startpage called "dawn".
 
 ## Configuration
 
-Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `src/js/script.js`. 
+Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `src/js/script.js`.
 
 ### Clock
 
@@ -27,7 +27,7 @@ const GLOBAL_CONFIG = new Config({
     // ...
     clock: 'h:i p',        // 13:30 PM
     clock: 'do B Y - h:i', // 18th January 2021 - 13:30
-    clock: 'h:i - m/b/Y'   // 13:30 - 3/Jul/2021 
+    clock: 'h:i - m/b/Y'   // 13:30 - 3/Jul/2021
 });
 ```
 
@@ -60,9 +60,8 @@ const GLOBAL_CONFIG = new Config({
     - [ ] Search
   - [X] Update low-res task close button
   - [X] Handle component loading (fix pop-in)
-  - [ ] Create favicon
   - [ ] Task section
-    - [ ] Task reordering
+    - [X] Task reordering
     - [ ] Add task subtitle
     - [ ] Task priority ('!' '!!', '!!!') or colour representation (red, yellow, green)
     - [ ] Task add hyperlinks
@@ -86,9 +85,11 @@ const GLOBAL_CONFIG = new Config({
   - [ ] `MAYBE` Sync todo with google calendar
   - [ ] Clock toggle on the "boards" banner
   - [ ] Randomize banner gifs
+  - [ ] Create favicon
   - [ ] Make todo list scrollable
   - [ ] Store last visited panel
   - [ ] `MAYBE` Subsections for todo DEADLINE ("today", "upcoming")
   - [ ] Better animation for marking as "done"
   - [ ] Ability to add panels dynamically
     - [ ] Specific folder to keep default settings, localStorage overrides it
+  - [ ] Verify updates on startup (keep track of versions)

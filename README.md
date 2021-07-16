@@ -2,7 +2,7 @@
 A startpage called "dawn".
 
 <p align="center">
-  <img src="https://i.imgur.com/xOjR4Gq.png">
+  <img src="https://i.imgur.com/SZR3eaz.png">
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 

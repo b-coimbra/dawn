@@ -59,6 +59,11 @@ class Tasks extends Component {
     elem.setAttribute('status', this.getStatus(task.state));
   }
 
+  static clean(tasks) {
+    if (!tasks.length) return Tasks.remove(tasks);
+    return tasks.forEach(task => Tasks.remove(task));
+  }
+
   static remove(task) {
     let tasks = this.getAll();
 
@@ -115,11 +120,11 @@ class Tasks extends Component {
     return `
         <task index="${index}" status="${this.getStatus(task.state)}" id="${task.id}" class="slide-in">
             <div class="task-controls">
-              <button class='task-control task-move-up control-arrows' onclick=\"Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)\">
+              <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
                 <i class="material-icons">keyboard_arrow_up</i>
               </button>
               <button class="task-toggle" onclick="Tasks.toggle(this.parentNode.parentNode)"></button>
-              <button class='task-control task-move-down control-arrows' onclick=\"Tasks.move(this.parentNode.parentNode, Tasks.directions.DOWN)\">
+              <button class='task-control task-move-down control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.DOWN)">
                 <i class="material-icons">keyboard_arrow_down</i>
               </button>
             </div>

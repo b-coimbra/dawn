@@ -27,7 +27,7 @@ button {
 
 .task-actions {
     display: grid;
-    grid-template-columns: 30px auto 40px auto 30px;
+    grid-template-columns: 30px auto 50px auto 30px;
     width: 100%;
 }
 
@@ -43,24 +43,33 @@ button {
 }
 
 .task-action {
-    height: 20px;
+    height: 25px;
     background: #18181d;
     border-radius: 5px;
+    box-shadow: 0 0 0 1px #27272a;
 }
 
 .clean-tasks {
-    display: none;
     grid-column: 5;
-    width: 30px;
+    cursor: pointer;
+    opacity: .5;
+    cursor: unset;
+}
+
+.clean-tasks.active {
+    opacity: 1;
     cursor: pointer;
 }
 
+.task-list + task .clean-tasks {
+    display: block;
+}
+
 .clean-tasks-icon {
-    font-size: 12pt;
     color: #474752;
 }
 
-.clean-tasks:hover .clean-tasks-icon {
+.clean-tasks.active:hover .clean-tasks-icon {
     color: #6c6c80;
 }
 

@@ -3,12 +3,14 @@ class Todo extends Component {
     addTaskButton: '.add-task',
     addTaskModal: '.add-todo',
     addTaskInput: '.add-todo input',
+    cleanTasksButton: '.clean-tasks',
     tasks: '.tasks',
     todoCount: '.todo-count',
     doneCount: '.done-count',
     closeTask: '.close-task',
     task: '.tasks task',
-    taskList: '.task-list'
+    taskList: '.task-list',
+    cleanTasks: '.clean-tasks'
   };
 
   constructor() {
@@ -40,7 +42,7 @@ class Todo extends Component {
               <span class="done-count">0</span>
             </p>
             <button class="+ clean-tasks task-action">
-              <i class="material-icons clean-tasks-icon">delete</i>
+              <i class="material-icons clean-tasks-icon">clear_all</i>
             </button>
           </div>
         </div>
@@ -51,20 +53,24 @@ class Todo extends Component {
   }
 
   setEvents() {
-    this.refs.addTaskButton.onclick  = ()      => this.toggleTaskModal();
-    this.refs.addTaskInput.onkeydown = (event) => this.createTask(event);
+    this.refs.addTaskButton.onclick    = ()  => this.toggleTaskModal();
+    this.refs.cleanTasksButton.onclick = ()  => this.cleanTasks();
+    this.refs.addTaskInput.onkeydown   = (e) => this.createTask(e);
   }
 
-  /**
-   * Update task status counter
-   * @returns {void}
-   */
   updateCounter() {
     const tasks = Tasks.getAll();
     const states = tasks.map(f => f.state);
 
     this.refs.doneCount = states.filter(done => done).length;
     this.refs.todoCount = states.filter(done => !done).length;
+  }
+
+  handleTaskActionsVisibility() {
+    if (typeof this.refs.task !== 'string')
+      this.refs.cleanTasks.classList.add('active');
+    else
+      this.refs.cleanTasks.classList.remove('active');
   }
 
   moveToDirection(task, direction, animateOnly = false) {
@@ -100,11 +106,44 @@ class Todo extends Component {
     this.moveToDirection(task, direction);
 
     if (direction === directions.UP)
-      this.moveToDirection(task.previousElementSibling, 'move-down', true);
+      this.moveToDirection(task.previousElementSibling, directions.DOWN, true);
     else
-      this.moveToDirection(task.nextElementSibling, 'move-up', true);
+      this.moveToDirection(task.nextElementSibling, directions.UP, true);
 
     task.removeAttribute('move-direction');
+  }
+
+  toggleTaskModal() {
+    this.refs.addTaskInput.value = '';
+    this.refs.addTaskButton.classList.toggle('active');
+    this.refs.addTaskModal.classList.toggle('active');
+
+    setTimeout(() => this.refs.addTaskInput.focus(), 10);
+  }
+
+  createTask(event) {
+    const { target, key } = event;
+
+    if (key === 'Enter') {
+      const title = target.value;
+
+      if (!title.trim()) return;
+
+      const task = Tasks.create(title);
+
+      this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
+      this.updateCounter();
+
+      target.value = '';
+    }
+
+    if (key === 'Escape')
+      this.toggleTaskModal();
+  }
+
+  cleanTasks() {
+    if (!Object.values(this.refs.cleanTasks.classList).includes('active')) return;
+    Tasks.clean(this.refs.task);
   }
 
   /**
@@ -119,8 +158,10 @@ class Todo extends Component {
         if (mut.attributeName === 'move-direction')
           this.move(mut.target);
 
-        if (mutationTypes.includes(mut.type))
+        if (mutationTypes.includes(mut.type)) {
+          this.handleTaskActionsVisibility();
           this.updateCounter();
+        }
       });
     });
 
@@ -132,42 +173,10 @@ class Todo extends Component {
     });
   }
 
-  /**
-   * Toggle modal for creating a new task
-   * @returns {void}
-   */
-  toggleTaskModal() {
-    this.refs.addTaskInput.value = '';
-    this.refs.addTaskButton.classList.toggle('active');
-    this.refs.addTaskModal.classList.toggle('active');
-
-    setTimeout(() => this.refs.addTaskInput.focus(), 10);
-  }
-
-  /**
-   * Create a new task
-   * @returns {void}
-   */
-  createTask(event) {
-    const { target, key } = event;
-
-    if (key === 'Enter') {
-      const title = target.value;
-      const task = Tasks.create(title);
-
-      this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
-      this.updateCounter();
-
-      target.value = '';
-    }
-
-    if (key === 'Escape')
-      this.toggleTaskModal();
-  }
-
   connectedCallback() {
     this.render().then(() => {
       this.setEvents();
+      this.handleTaskActionsVisibility();
       this.setTaskObserver();
       this.updateCounter();
     });

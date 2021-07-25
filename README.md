@@ -14,13 +14,13 @@ A startpage called "dawn".
 
 ## Configuration
 
-Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `src/js/script.js`.
+Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `./userconfig.js`.
 
 ### Clock
 
 Change the clock format in the status bar using [strftime.org](https://strftime.org) format.
 
-Config example (`script.js`):
+Config example (`userconfig.js`):
 
 ```js
 const GLOBAL_CONFIG = new Config({
@@ -57,7 +57,7 @@ const GLOBAL_CONFIG = new Config({
     - [X] Clock
     - [X] Todo
     - [X] Statusbar
-    - [ ] Search
+    - [X] Search
   - [X] Update low-res task close button
   - [X] Handle component loading (fix pop-in)
   - [ ] Task section

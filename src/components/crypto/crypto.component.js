@@ -29,8 +29,8 @@ class Crypto extends Component {
   }
 
   setAttributes() {
-    this.from = this.getAttribute('from').toUpperCase();
-    this.to = this.getAttribute('to').toUpperCase();
+    this.from = GLOBAL_CONFIG.crypto.coin.toUpperCase();
+    this.to = GLOBAL_CONFIG.crypto.currency.toUpperCase();
     this.setAttribute('exchange-value', '0');
   }
 
@@ -40,6 +40,7 @@ class Crypto extends Component {
 
   imports() {
     return [
+      this.resources.icons.bitonics,
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
@@ -49,15 +50,15 @@ class Crypto extends Component {
     const currencySymbol = this.currencies.getSymbol(this.to);
 
     return `
-        <span class="material-icons crypto-icon">show_chart</span>
-        <div class="crypto-value">
+        <i class="bt bt-${this.from.toLowerCase()} crypto-icon"></i>
+        <div class="crypto-value crypto-icon">
             <span class="crypto-type">${this.from}</span>
             <span class="crypto-price">
                 <span class="currency-symbol">${currencySymbol}</span>
                 <span class="exchange-value">0</span>
             </span>
             <crypto-diff></crypto-diff>
-        </div`;
+        </div>`;
   }
 
   /**

@@ -35,7 +35,7 @@ class Statusbar extends Component {
             <cols>
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
-                    <crypto-rate from="ETH" to="USD" class="+ widget"></crypto-rate>
+                    <crypto-rate class="+ widget"></crypto-rate>
                     <current-time class="+ widget"></current-time>
                     <weather-forecast class="+ widget weather"></weather-forecast>
                 </div>

@@ -2,7 +2,7 @@
 +----------+
 | STRFTIME |
 +----------+
-Author: https://github.com/0-l
+Author: https://github.com/b-coimbra
 Description: silly strftime function implementation in js without the percentage notation.
              based off https://strftime.org
 
@@ -58,7 +58,7 @@ Date.prototype.strftime = function (format = 'c') {
 
   format.split(/(\w|.)/m).forEach((type) => {
     if (type)
-      result.push(typeof formats[type] === 'undefined' ? type : formats[type])
+      result.push(typeof formats[type] === 'undefined' ? type : formats[type]);
   });
 
   return result.join('');

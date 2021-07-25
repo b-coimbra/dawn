@@ -7,7 +7,8 @@ class Component extends HTMLElement {
       nunito: '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet">'
     },
     icons: {
-      material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">'
+      material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">',
+      bitonics: '<link href="https://bitonics.net/vendor/bitonics/bitonics.min.css" rel="stylesheet" type="text/css">'
     },
     libs: {
       awoo: '<link rel="stylesheet" type="text/css" href="src/css/awoo.min.css">'
@@ -51,7 +52,7 @@ class Component extends HTMLElement {
    * @returns {string} html
    */
   async buildHTML() {
-    let html = `${this.all_imports.join("\n")}`;
+    let html = `<imports>${this.all_imports.join("\n")}</imports>`;
 
     if (this.style())
       html += `<style>${this.style()}</style>`;

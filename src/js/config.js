@@ -8,11 +8,22 @@ class Config {
       location: 'New York',
       scale: 'C'
     },
-    clock: 'h:i p'
+    clock: 'h:i p',
+    search: {
+      engines: {
+        g: ['https://google.com/search?q=', 'Google'],
+        y: ['https://youtube.com/results?search_query=', 'Youtube'],
+      }
+    },
+    keybindings: {
+      "t": Actions.activate('todo-list'),
+      "s": Actions.activate('search-bar')
+    }
   };
 
   constructor (config) {
     this.autoConfig(config);
+    this.setKeybindings();
     this.save();
 
     return new Proxy(this, {
@@ -53,6 +64,20 @@ class Config {
 
   toJSON() {
     return { ...this, defaults: undefined };
+  }
+
+  /**
+   Trigger keybinding actions
+   * @returns {void}
+   */
+  setKeybindings() {
+    document.onkeypress = ({ key }) => {
+      if (document.activeElement !== document.body) return;
+
+      if (Object.keys(this.defaults.keybindings).includes(key)) {
+        this.defaults.keybindings[key]();
+      }
+    };
   }
 
   // TODO: move to storage.js

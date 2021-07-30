@@ -33,13 +33,10 @@ button {
 
 .counter {
     grid-column: 3;
-    letter-spacing: 5px;
     color: rgba(255, 255, 255, .1);
     font-size: 14px;
     background: #18181d;
     border-radius: 5px;
-    padding: 2px 6px;
-    letter-spacing: 5px;
 }
 
 .task-action {
@@ -76,12 +73,36 @@ button {
 .todo-count {
     color: var(--todo);
     font-weight: bold;
+    border-radius: 5px 0 0 5px;
 }
 
 .done-count {
     color: var(--done);
     font-weight: bold;
     letter-spacing: 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.todo-count,
+.done-count {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.todo-count:hover,
+.done-count:hover {
+    background: #212127;
+}
+
+.todo-count.active {
+    background: var(--todo);
+    color: #6d244a;
+}
+
+.done-count.active {
+    background: var(--done);
+    color: #1f6744;
 }
 
 .add-task {
@@ -229,6 +250,14 @@ task.slide-in {
     display: grid;
     transition: all .5s;
     grid-auto-rows: min-content;
+}
+
+.task-list[filter='show:todo'] > task[status=done] {
+    display: none;
+}
+
+.task-list[filter='show:done'] > task[status=todo] {
+    display: none;
 }
 
 .tasks task rows {

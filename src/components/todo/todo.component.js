@@ -7,6 +7,7 @@ class Todo extends Component {
     tasks: '.tasks',
     todoCount: '.todo-count',
     doneCount: '.done-count',
+    filters: '.counter > button',
     closeTask: '.close-task',
     task: '.tasks task',
     taskList: '.task-list',
@@ -37,10 +38,10 @@ class Todo extends Component {
         <div class="+ header">
           <h1 class="+ header-title">todo</h1>
           <div class="task-actions">
-            <p class="+ counter task-action">
-              <span class="todo-count">0</span>|
-              <span class="done-count">0</span>
-            </p>
+            <div class="+ counter task-action">
+              <button class="+ todo-count">0</button>|
+              <button class="+ done-count">0</button>
+            </div>
             <button class="+ clean-tasks task-action">
               <i class="material-icons clean-tasks-icon">clear_all</i>
             </button>
@@ -56,6 +57,19 @@ class Todo extends Component {
     this.refs.addTaskButton.onclick    = ()  => this.toggleTaskModal();
     this.refs.cleanTasksButton.onclick = ()  => this.cleanTasks();
     this.refs.addTaskInput.onkeydown   = (e) => this.createTask(e);
+    this.refs.todoCount.onclick = (e)  => this.addFilter(e, 'show:todo');
+    this.refs.doneCount.onclick = (e)  => this.addFilter(e, 'show:done');
+  }
+
+  addFilter({ target }, filter) {
+    const hasFilterEnabled = this.refs.taskList.getAttribute('filter') === filter;
+
+    this.refs.filters.forEach(filter => filter.classList.remove('active'));
+
+    if (!hasFilterEnabled)
+      target.classList.add('active');
+
+    this.refs.taskList.setAttribute('filter', !hasFilterEnabled ? filter : '');
   }
 
   updateCounter() {

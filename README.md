@@ -63,6 +63,7 @@ const GLOBAL_CONFIG = new Config({
   - [ ] Task section
     - [X] Task reordering
     - [X] Task clean all button
+    - [X] Filter by done/TBD
     - [ ] Add task subtitle
     - [ ] Task priority ('!' '!!', '!!!') or colour representation (red, yellow, green)
     - [ ] Task add hyperlinks

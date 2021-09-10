@@ -7,7 +7,7 @@ class Component extends HTMLElement {
       nunito: '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet">'
     },
     icons: {
-      material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">',
+      material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">',
       bitonics: '<link href="https://bitonics.net/vendor/bitonics/bitonics.min.css" rel="stylesheet" type="text/css">'
     },
     libs: {

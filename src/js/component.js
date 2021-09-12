@@ -27,18 +27,19 @@ class Component extends HTMLElement {
 
   /**
    * Reference an external css file
+   * OBS: External style loading not yet fully supported with web components, causes flickering.
    * @param {string} path
    * @returns {void}
    */
   set stylePath(path) {
-    this.resources.style = `<link rel="stylesheet" type="text/css" href="${path}">`;
+    this.resources.style = `<link rel="preload" as="style" href="${path}" onload="this.rel='stylesheet'">`;
   }
 
   /**
    * Return all the imports that a component requested
    * @returns {Array<string>} imports
    */
-  get all_imports() {
+  get getResources() {
     const imports = this.imports();
 
     if (this.resources?.style)
@@ -47,19 +48,22 @@ class Component extends HTMLElement {
     return imports;
   }
 
+  async loadStyles() {
+    let html = this.getResources.join("\n");
+
+    if (this.style())
+      html += `<style>${this.style()}</style>`;
+
+    return html;
+  }
+
   /**
    * Build the component's HTML body
    * @returns {string} html
    */
   async buildHTML() {
-    let html = `<imports>${this.all_imports.join("\n")}</imports>`;
-
-    if (this.style())
-      html += `<style>${this.style()}</style>`;
-
-    html += await this.template();
-
-    return html;
+    return await this.loadStyles() +
+           await this.template();
   }
 
   /**

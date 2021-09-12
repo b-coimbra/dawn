@@ -1,7 +1,8 @@
 class Crypto extends Component {
   refs = {
     exchangeValue: '.exchange-value',
-    cryptoDiff: 'crypto-diff'
+    cryptoDiff: 'crypto-diff',
+    cryptoPopup: 'crypto-popup'
   };
 
   from;
@@ -22,16 +23,19 @@ class Crypto extends Component {
   constructor() {
     super();
 
-    this.stylePath = "src/components/crypto/crypto.style.css";
-
     this.setAttributes();
     this.setDependencies();
+    this.setEvents();
   }
 
   setAttributes() {
     this.from = GLOBAL_CONFIG.crypto.coin.toUpperCase();
     this.to = GLOBAL_CONFIG.crypto.currency.toUpperCase();
     this.setAttribute('exchange-value', '0');
+  }
+
+  setEvents() {
+    this.onclick = () => this.togglePopup();
   }
 
   setDependencies() {
@@ -46,10 +50,98 @@ class Crypto extends Component {
     ];
   }
 
+  style() {
+    return `
+      :host {
+          --main-accent: #6fd468;
+      }
+
+      * {
+          font-family: 'Roboto', sans-serif;
+      }
+
+      .crypto-value {
+          display: flex;
+          align-items: center;
+      }
+
+      .crypto-icon {
+          margin-right: 5px;
+          font-size: 9pt;
+      }
+
+      .crypto-price {
+          white-space: nowrap;
+      }
+
+      .crypto-icon,
+      .crypto-type {
+          color: var(--main-accent);
+      }
+
+      .crypto-type {
+          font-weight: bold;
+          margin-right: 10px;
+          font-size: 7pt;
+      }
+
+      .crypto-value {
+          font-weight: 400;
+          font-size: 9pt;
+          color: #c1c1c1;
+          white-space: nowrap;
+      }
+
+      .currency-symbol {
+          color: #848484;
+      }
+
+      crypto-diff {
+          margin-left: 5px;
+      }
+
+      crypto-popup {
+          position: absolute;
+          width: 100%;
+          height: 50px;
+          bottom: 32px;
+          right: 0px;
+          z-index: 2;
+          background: rgb(41 41 44);
+          box-shadow: 0 -5px 20px rgb(0 0 0 / 50%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: default;
+          border-radius: 5px 5px 0 0;
+          display: none;
+          visibility: hidden;
+          animation: open-popup .5s forwards;
+      }
+
+      crypto-popup.active {
+          display: flex;
+          visibility: visible;
+      }
+
+      @keyframes open-popup {
+          from {
+              opacity: 0;
+              bottom: 0;
+          }
+          to {
+              opacity: 1;
+              bottom: 32px;
+          }
+      }
+    `;
+  }
+
   async template() {
     const currencySymbol = this.currencies.getSymbol(this.to);
 
     return `
+        <!-- <crypto-popup></crypto-popup> -->
         <i class="bt bt-${this.from.toLowerCase()} crypto-icon"></i>
         <div class="crypto-value crypto-icon">
             <span class="crypto-type">${this.from}</span>
@@ -95,6 +187,10 @@ class Crypto extends Component {
     this.setAttribute('exchange-value', exchangeValue);
 
     localStorage.exchangeValue = exchangeValue;
+  }
+
+  togglePopup() {
+    this.refs.cryptoPopup.classList.toggle('active');
   }
 
   attributeChangedCallback(name, oldExchange, newExchange) {

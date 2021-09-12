@@ -27,6 +27,10 @@
     user-select: none;
 }
 
+*:not(:defined) {
+    display: none;
+}
+
 :root {
     --accent: crimson;
     --bg: #0f0f12;
@@ -216,7 +220,6 @@ status-bar {
     background: #18181d;
     border-radius: 4px;
     box-shadow: 0 10px 20px rgba(0, 0, 0, .25);
-    overflow: hidden;
 }
 
 todo-list {

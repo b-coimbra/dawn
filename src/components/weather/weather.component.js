@@ -31,8 +31,6 @@ class Weather extends Component {
   constructor() {
     super();
 
-    this.stylePath = 'src/components/weather/weather.style.css';
-
     this.setDependencies();
     this.setEvents();
   }
@@ -51,6 +49,39 @@ class Weather extends Component {
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
+  }
+
+  style() {
+    return `
+      .weather-icon {
+          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+
+      .weather-temperature {
+          font: 300 9pt 'Roboto', sans-serif;
+          color: #c1c1c1;
+          white-space: nowrap;
+      }
+
+      .weather-temperature-value {
+          font-weight: bold;
+      }
+
+      .weather-condition-icon {
+          font-size: 14pt;
+      }
+
+      .weather-condition-icon.sunny {
+          color: #fd6697;
+      }
+
+      .weather-condition-icon.cloudy {
+          color: #88d8d8;
+      }
+    `;
   }
 
   async template() {

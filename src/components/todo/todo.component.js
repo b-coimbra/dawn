@@ -1,8 +1,9 @@
 class Todo extends Component {
   refs = {
     addTaskButton: '.add-task',
-    addTaskModal: '.add-todo',
-    addTaskInput: '.add-todo input',
+    addTaskModal: '.add-todo-panel',
+    addTaskInput: '.add-todo-panel input',
+    closeTaskModal: '.close-create-task-panel',
     cleanTasksButton: '.clean-tasks',
     tasks: '.tasks',
     todoCount: '.todo-count',
@@ -11,7 +12,11 @@ class Todo extends Component {
     closeTask: '.close-task',
     task: '.tasks task',
     taskList: '.task-list',
-    cleanTasks: '.clean-tasks'
+    cleanTasks: '.clean-tasks',
+    editTaskButton: '.task-option.edit-task',
+    editTaskPanel: '.edit-task-panel',
+    createTaskTitleField: '.create-task-title',
+    createTaskFields: '.create-task-field'
   };
 
   constructor() {
@@ -57,6 +62,7 @@ class Todo extends Component {
 
       .task-actions {
           display: grid;
+          position: relative;
           grid-template-columns: 30px auto 50px auto 30px;
           width: 100%;
       }
@@ -70,6 +76,7 @@ class Todo extends Component {
       }
 
       .task-action {
+          cursor: pointer;
           height: 25px;
           background: #18181d;
           border-radius: 5px;
@@ -78,7 +85,6 @@ class Todo extends Component {
 
       .clean-tasks {
           grid-column: 5;
-          cursor: pointer;
           opacity: .5;
           cursor: unset;
       }
@@ -92,11 +98,13 @@ class Todo extends Component {
           display: block;
       }
 
-      .clean-tasks-icon {
+      .clean-tasks-icon,
+      .add-task-icon {
           color: #474752;
       }
 
-      .clean-tasks.active:hover .clean-tasks-icon {
+      .clean-tasks.active:hover .clean-tasks-icon,
+      .add-task:hover .add-task-icon {
           color: #6c6c80;
       }
 
@@ -138,45 +146,25 @@ class Todo extends Component {
 
       .add-task {
           position: absolute;
-          top: 25px;
-          left: -25px;
-          outline: 0;
-          border: 0;
-          border-radius: 50%;
-          background: linear-gradient(to bottom, #fff, #d0d0d0);
-          height: 50px;
-          width: 50px;
-          cursor: pointer;
-          z-index: 5;
-          box-shadow: 0 0 0 5px rgba(255, 255, 255, .15), 0 0 0 11px rgba(255, 255, 255, .05);
-          transition: transform .2s, box-shadow .2s ease-in-out;
+          top: 0;
+          transition: top .3s;
       }
 
-      .add-task:hover {
-          box-shadow: none;
-          transform: scale(1.15);
-      }
-
-      .add-task.active {
-          transform: rotateZ(45deg);
-          background: linear-gradient(to bottom, #fff, #ffcaca);
-      }
-
-      .add-task.active:hover {
-          transform: scale(1.15) rotateZ(45deg);
+      .add-task .add-task-icon {
+          transition: transform .3s;
       }
 
       .tasks {
           background: var(--bg);
-          padding: 1em;
+          padding: 1em 1em 0;
           box-sizing: border-box;
           grid-template-rows: [header] 140px [todo] auto;
       }
 
       .tasks task {
+          --offset-height: 0px;
           position: relative;
           width: 100%;
-          max-height: 100px;
           min-height: 90px;
           box-shadow: 0 1px 0 0 rgba(0, 0, 0, .5),
                       0 4px 0 0 #18181d,
@@ -184,7 +172,8 @@ class Todo extends Component {
                       0 8px 0 0 #18181d;
           transition: opacity .5s cubic-bezier(0.4, 0, 1, 1),
                       margin .5s cubic-bezier(0.4, 0, 1, 1),
-                      box-shadow .2s;
+                      box-shadow .2s,
+                      min-height .3s;
           z-index: 5;
       }
 
@@ -208,21 +197,38 @@ class Todo extends Component {
           opacity: 0;
       }
 
+      task.expand {
+          min-height: 200px;
+      }
+
       .tasks task[status=todo] { --state: var(--todo); }
       .tasks task[status=done] { --state: var(--done); }
 
       .tasks task[status=done] .task-title {
-          text-decoration: line-through;
           color: #ababab;
       }
 
-      .task-title {
+      .tasks task[status=done] .task-title,
+      .tasks task[status=done] .task-subtitle {
+          text-decoration: line-through;
+      }
+
+      .task-title,
+      .task-subtitle,
+      .edit-task-header-title {
           color: #e8e8e8;
           font: 400 14px 'Roboto', sans-serif;
           max-width: 250px;
           word-wrap: break-word;
           -webkit-user-select: initial;
           font-weight: bold;
+      }
+
+      .task-subtitle {
+          font-weight: 400;
+          font-size: 12px;
+          color: #9a9a9a;
+          margin-top: .5em;
       }
 
       .tasks task {
@@ -238,6 +244,10 @@ class Todo extends Component {
           letter-spacing: .5px;
           color: #929292;
           font-weight: 400;
+          border-top: 1px solid #292929;
+          margin-right: 15px;
+          padding-top: 10px;
+          margin-top: 15px;
       }
 
       .tasks task .added-at span {
@@ -246,17 +256,22 @@ class Todo extends Component {
           transition: color .2s;
       }
 
-      .add-todo {
+      .add-todo-panel {
           position: absolute;
+          flex-wrap: wrap;
           width: 100%;
-          height: 100px;
-          top: -110px;
+          height: 180px;
+          top: -180px;
           background: #18181d;
           transition: top .5s;
-          z-index: 1;
+          padding: 0 1em;
+          z-index: 9;
+          border-bottom: 2px solid var(--todo);
       }
 
-      .add-todo input[type="text"] {
+      .add-todo-panel input[type="text"],
+      .edit-task-field,
+      .create-task-field {
           outline: 0;
           border: 0;
           box-shadow: inset 0 0 0 2px #25252d;
@@ -269,11 +284,12 @@ class Todo extends Component {
           box-sizing: border-box;
       }
 
-      .add-todo.active {
+      .add-todo-panel.active {
           top: 0;
       }
 
-      .add-todo input:focus {
+      .add-todo-panel input:focus,
+      .edit-task-panel input:focus {
           box-shadow: inset 0 0 0 2px #3e3e4a;
       }
 
@@ -281,6 +297,22 @@ class Todo extends Component {
           display: grid;
           transition: all .5s;
           grid-auto-rows: min-content;
+          overflow-x: visible;
+          overflow-y: scroll;
+          width: calc(100% + 45px);
+          padding: 5px 10px 0 30px;
+          margin-left: -30px;
+          height: 100%;
+      }
+
+      .task-list::-webkit-scrollbar {
+          width: 5px;
+          background: transparent;
+      }
+
+      .task-list::-webkit-scrollbar-thumb {
+          background: #313138;
+          border-radius: 5px;
       }
 
       .task-list[filter='show:todo'] > task[status=done] {
@@ -295,7 +327,6 @@ class Todo extends Component {
           height: 100%;
           position: relative;
           padding: 1em 0 .5em 1em;
-          border-radius: 5px 5px 2px 2px;
           background: #18181d;
           transition: height var(--task-options-reveal-time) ease-in,
                       margin var(--task-options-reveal-time) ease-in,
@@ -320,12 +351,111 @@ class Todo extends Component {
           box-shadow: 0 -5px 8px rgb(0 0 0 / 45%);
       }
 
+      .edit-task-panel {
+          flex-wrap: wrap;
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          background: #18181d;
+          z-index: 1;
+          top: 100%;
+          opacity: 0;
+          visibility: hidden;
+          padding: 0 1em;
+          transition: all .3s;
+      }
+
+      .edit-task-panel.active {
+          visibility: visible;
+          opacity: 1;
+          top: 0;
+      }
+
+      .heading {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 20px;
+          padding-left: .5em;
+          margin: 1em 0 1.5em;
+      }
+
+      .heading > .heading-close {
+          margin-left: auto;
+      }
+
+      .edit-task-header-title,
+      .create-task-header-title {
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+      }
+
+      .edit-task-field,
+      .create-task-field {
+          width: 100%;
+          height: 35px;
+          border-radius: 8px;
+          font-size: 12px;
+      }
+
+      .edit-task-fields label,
+      .create-task-fields label {
+          position: relative;
+      }
+
+      .edit-task-fields label p,
+      .create-task-fields label p {
+          position: absolute;
+          top: -12px;
+          font-size: 9px;
+          font-family: 'Roboto', sans-serif;
+          text-transform: uppercase;
+          color: #b5b5b5;
+          letter-spacing: 1px;
+          margin-left: 10px;
+          transition: top .1s;
+          background: #181818;
+          white-space: nowrap;
+      }
+
+      .create-task-title:not(:focus):required:invalid {
+          box-shadow: inset 0 0 0 2px #ff1b91;
+      }
+
+      .edit-task-field:required:invalid + p,
+      .create-task-field:required:invalid + p {
+          top: 4px;
+          background: transparent;
+      }
+
+      .create-task-field:required:invalid + .required-field-label::before {
+          content: '*';
+          font-size: 17px;
+          float: left;
+          margin: -2px 5px 0 0;
+          position: relative;
+          color: #ff1b91;
+      }
+
+      .edit-task-field:not(:last-child),
+      .create-task-field:not(:last-child) {
+          margin-bottom: 1em;
+      }
+
+      .tasks task rows,
+      .edit-task-panel,
+      .create-task-panel {
+          border-radius: 5px 5px 2px 2px;
+      }
+
       .task-options {
           position: absolute;
           display: grid;
-          grid-template-columns: [add-task-link] 24px
-                                [move-task-down] 24px auto
-                                [close] 20px;
+          grid-template-columns: [edit-task] 24px
+                                 [add-task-link] 24px
+                                 [move-task-down] 24px auto
+                                 [close] 20px;
           align-items: center;
           width: 98%;
           height: 30px;
@@ -341,17 +471,27 @@ class Todo extends Component {
                       background var(--task-options-reveal-time) ease-in;
       }
 
+      .heading-close,
       .close-task {
           grid-column: close;
       }
 
-      .close-task i {
-          font-size: 16px;
+      .edit-task {
+          grid-column: edit-task;
       }
 
       .add-task-link {
-          display: none; /* hide temporarily */
           grid-column: add-task-link;
+      }
+
+      .close-task i,
+      .heading-close i,
+      .edit-task i {
+          font-size: 16px;
+      }
+
+      .add-task-link i {
+          font-size: 22px;
       }
 
       .task-option {
@@ -498,7 +638,7 @@ class Todo extends Component {
               top: 0;
           }
           100% {
-              top: -100%;
+              top: calc(-100% - var(--offset-height));
           }
       }
 
@@ -507,7 +647,7 @@ class Todo extends Component {
               top: 0;
           }
           100% {
-              top: 100%;
+              top: calc(100% + var(--offset-height));
           }
       }
     `;
@@ -515,14 +655,32 @@ class Todo extends Component {
 
   template() {
     return `
-      <button class="+ add-task"><img src="src/img/add.png"></button>
-      <div class="+ add-todo">
-        <input type="text" value="" placeholder="stuff to do ..." spellcheck="false">
+      <div class="add-todo-panel">
+        <div class="create-task-header heading">
+          <h1 class="edit-task-header-title">Create task</h1>
+          <button class="+ task-option heading-close close-create-task-panel">
+            <i class="material-icons">close</i>
+          </button>
+        </div>
+        <form class="create-task-fields">
+          <label>
+            <input class="create-task-field create-task-title" name="title" required></input>
+            <p class="required-field-label">Title</p>
+          </label>
+          <label>
+            <input class="create-task-field create-task-subtitle" name="subtitle" required></input>
+            <p>Subtitle</p>
+          </label>
+        </form>
+        <!-- <input type="text" class="add-todo-subtitle-input" placeholder="stuff to do ..." spellcheck="false"> -->
       </div>
       <rows class="tasks">
         <div class="+ header">
-          <h1 class="+ header-title">todo</h1>
+          <p class="+ header-title">todo</p>
           <div class="task-actions">
+            <button class="+ add-task task-action">
+              <i class="material-icons add-task-icon">add</i>
+            </button>
             <div class="+ counter task-action">
               <button class="+ todo-count">0</button>|
               <button class="+ done-count">0</button>
@@ -540,10 +698,32 @@ class Todo extends Component {
 
   setEvents() {
     this.refs.addTaskButton.onclick    = ()  => this.toggleTaskModal();
+    this.refs.closeTaskModal.onclick   = ()  => this.toggleTaskModal();
     this.refs.cleanTasksButton.onclick = ()  => this.cleanTasks();
     this.refs.addTaskInput.onkeydown   = (e) => this.createTask(e);
-    this.refs.todoCount.onclick = (e)  => this.addFilter(e, 'show:todo');
-    this.refs.doneCount.onclick = (e)  => this.addFilter(e, 'show:done');
+    this.refs.todoCount.onclick        = (e) => this.addFilter(e, 'show:todo');
+    this.refs.doneCount.onclick        = (e) => this.addFilter(e, 'show:done');
+
+    this.handleTaskInputEvents();
+  }
+
+  handleTaskInputEvents() {
+    const fields = Array.from(this.refs.createTaskFields);
+    const lastField = fields.slice(-1)[0];
+    const isLastField = (target) => target.className === lastField.className;
+
+    fields.forEach((field, i) => {
+      field.onkeyup = ({ key, target }) => {
+        if (key === 'Escape')
+          this.toggleTaskModal();
+
+        if (key === 'Enter')
+          if (isLastField(target))
+            this.createTask(fields);
+          else
+            fields[i + 1].focus();
+      };
+    });
   }
 
   addFilter({ target }, filter) {
@@ -587,11 +767,24 @@ class Todo extends Component {
       if (!animateOnly)
         if (direction === directions.UP)
           this.refs.taskList.insertBefore(task, task?.previousElementSibling || task);
-        else
-          this.refs.taskList.insertBefore(task.nextElementSibling, task);
+      else
+        this.refs.taskList.insertBefore(task.nextElementSibling, task);
 
       task.classList.remove(direction);
-    }, 500);
+    }, 490);
+  }
+
+  setHeightOffset(task, direction) {
+    if (direction === Tasks.directions.UP) {
+      let offsetHeight = task?.previousElementSibling?.clientHeight - task.clientHeight;
+      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
+      task.previousElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
+    }
+    else {
+      let offsetHeight = task?.nextElementSibling?.clientHeight - task.clientHeight;
+      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
+      task.nextElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
+    }
   }
 
   move({ id, attributes }) {
@@ -600,9 +793,10 @@ class Todo extends Component {
 
     if (!direction) return;
 
-    const task = Array.from(this.refs.task).find(f => f.id === id);
+    const task = this.getTaskById(id);
 
     this.moveToDirection(task, direction);
+    this.setHeightOffset(task, direction);
 
     if (direction === directions.UP)
       this.moveToDirection(task.previousElementSibling, directions.DOWN, true);
@@ -617,27 +811,28 @@ class Todo extends Component {
     this.refs.addTaskButton.classList.toggle('active');
     this.refs.addTaskModal.classList.toggle('active');
 
-    setTimeout(() => this.refs.addTaskInput.focus(), 10);
+    setTimeout(() => this.refs.createTaskTitleField.focus(), 10);
   }
 
-  createTask(event) {
-    const { target, key } = event;
+  getTaskById(id) {
+    return Array.from(this.refs.task).find(task => task.id === id);
+  }
 
-    if (key === 'Enter') {
-      const title = target.value;
+  createTask(fields) {
+    let data = Object.assign(...fields.map(field => {
+      return { [field.getAttribute('name')]: field.value.trim() };
+    }));
 
-      if (!title.trim()) return;
+    if (data.title === '') return;
 
-      const task = Tasks.create(title);
+    const task = Tasks.create(data);
 
-      this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
-      this.updateCounter();
+    this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
 
-      target.value = '';
-    }
+    this.updateCounter();
+    this.toggleTaskModal();
 
-    if (key === 'Escape')
-      this.toggleTaskModal();
+    fields.forEach(field => field.value = '');
   }
 
   cleanTasks() {

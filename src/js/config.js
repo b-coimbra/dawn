@@ -2,7 +2,8 @@ class Config {
   defaults = {
     crypto: {
       currency: 'USD',
-      coin: 'ETH'
+      coin: 'ETH',
+      disabled: true,
     },
     temperature: {
       location: 'New York',

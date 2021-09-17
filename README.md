@@ -2,7 +2,7 @@
 A startpage called "dawn".
 
 <p align="center">
-  <img src="https://i.imgur.com/SZR3eaz.png">
+  <img src="https://i.imgur.com/6uO2Zcf.png">
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 
@@ -47,11 +47,10 @@ const GLOBAL_CONFIG = new Config({
 
 ## Features / TODOs
 
-  - Add more statusbar sections
+  - [ ] Add more statusbar sections
     - [X] Live crypto price
     - [ ] `MAYBE` RSS reader
-    - [ ] `MAYBE` Terminal section
-  - `REFACTOR` Use web components
+  - [X] `REFACTOR` Use web components
     - [X] Crypto
     - [X] Weather
     - [X] Clock
@@ -60,20 +59,27 @@ const GLOBAL_CONFIG = new Config({
     - [X] Search
   - [X] Update low-res task close button
   - [X] Handle component loading (fix pop-in)
+  - [ ] Weather
+    - [ ] `REFACTOR` Show weather location on hover
   - [ ] Task section
     - [X] Task reordering
     - [X] Task clean all button
     - [X] Filter by done/TBD
-    - [ ] Add task subtitle
+    - [X] Task add subtitles
+    - [X] Make todo list scrollable
     - [ ] Task priority ('!' '!!', '!!!') or colour representation (red, yellow, green)
+    - [X] Task filter by completion state
     - [ ] Task add hyperlinks
+    - [ ] Task add priority
+    - [ ] Task add reminder
     - [ ] Ability to schedule deadlines for tasks
       - [ ] Add option in the addTodo pane or in the task itself
-      - [ ] `MAYBE` Calendar select
+      - [ ] Calendar select
       - [ ] Time diff when completing tasks
+      - [ ] Use windows' notification feature
     - [ ] Task menu
+      - [X] Edit task
       - [ ] Change priority
-      - [ ] Edit task title/subtitle
     - [ ] `MAYBE` Subtasks with todos
       - [ ] Progress bar at the top
   - [ ] Make search bar more accessible
@@ -85,13 +91,10 @@ const GLOBAL_CONFIG = new Config({
     - [ ] Colorscheme manipulation
     - [ ] `MAYBE` Optional sound fx
   - [ ] `MAYBE` Sync todo with google calendar
-  - [ ] Clock toggle on the "boards" banner
   - [ ] Randomize banner gifs
   - [ ] Create favicon
-  - [ ] Make todo list scrollable
   - [ ] Store last visited panel
   - [ ] `MAYBE` Subsections for todo DEADLINE ("today", "upcoming")
-  - [ ] Better animation for marking as "done"
   - [ ] Ability to add panels dynamically
-    - [ ] Specific folder to keep default settings, localStorage overrides it
-  - [ ] Verify updates on startup (keep track of versions)
+    - [ ] Specific folder to keep default settings
+  - [ ] Verify updates on startup

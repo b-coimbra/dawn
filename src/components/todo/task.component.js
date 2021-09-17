@@ -8,10 +8,11 @@ class Tasks extends Component {
     DOWN: 'move-down'
   };
 
-  static create(title) {
+  static create(data) {
     const task = {
       id: this.id,
-      title: title,
+      title: data.title,
+      subtitle: data.subtitle,
       createdAt: this.getCreationDate(),
       state: 0
     };
@@ -34,16 +35,32 @@ class Tasks extends Component {
     return '_' + Math.random().toString(36).substr(2, 9);
   }
 
+  static getIds() {
+    return this.getAll().map(task => task.id);
+  }
+
   static save(task) {
-    const tasks = this.getAll();
+    let tasks = this.getAll();
 
     tasks.push(task);
 
     localStorage.tasks = stringify(tasks);
   }
 
+  static update(task, elemRef, updatedField) {
+    if (!this.getIds().includes(task.id)) return;
+
+    let tasks = this.getAll();
+    let index = tasks.findIndex(x => x.id === task.id);
+
+    tasks[index] = { ...tasks[index], ...task };
+    elemRef.querySelector(`.task-${updatedField}`).innerText = task[updatedField];
+
+    localStorage.tasks = stringify(tasks);
+  }
+
   static getById(id) {
-    return this.getAll.find(task => task.id === id);
+    return this.getAll().find(task => task.id === id);
   }
 
   static toggle(elem) {
@@ -119,6 +136,7 @@ class Tasks extends Component {
   static template(task, index = -1) {
     return `
         <task index="${index}" status="${this.getStatus(task.state)}" id="${task.id}" class="slide-in">
+            ${EditTaskPanel.template(task)}
             <div class="task-controls">
               <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
                 <i class="material-icons">keyboard_arrow_up</i>
@@ -130,8 +148,12 @@ class Tasks extends Component {
             </div>
             <rows>
                 <p class="task-title">${task.title}</p>
+                <p class="task-subtitle">${task.subtitle}</p>
                 <p class="row-end added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
                 <div class="task-options">
+                  <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
+                    <i class="material-icons">edit</i>
+                  </button>
                   <button class="task-option add-task-link">
                     <i class="material-icons">link</i>
                   </button>
@@ -141,5 +163,70 @@ class Tasks extends Component {
                 </div>
             </rows>
         </task>`;
+  }
+}
+
+class EditTaskPanel extends Component {
+  static refs = {
+    editTaskPanel: '.edit-task-panel'
+  };
+
+  static taskElemRef;
+
+  constructor() {
+    super();
+  }
+
+  static close(panel) {
+    this.taskElemRef.classList.remove('expand');
+    panel.classList.remove('active');
+  }
+
+  static open(task) {
+    this.taskElemRef = task;
+
+    const panel = task.querySelector(this.refs.editTaskPanel);
+
+    task.classList.add('expand');
+    panel.classList.add('active');
+  }
+
+  static updateField(fieldName, event) {
+    const { target, key } = event;
+
+    if (key === 'Escape' || key === 'Enter') {
+      this.close(target.parentNode.parentNode.parentNode);
+      return;
+    }
+
+    let task = Tasks.getById(this.taskElemRef.id);
+    task = { ...task, [fieldName]: target.value };
+
+    target.setAttribute('value', target.value);
+
+    Tasks.update(task, this.taskElemRef, fieldName);
+  }
+
+  static template(task) {
+    return `
+        <div class="edit-task-panel">
+            <div class="edit-task-header heading">
+              <h1 class="edit-task-header-title">Edit task</h1>
+              <button class="task-option heading-close close-edit-task-panel" onclick="EditTaskPanel.close(this.parentNode.parentNode)">
+                <i class="material-icons">close</i>
+              </button>
+            </div>
+            <div class="edit-task-fields">
+              <label>
+                <input class="edit-task-field edit-task-title" value="${task.title}" onkeyup="EditTaskPanel.updateField('title', event)" required></input>
+                <p>Title</p>
+              </label>
+              <label>
+                <input class="edit-task-field edit-task-subtitle" value="${task.subtitle}" onkeyup="EditTaskPanel.updateField('subtitle', event)" required></input>
+                <p>Subtitle</p>
+              </label>
+            </div>
+        </div>
+      `;
   }
 }

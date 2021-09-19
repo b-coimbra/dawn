@@ -877,7 +877,7 @@ class Todo extends Component {
             <p class="required-field-label">Title</p>
           </label>
           <label>
-            <input class="create-task-field create-task-description" name="Description" required></input>
+            <input class="create-task-field create-task-description" name="description" required></input>
             <p>Description</p>
           </label>
         </form>

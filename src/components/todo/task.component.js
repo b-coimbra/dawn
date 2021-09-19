@@ -12,7 +12,7 @@ class Tasks extends Component {
     const task = {
       id: this.id,
       title: data.title,
-      subtitle: data.subtitle,
+      description: data?.description ?? '',
       createdAt: this.getCreationDate(),
       state: 0
     };
@@ -148,7 +148,7 @@ class Tasks extends Component {
             </div>
             <rows>
                 <p class="task-title">${task.title}</p>
-                <p class="task-subtitle">${task.subtitle}</p>
+                <p class="task-description">${task.description}</p>
                 <p class="row-end added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
                 <div class="task-options">
                   <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
@@ -222,8 +222,8 @@ class EditTaskPanel extends Component {
                 <p>Title</p>
               </label>
               <label>
-                <input class="edit-task-field edit-task-subtitle" value="${task.subtitle}" onkeyup="EditTaskPanel.updateField('subtitle', event)" required></input>
-                <p>Subtitle</p>
+                <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
+                <p>Description</p>
               </label>
             </div>
         </div>

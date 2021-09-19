@@ -1,6 +1,7 @@
 class Todo extends Component {
   refs = {
-    addTaskButton: '.add-task',
+    openTaskPanelButton: '.add-task',
+    addTaskButton: '.add-task-button',
     addTaskModal: '.add-todo-panel',
     addTaskInput: '.add-todo-panel input',
     closeTaskModal: '.close-create-task-panel',
@@ -29,6 +30,186 @@ class Todo extends Component {
       this.resources.icons.material,
       this.resources.libs.awoo
     ];
+  }
+
+  setEvents() {
+    this.refs.openTaskPanelButton.onclick = ()  => this.toggleTaskModal();
+    this.refs.closeTaskModal.onclick      = ()  => this.toggleTaskModal();
+    this.refs.cleanTasksButton.onclick    = ()  => this.cleanTasks();
+    this.refs.todoCount.onclick           = (e) => this.addFilter(e, 'show:todo');
+    this.refs.doneCount.onclick           = (e) => this.addFilter(e, 'show:done');
+    this.refs.addTaskButton.onclick       = ()  => this.createTask(Array.from(this.refs.createTaskFields));
+
+    this.handleTaskInputEvents();
+  }
+
+  handleTaskInputEvents() {
+    const fields = Array.from(this.refs.createTaskFields);
+    const lastField = fields.slice(-1)[0];
+    const isLastField = (target) => target.className === lastField.className;
+
+    fields.forEach((field, i) => {
+      field.onkeydown = ({ key, target }) => {
+        if (key === 'Escape')
+          this.toggleTaskModal();
+
+        if (key === 'Enter')
+          if (isLastField(target))
+            this.createTask(fields);
+          else
+            fields[i + 1].focus();
+      };
+    });
+  }
+
+  addFilter({ target }, filter) {
+    const hasFilterEnabled = this.refs.taskList.getAttribute('filter') === filter;
+
+    this.refs.filters.forEach(filter => filter.classList.remove('active'));
+
+    if (!hasFilterEnabled)
+      target.classList.add('active');
+
+    this.refs.taskList.setAttribute('filter', !hasFilterEnabled ? filter : '');
+  }
+
+  updateCounter() {
+    const tasks = Tasks.getAll();
+    const states = tasks.map(f => f.state);
+
+    this.refs.doneCount = states.filter(done => done).length;
+    this.refs.todoCount = states.filter(done => !done).length;
+  }
+
+  handleTaskActionsVisibility() {
+    if (typeof this.refs.task !== 'string')
+      this.refs.cleanTasks.classList.add('active');
+    else
+      this.refs.cleanTasks.classList.remove('active');
+  }
+
+  moveToDirection(task, direction, animateOnly = false) {
+    const { directions } = Tasks;
+
+    task.classList.remove('slide-in');
+    task.classList.add(direction);
+
+    setTimeout(() => {
+      const previousIndex = Number(task.getAttribute('index'));
+      const currentIndex = Math.max(0, (direction === directions.UP ? previousIndex - 1 : previousIndex + 1));
+
+      task.setAttribute('index', currentIndex);
+
+      if (!animateOnly)
+        if (direction === directions.UP)
+          this.refs.taskList.insertBefore(task, task?.previousElementSibling || task);
+      else
+        this.refs.taskList.insertBefore(task.nextElementSibling, task);
+
+      task.classList.remove(direction);
+    }, 490);
+  }
+
+  setHeightOffset(task, direction) {
+    if (direction === Tasks.directions.UP) {
+      let offsetHeight = task?.previousElementSibling?.clientHeight - task.clientHeight;
+      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
+      task.previousElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
+    }
+    else {
+      let offsetHeight = task?.nextElementSibling?.clientHeight - task.clientHeight;
+      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
+      task.nextElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
+    }
+  }
+
+  move({ id, attributes }) {
+    const direction = attributes['move-direction']?.value;
+    const { directions } = Tasks;
+
+    if (!direction) return;
+
+    const task = this.getTaskById(id);
+
+    this.moveToDirection(task, direction);
+    this.setHeightOffset(task, direction);
+
+    if (direction === directions.UP)
+      this.moveToDirection(task.previousElementSibling, directions.DOWN, true);
+    else
+      this.moveToDirection(task.nextElementSibling, directions.UP, true);
+
+    task.removeAttribute('move-direction');
+  }
+
+  toggleTaskModal() {
+    this.refs.addTaskInput.value = '';
+    this.refs.addTaskModal.classList.toggle('active');
+    this.refs.taskList.classList.toggle('dim');
+
+    setTimeout(() => this.refs.createTaskTitleField.focus(), 10);
+  }
+
+  getTaskById(id) {
+    return Array.from(this.refs.task).find(task => task.id === id);
+  }
+
+  createTask(fields) {
+    let data = Object.assign(...fields.map(field => {
+      return { [field.getAttribute('name')]: field.value.trim() };
+    }));
+
+    if (data.title === '') return;
+
+    const task = Tasks.create(data);
+
+    this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
+
+    this.updateCounter();
+    this.toggleTaskModal();
+
+    fields.forEach(field => field.value = '');
+  }
+
+  cleanTasks() {
+    if (!Object.values(this.refs.cleanTasks.classList).includes('active')) return;
+    Tasks.clean(this.refs.task);
+  }
+
+  /**
+   * Watch for changes in the task list, trigger events based on state of the task
+   * @returns {void}
+   */
+  setTaskObserver() {
+    const mutationTypes = ['attributes', 'childList'];
+
+    const taskObserver = new MutationObserver(mutations => {
+      mutations.forEach(mut => {
+        if (mut.attributeName === 'move-direction')
+          this.move(mut.target);
+
+        if (mutationTypes.includes(mut.type)) {
+          this.handleTaskActionsVisibility();
+          this.updateCounter();
+        }
+      });
+    });
+
+    taskObserver.observe(this.refs.taskList, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['status', 'move-direction']
+    });
+  }
+
+  connectedCallback() {
+    this.render().then(async () => {
+      this.setEvents();
+      this.handleTaskActionsVisibility();
+      this.setTaskObserver();
+      this.updateCounter();
+    });
   }
 
   style() {
@@ -165,7 +346,6 @@ class Todo extends Component {
           --offset-height: 0px;
           position: relative;
           width: 100%;
-          min-height: 90px;
           box-shadow: 0 1px 0 0 rgba(0, 0, 0, .5),
                       0 4px 0 0 #18181d,
                       0 5px 0 rgba(0, 0, 0, .5),
@@ -209,13 +389,38 @@ class Todo extends Component {
       }
 
       .tasks task[status=done] .task-title,
-      .tasks task[status=done] .task-subtitle {
+      .tasks task[status=done] .task-description {
           text-decoration: line-through;
       }
 
+      .task-title {
+          margin-bottom: .5em;
+      }
+
+      .create-task-header {
+          padding-left: 0;
+      }
+
+      .add-task-button {
+          background: #2e2e38;
+          padding: .5em 1em;
+          border-radius: 5px;
+          color: #8c8ca0;
+          margin-top: 1em;
+          margin-left: auto;
+          box-shadow: inset 0 0 0 1px #3e3e4a;
+          cursor: pointer;
+          font-weight: bold;
+          font-family: 'Roboto', sans-serif;
+      }
+
+      .add-task-button:hover { color: #cbcbdc; }
+      .add-task-button:focus { background: #202027; }
+
       .task-title,
-      .task-subtitle,
-      .edit-task-header-title {
+      .task-description,
+      .edit-task-header-title,
+      .create-task-header-title {
           color: #e8e8e8;
           font: 400 14px 'Roboto', sans-serif;
           max-width: 250px;
@@ -224,12 +429,14 @@ class Todo extends Component {
           font-weight: bold;
       }
 
-      .task-subtitle {
+      .task-description {
           font-weight: 400;
           font-size: 12px;
           color: #9a9a9a;
-          margin-top: .5em;
+          margin-bottom: 15px;
       }
+
+      .task-description:empty { display: none; }
 
       .tasks task {
           margin: 0 0 1.5em 0;
@@ -247,7 +454,6 @@ class Todo extends Component {
           border-top: 1px solid #292929;
           margin-right: 15px;
           padding-top: 10px;
-          margin-top: 15px;
       }
 
       .tasks task .added-at span {
@@ -259,14 +465,12 @@ class Todo extends Component {
       .add-todo-panel {
           position: absolute;
           flex-wrap: wrap;
-          width: 100%;
-          height: 180px;
-          top: -180px;
+          width: calc(100% - 1px);
+          top: -210px;
           background: #18181d;
           transition: top .5s;
-          padding: 0 1em;
+          padding: 0 1.5em 1em;
           z-index: 9;
-          border-bottom: 2px solid var(--todo);
       }
 
       .add-todo-panel input[type="text"],
@@ -303,6 +507,10 @@ class Todo extends Component {
           padding: 5px 10px 0 30px;
           margin-left: -30px;
           height: 100%;
+      }
+
+      .task-list.dim {
+          filter: opacity(.15);
       }
 
       .task-list::-webkit-scrollbar {
@@ -384,6 +592,7 @@ class Todo extends Component {
           margin-left: auto;
       }
 
+      .add-task-button,
       .edit-task-header-title,
       .create-task-header-title {
           font-size: 11px;
@@ -657,7 +866,7 @@ class Todo extends Component {
     return `
       <div class="add-todo-panel">
         <div class="create-task-header heading">
-          <h1 class="edit-task-header-title">Create task</h1>
+          <h1 class="create-task-header-title">Create task</h1>
           <button class="+ task-option heading-close close-create-task-panel">
             <i class="material-icons">close</i>
           </button>
@@ -668,11 +877,11 @@ class Todo extends Component {
             <p class="required-field-label">Title</p>
           </label>
           <label>
-            <input class="create-task-field create-task-subtitle" name="subtitle" required></input>
-            <p>Subtitle</p>
+            <input class="create-task-field create-task-description" name="Description" required></input>
+            <p>Description</p>
           </label>
         </form>
-        <!-- <input type="text" class="add-todo-subtitle-input" placeholder="stuff to do ..." spellcheck="false"> -->
+        <button class="add-task-button">Done</button>
       </div>
       <rows class="tasks">
         <div class="+ header">
@@ -694,186 +903,6 @@ class Todo extends Component {
             ${Tasks.getAllTemplates()}
         </div>
       </rows>`;
-  }
-
-  setEvents() {
-    this.refs.addTaskButton.onclick    = ()  => this.toggleTaskModal();
-    this.refs.closeTaskModal.onclick   = ()  => this.toggleTaskModal();
-    this.refs.cleanTasksButton.onclick = ()  => this.cleanTasks();
-    this.refs.addTaskInput.onkeydown   = (e) => this.createTask(e);
-    this.refs.todoCount.onclick        = (e) => this.addFilter(e, 'show:todo');
-    this.refs.doneCount.onclick        = (e) => this.addFilter(e, 'show:done');
-
-    this.handleTaskInputEvents();
-  }
-
-  handleTaskInputEvents() {
-    const fields = Array.from(this.refs.createTaskFields);
-    const lastField = fields.slice(-1)[0];
-    const isLastField = (target) => target.className === lastField.className;
-
-    fields.forEach((field, i) => {
-      field.onkeyup = ({ key, target }) => {
-        if (key === 'Escape')
-          this.toggleTaskModal();
-
-        if (key === 'Enter')
-          if (isLastField(target))
-            this.createTask(fields);
-          else
-            fields[i + 1].focus();
-      };
-    });
-  }
-
-  addFilter({ target }, filter) {
-    const hasFilterEnabled = this.refs.taskList.getAttribute('filter') === filter;
-
-    this.refs.filters.forEach(filter => filter.classList.remove('active'));
-
-    if (!hasFilterEnabled)
-      target.classList.add('active');
-
-    this.refs.taskList.setAttribute('filter', !hasFilterEnabled ? filter : '');
-  }
-
-  updateCounter() {
-    const tasks = Tasks.getAll();
-    const states = tasks.map(f => f.state);
-
-    this.refs.doneCount = states.filter(done => done).length;
-    this.refs.todoCount = states.filter(done => !done).length;
-  }
-
-  handleTaskActionsVisibility() {
-    if (typeof this.refs.task !== 'string')
-      this.refs.cleanTasks.classList.add('active');
-    else
-      this.refs.cleanTasks.classList.remove('active');
-  }
-
-  moveToDirection(task, direction, animateOnly = false) {
-    const { directions } = Tasks;
-
-    task.classList.remove('slide-in');
-    task.classList.add(direction);
-
-    setTimeout(() => {
-      const previousIndex = Number(task.getAttribute('index'));
-      const currentIndex = Math.max(0, (direction === directions.UP ? previousIndex - 1 : previousIndex + 1));
-
-      task.setAttribute('index', currentIndex);
-
-      if (!animateOnly)
-        if (direction === directions.UP)
-          this.refs.taskList.insertBefore(task, task?.previousElementSibling || task);
-      else
-        this.refs.taskList.insertBefore(task.nextElementSibling, task);
-
-      task.classList.remove(direction);
-    }, 490);
-  }
-
-  setHeightOffset(task, direction) {
-    if (direction === Tasks.directions.UP) {
-      let offsetHeight = task?.previousElementSibling?.clientHeight - task.clientHeight;
-      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
-      task.previousElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
-    }
-    else {
-      let offsetHeight = task?.nextElementSibling?.clientHeight - task.clientHeight;
-      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
-      task.nextElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
-    }
-  }
-
-  move({ id, attributes }) {
-    const direction = attributes['move-direction']?.value;
-    const { directions } = Tasks;
-
-    if (!direction) return;
-
-    const task = this.getTaskById(id);
-
-    this.moveToDirection(task, direction);
-    this.setHeightOffset(task, direction);
-
-    if (direction === directions.UP)
-      this.moveToDirection(task.previousElementSibling, directions.DOWN, true);
-    else
-      this.moveToDirection(task.nextElementSibling, directions.UP, true);
-
-    task.removeAttribute('move-direction');
-  }
-
-  toggleTaskModal() {
-    this.refs.addTaskInput.value = '';
-    this.refs.addTaskButton.classList.toggle('active');
-    this.refs.addTaskModal.classList.toggle('active');
-
-    setTimeout(() => this.refs.createTaskTitleField.focus(), 10);
-  }
-
-  getTaskById(id) {
-    return Array.from(this.refs.task).find(task => task.id === id);
-  }
-
-  createTask(fields) {
-    let data = Object.assign(...fields.map(field => {
-      return { [field.getAttribute('name')]: field.value.trim() };
-    }));
-
-    if (data.title === '') return;
-
-    const task = Tasks.create(data);
-
-    this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
-
-    this.updateCounter();
-    this.toggleTaskModal();
-
-    fields.forEach(field => field.value = '');
-  }
-
-  cleanTasks() {
-    if (!Object.values(this.refs.cleanTasks.classList).includes('active')) return;
-    Tasks.clean(this.refs.task);
-  }
-
-  /**
-   * Watch for changes in the task list, trigger events based on state of the task
-   * @returns {void}
-   */
-  setTaskObserver() {
-    const mutationTypes = ['attributes', 'childList'];
-
-    const taskObserver = new MutationObserver(mutations => {
-      mutations.forEach(mut => {
-        if (mut.attributeName === 'move-direction')
-          this.move(mut.target);
-
-        if (mutationTypes.includes(mut.type)) {
-          this.handleTaskActionsVisibility();
-          this.updateCounter();
-        }
-      });
-    });
-
-    taskObserver.observe(this.refs.taskList, {
-      subtree: true,
-      childList: true,
-      attributes: true,
-      attributeFilter: ['status', 'move-direction']
-    });
-  }
-
-  connectedCallback() {
-    this.render().then(async () => {
-      this.setEvents();
-      this.handleTaskActionsVisibility();
-      this.setTaskObserver();
-      this.updateCounter();
-    });
   }
 }
 

@@ -8,9 +8,11 @@ A startpage called "dawn".
 
 ## Keybindings
 
-- <kbd>Numrow</kbd> to switch tabs
-- <kbd>t</kbd> to open create task panel
-- <kbd>s</kbd> to open search dialog
+- <kbd>Numrow</kbd> Switch tabs
+- <kbd>t</kbd> Open the create task panel
+  - <kbd>Enter</kbd> Create a task (when last field is focused) or go to next field
+- <kbd>s</kbd> Open the search dialog
+- <kbd>Esc</kbd> Close the edit/create task panel (when field is focused)
 
 ## Configuration
 
@@ -42,6 +44,20 @@ const GLOBAL_CONFIG = new Config({
     location: 'New York',
     scale: 'C'
   }
+});
+```
+
+### Crypto status
+
+For the live crypto status, provide a crypto coin and a FIAT currency. Example:
+
+```js
+const GLOBAL_CONFIG = new Config({
+  // ...
+  crypto: {
+    coin: 'ETH', // BTC, LINK, DOGE etc
+    currency: 'USD', // EUR, JPY, BRL etc
+  },
 });
 ```
 

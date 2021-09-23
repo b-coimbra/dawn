@@ -2,7 +2,7 @@
 A startpage called "dawn".
 
 <p align="center">
-  <img src="https://i.imgur.com/6uO2Zcf.png">
+  <img src="https://i.imgur.com/IsZKWNu.png">
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 
@@ -10,7 +10,8 @@ A startpage called "dawn".
 
 - <kbd>Numrow</kbd> Switch tabs
 - <kbd>t</kbd> Open the create task panel
-  - <kbd>Enter</kbd> Create a task (when last field is focused) or go to next field
+  - <kbd>Enter</kbd> Create a task
+  - <kbd>Tab</kbd> Go to next field
 - <kbd>s</kbd> Open the search dialog
 - <kbd>Esc</kbd> Close the edit/create task panel (when field is focused)
 
@@ -83,10 +84,9 @@ const GLOBAL_CONFIG = new Config({
     - [X] Filter by done/TBD
     - [X] Task add subtitles
     - [X] Make todo list scrollable
-    - [ ] Task priority ('!' '!!', '!!!') or colour representation (red, yellow, green)
     - [X] Task filter by completion state
+    - [X] Task add priority
     - [ ] Task add hyperlinks
-    - [ ] Task add priority
     - [ ] Task add reminder
     - [ ] Ability to schedule deadlines for tasks
       - [ ] Add option in the addTodo pane or in the task itself
@@ -95,7 +95,7 @@ const GLOBAL_CONFIG = new Config({
       - [ ] Use windows' notification feature
     - [ ] Task menu
       - [X] Edit task
-      - [ ] Change priority
+      - [ ] Edit priority
     - [ ] `MAYBE` Subtasks with todos
       - [ ] Progress bar at the top
   - [ ] Make search bar more accessible

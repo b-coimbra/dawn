@@ -14,6 +14,7 @@ class Tasks extends Component {
       title: data.title,
       description: data?.description ?? '',
       createdAt: this.getCreationDate(),
+      priority: data?.priority ?? -1,
       state: 0
     };
 
@@ -96,6 +97,11 @@ class Tasks extends Component {
     return ['todo', 'done'][state | 0];
   }
 
+  static getPriority(priority) {
+    if (priority < 0) return 'none';
+    return ['low', 'medium', 'high'][priority | 0];
+  }
+
   static getAll() {
     if (!localStorage.tasks) return [];
     return parse(localStorage.tasks);
@@ -135,7 +141,7 @@ class Tasks extends Component {
 
   static template(task, index = -1) {
     return `
-        <task index="${index}" status="${this.getStatus(task.state)}" id="${task.id}" class="slide-in">
+        <task index="${index}" status="${this.getStatus(task.state)}" priority="${this.getPriority(task.priority)}" id="${task.id}" class="slide-in">
             ${EditTaskPanel.template(task)}
             <div class="task-controls">
               <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
@@ -149,7 +155,11 @@ class Tasks extends Component {
             <rows>
                 <p class="task-title">${task.title}</p>
                 <p class="task-description">${task.description}</p>
-                <p class="row-end added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
+                <div class="row-end task-footer">
+                  <p class="added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
+                  <div class="+ priority">
+                  </div>
+                </div>
                 <div class="task-options">
                   <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
                     <i class="material-icons">edit</i>
@@ -225,6 +235,11 @@ class EditTaskPanel extends Component {
                 <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
                 <p>Description</p>
               </label>
+              <!-- <div class="edit-task-priority">
+                <input type="radio" class="task-priority priority-low" name="priority" value="0">
+                <input type="radio" class="task-priority priority-medium" name="priority" value="1">
+                <input type="radio" class="task-priority priority-high" name="priority" value="2">
+              </div> -->
             </div>
         </div>
       `;

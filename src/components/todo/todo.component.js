@@ -3,7 +3,6 @@ class Todo extends Component {
     openTaskPanelButton: '.add-task',
     addTaskButton: '.add-task-button',
     addTaskModal: '.add-todo-panel',
-    addTaskInput: '.add-todo-panel input',
     closeTaskModal: '.close-create-task-panel',
     cleanTasksButton: '.clean-tasks',
     tasks: '.tasks',
@@ -17,6 +16,7 @@ class Todo extends Component {
     editTaskButton: '.task-option.edit-task',
     editTaskPanel: '.edit-task-panel',
     createTaskTitleField: '.create-task-title',
+    createTaskForm: '.create-task-form',
     createTaskFields: '.create-task-field'
   };
 
@@ -38,26 +38,24 @@ class Todo extends Component {
     this.refs.cleanTasksButton.onclick    = ()  => this.cleanTasks();
     this.refs.todoCount.onclick           = (e) => this.addFilter(e, 'show:todo');
     this.refs.doneCount.onclick           = (e) => this.addFilter(e, 'show:done');
-    this.refs.addTaskButton.onclick       = ()  => this.createTask(Array.from(this.refs.createTaskFields));
+    this.refs.addTaskButton.onclick       = (e) => this.handleAddTask(e);
 
     this.handleTaskInputEvents();
   }
 
+  handleAddTask(event) {
+    event.preventDefault();
+    const formData = new FormData(this.refs.createTaskForm);
+    this.createTask(formData);
+  }
+
   handleTaskInputEvents() {
     const fields = Array.from(this.refs.createTaskFields);
-    const lastField = fields.slice(-1)[0];
-    const isLastField = (target) => target.className === lastField.className;
 
-    fields.forEach((field, i) => {
-      field.onkeydown = ({ key, target }) => {
+    fields.forEach(field => {
+      field.onkeydown = ({ key }) => {
         if (key === 'Escape')
           this.toggleTaskModal();
-
-        if (key === 'Enter')
-          if (isLastField(target))
-            this.createTask(fields);
-          else
-            fields[i + 1].focus();
       };
     });
   }
@@ -143,7 +141,7 @@ class Todo extends Component {
   }
 
   toggleTaskModal() {
-    this.refs.addTaskInput.value = '';
+    this.refs.createTaskForm.reset();
     this.refs.addTaskModal.classList.toggle('active');
     this.refs.taskList.classList.toggle('dim');
 
@@ -155,20 +153,18 @@ class Todo extends Component {
   }
 
   createTask(fields) {
-    let data = Object.assign(...fields.map(field => {
-      return { [field.getAttribute('name')]: field.value.trim() };
-    }));
+    let data = {};
+
+    fields.forEach((value, key) => data[key] = value);
 
     if (data.title === '') return;
 
     const task = Tasks.create(data);
 
     this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
-
     this.updateCounter();
     this.toggleTaskModal();
-
-    fields.forEach(field => field.value = '');
+    this.refs.createTaskForm.reset();
   }
 
   cleanTasks() {
@@ -346,6 +342,7 @@ class Todo extends Component {
           --offset-height: 0px;
           position: relative;
           width: 100%;
+          min-height: 70px;
           box-shadow: 0 1px 0 0 rgba(0, 0, 0, .5),
                       0 4px 0 0 #18181d,
                       0 5px 0 rgba(0, 0, 0, .5),
@@ -447,13 +444,12 @@ class Todo extends Component {
       }
 
       .tasks task .added-at {
+          grid-column: added-at;
           font-size: 11px;
           letter-spacing: .5px;
           color: #929292;
           font-weight: 400;
-          border-top: 1px solid #292929;
           margin-right: 15px;
-          padding-top: 10px;
       }
 
       .tasks task .added-at span {
@@ -466,7 +462,7 @@ class Todo extends Component {
           position: absolute;
           flex-wrap: wrap;
           width: calc(100% - 1px);
-          top: -210px;
+          top: -230px;
           background: #18181d;
           transition: top .5s;
           padding: 0 1.5em 1em;
@@ -507,6 +503,8 @@ class Todo extends Component {
           padding: 5px 10px 0 30px;
           margin-left: -30px;
           height: 100%;
+          scrollbar-width: thin;
+          scrollbar-color: #313138 transparent;
       }
 
       .task-list.dim {
@@ -534,7 +532,7 @@ class Todo extends Component {
       .tasks task rows {
           height: 100%;
           position: relative;
-          padding: 1em 0 .5em 1em;
+          padding: 1em 1em .5em;
           background: #18181d;
           transition: height var(--task-options-reveal-time) ease-in,
                       margin var(--task-options-reveal-time) ease-in,
@@ -609,12 +607,12 @@ class Todo extends Component {
       }
 
       .edit-task-fields label,
-      .create-task-fields label {
+      .create-task-form label {
           position: relative;
       }
 
       .edit-task-fields label p,
-      .create-task-fields label p {
+      .create-task-form label p {
           position: absolute;
           top: -12px;
           font-size: 9px;
@@ -626,6 +624,36 @@ class Todo extends Component {
           transition: top .1s;
           background: #181818;
           white-space: nowrap;
+      }
+
+      .create-task-priority,
+      .edit-task-priority {
+        text-align: right;
+      }
+
+      .task-priority {
+          width: 15px;
+          height: 15px;
+          border-radius: 50%;
+          appearance: none;
+          filter: opacity(.4);
+          margin-left: 5px;
+          border: 0;
+          cursor: pointer;
+      }
+
+      .task-priority:hover {
+        filter: opacity(1);
+      }
+
+      .task-priority.priority-low { background: #6fd468; }
+      .task-priority.priority-medium { background: #debc59; }
+      .task-priority.priority-high { background: #d45959; }
+
+      .task-priority:checked,
+      .task-priority:focus {
+          filter: opacity(1);
+          box-shadow: 0 0 0 2px #fff !important;
       }
 
       .create-task-title:not(:focus):required:invalid {
@@ -769,6 +797,37 @@ class Todo extends Component {
           grid-row: task-toggle;
       }
 
+      .task-footer {
+          border-top: 1px solid #292929;
+          display: grid;
+          grid-template-columns: [added-at] 100px auto [priority] 8px;
+          align-items: center;
+          padding-top: 10px;
+      }
+
+      .priority {
+          grid-column: priority;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          justify-content: space-evenly;
+      }
+
+      .priority-level {
+          width: 4px;
+          height: 4px;
+          border-radius: 50%;
+          background: #424242;
+      }
+
+      .tasks task[priority=none] .priority {
+        display: none;
+      }
+
+      .tasks task[priority=low] .priority    { background: #6fd468; }
+      .tasks task[priority=medium] .priority { background: #debc59; }
+      .tasks task[priority=high] .priority   { background: #d45959; }
+
       .task-toggle::after {
           content: '';
           display: block;
@@ -871,17 +930,22 @@ class Todo extends Component {
             <i class="material-icons">close</i>
           </button>
         </div>
-        <form class="create-task-fields">
+        <form class="create-task-form">
           <label>
-            <input class="create-task-field create-task-title" name="title" required></input>
+            <input class="create-task-field create-task-title" name="title" id="task-name" value="" required></input>
             <p class="required-field-label">Title</p>
           </label>
           <label>
             <input class="create-task-field create-task-description" name="description" required></input>
             <p>Description</p>
           </label>
+          <div class="create-task-priority">
+            <input type="radio" class="task-priority priority-low" name="priority" value="0">
+            <input type="radio" class="task-priority priority-medium" name="priority" value="1">
+            <input type="radio" class="task-priority priority-high" name="priority" value="2">
+          </div>
+        <button class="add-task-button" type="submit" value="submit">Done</button>
         </form>
-        <button class="add-task-button">Done</button>
       </div>
       <rows class="tasks">
         <div class="+ header">

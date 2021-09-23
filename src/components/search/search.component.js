@@ -15,17 +15,18 @@ class Search extends Component {
   style() {
     return `
       #search {
-          position: fixed;
+          position: absolute;
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 100%;
+          width: calc(100% - 2px);
           height: 100%;
-          background: rgba(0, 0, 0, .8);
+          background: rgb(24 24 29 / 80%);
           z-index: 99;
           opacity: 0;
           visibility: hidden;
           top: -100%;
+          backdrop-filter: blur(5px);
           transition: all .5s ease-in-out;
       }
 

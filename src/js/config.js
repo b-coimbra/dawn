@@ -23,6 +23,8 @@ class Config {
   };
 
   constructor (config) {
+    this.storage = new Storage('config');
+
     this.autoConfig(config);
     this.setKeybindings();
     this.save();
@@ -30,12 +32,15 @@ class Config {
     return new Proxy(this, {
       ...this,
       __proto__: this.__proto__,
-      set(target, prop, value) {
-        return this.settingUpdatedCallback(target, prop, value);
-      }
+      set: (target, prop, value) =>
+        this.settingUpdatedCallback(target, prop, value)
     });
   }
 
+  /**
+   * Automatically save whenever a config property is updated.
+   * @returns {void}
+   */
   settingUpdatedCallback(target, prop, val) {
     if (!(prop in target)) return false;
 
@@ -48,7 +53,7 @@ class Config {
   }
 
   /**
-   * Set default config values if not stored in the local storage
+   * Set default config values or load them from the local storage.
    * @returns {void}
    */
   autoConfig(config) {
@@ -56,45 +61,36 @@ class Config {
       if (setting in config)
         this[setting] = config[setting];
       else
-        if (this.inStorage(setting))
-          this[setting] = this.getStorageValue(setting);
+        if (this.storage.hasValue('setting'))
+          this[setting] = this.storage.get(setting);
         else
           this[setting] = this.defaults[setting];
     });
   }
 
+  /**
+   * Deserialize the configuration object.
+   * @returns {Object}
+   */
   toJSON() {
     return { ...this, defaults: undefined };
   }
 
   /**
-   Trigger keybinding actions
+   * Trigger keybinding actions.
    * @returns {void}
    */
   setKeybindings() {
     document.onkeypress = ({ key }) => {
       if (document.activeElement !== document.body) return;
 
-      if (Object.keys(this.defaults.keybindings).includes(key)) {
+      if (Object.keys(this.defaults.keybindings).includes(key))
         this.defaults.keybindings[key]();
-      }
     };
   }
 
-  // TODO: move to storage.js
-  getStorageValue(prop) {
-    return parse(localStorage.config)[prop] || this.defaults[prop];
-  }
-
-  // TODO: move to storage.js
-  inStorage(value) {
-    if (!localStorage?.config) return false;
-    return value in parse(localStorage.config);
-  }
-
-  // TODO: move to storage.js
   save() {
-    localStorage.config = stringify(this);
+    this.storage.save(stringify(this));
   }
 
   exportSettings() {

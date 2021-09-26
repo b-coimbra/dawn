@@ -36,7 +36,7 @@ class Component extends HTMLElement {
   }
 
   /**
-   * Return all the imports that a component requested
+   * Return all the imports that a component requested.
    * @returns {Array<string>} imports
    */
   get getResources() {
@@ -48,6 +48,10 @@ class Component extends HTMLElement {
     return imports;
   }
 
+  /**
+   * Return inline style tag.
+   * @returns {string}
+   */
   async loadStyles() {
     let html = this.getResources.join("\n");
 
@@ -58,7 +62,7 @@ class Component extends HTMLElement {
   }
 
   /**
-   * Build the component's HTML body
+   * Build the component's HTML body.
    * @returns {string} html
    */
   async buildHTML() {
@@ -67,15 +71,7 @@ class Component extends HTMLElement {
   }
 
   /**
-   * Return all children of a parent node
-   * @returns {Array<HTMLElement>}
-   */
-  nodes(elem) {
-    return Array.prototype.slice.call(elem.children);
-  }
-
-  /**
-   * Create a reference for manipulating DOM elements
+   * Create a reference for manipulating DOM elements.
    * @returns {Proxy<HTMLElement | boolean>}
    */
   createRef() {

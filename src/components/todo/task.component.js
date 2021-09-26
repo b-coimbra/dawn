@@ -217,6 +217,21 @@ class EditTaskPanel extends Component {
     Tasks.update(task, this.taskElemRef, fieldName);
   }
 
+  static prioritiesTemplate(priority) {
+    const priorities = ['low', 'medium', 'high'];
+
+    priorities.forEach((p, i) => {
+      return `
+        <input type="radio" class="task-priority priority-${p}" name="priority" value="${i}" ${priority === i ? 'checked' : ''}>
+      `;
+    });
+
+    return `
+      <div class="edit-task-priority">
+      </div>
+    `;
+  }
+
   static template(task) {
     return `
         <div class="edit-task-panel">
@@ -235,11 +250,6 @@ class EditTaskPanel extends Component {
                 <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
                 <p>Description</p>
               </label>
-              <!-- <div class="edit-task-priority">
-                <input type="radio" class="task-priority priority-low" name="priority" value="0">
-                <input type="radio" class="task-priority priority-medium" name="priority" value="1">
-                <input type="radio" class="task-priority priority-high" name="priority" value="2">
-              </div> -->
             </div>
         </div>
       `;

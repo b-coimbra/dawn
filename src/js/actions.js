@@ -7,9 +7,10 @@ class Actions {
           .click();
       },
       'search-bar': () => {
-        $('search-bar').shadowRoot
-          .querySelector('#search')
-          .classList.add('active');
+        const search = $('search-bar').shadowRoot.querySelector('#search');
+
+        search.classList.add('active');
+        setTimeout(() => search.querySelector('input').focus(), 100);
       }
     }[componentName];
   }

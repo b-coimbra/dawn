@@ -23,16 +23,14 @@ class Search extends Component {
           height: 100%;
           background: rgb(24 24 29 / 80%);
           z-index: 99;
-          opacity: 0;
           visibility: hidden;
           top: -100%;
           backdrop-filter: blur(5px);
-          transition: all .5s ease-in-out;
+          transition: all .2s ease-in-out;
       }
 
       #search.active {
           top: 0;
-          opacity: 1;
           visibility: visible;
       }
 

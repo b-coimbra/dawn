@@ -117,8 +117,11 @@ const GLOBAL_CONFIG = new Config({
       - [ ] Progress bar at the top
   - [ ] Make search bar more accessible
     - [ ] Create statusbar button for search
+  - [ ] Unify storage into a single JSON object
+  - [ ] Ability to add link icons
   - [ ] Import/export todos
   - [ ] Import/export settings
+  - [ ] Keybinding cheatsheet
   - [ ] `MAYBE` Sync todo with google calendar
   - [ ] Randomize banner gifs
   - [ ] Create favicon

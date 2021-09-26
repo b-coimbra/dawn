@@ -214,5 +214,3 @@ class Crypto extends Component {
       REFRESH_IN_SECS);
   }
 }
-
-customElements.define('crypto-rate', Crypto);

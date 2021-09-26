@@ -94,31 +94,36 @@ class Todo extends Component {
 
     setTimeout(() => {
       const previousIndex = Number(task.getAttribute('index'));
-      const currentIndex = Math.max(0, (direction === directions.UP ? previousIndex - 1 : previousIndex + 1));
+      const currentIndex = Math.max(0, (directions.isUp(direction) ? previousIndex - 1 : previousIndex + 1));
 
       task.setAttribute('index', currentIndex);
 
       if (!animateOnly)
-        if (direction === directions.UP)
+        if (directions.isUp(direction))
           this.refs.taskList.insertBefore(task, task?.previousElementSibling || task);
-      else
-        this.refs.taskList.insertBefore(task.nextElementSibling, task);
+        else
+          this.refs.taskList.insertBefore(task.nextElementSibling, task);
 
       task.classList.remove(direction);
     }, 490);
   }
 
+  /**
+   * Calculates the height difference (offset) of the current task with the next/previous one.
+   * @param {Task} task Current task being moved.
+   * @param {string} direction
+   */
   setHeightOffset(task, direction) {
-    if (direction === Tasks.directions.UP) {
-      let offsetHeight = task?.previousElementSibling?.clientHeight - task.clientHeight;
-      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
-      task.previousElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
-    }
-    else {
-      let offsetHeight = task?.nextElementSibling?.clientHeight - task.clientHeight;
-      task.setAttribute('style', `--offset-height: ${offsetHeight}px`);
-      task.nextElementSibling.setAttribute('style', `--offset-height: ${offsetHeight - (offsetHeight * 2)}px`);
-    }
+    const applyOffset = (element) => {
+      const offset = element?.clientHeight - task.clientHeight;
+
+      task.setAttribute('style', `--offset-height: ${offset}px`);
+      element?.setAttribute('style', `--offset-height: ${offset - (offset * 2)}px`);
+    };
+
+    applyOffset(Tasks.directions.isUp(direction)
+      ? task?.previousElementSibling
+      : task?.nextElementSibling);
   }
 
   move({ id, attributes }) {
@@ -132,7 +137,7 @@ class Todo extends Component {
     this.moveToDirection(task, direction);
     this.setHeightOffset(task, direction);
 
-    if (direction === directions.UP)
+    if (directions.isUp(direction))
       this.moveToDirection(task.previousElementSibling, directions.DOWN, true);
     else
       this.moveToDirection(task.nextElementSibling, directions.UP, true);
@@ -969,5 +974,3 @@ class Todo extends Component {
       </rows>`;
   }
 }
-
-customElements.define('todo-list', Todo);

@@ -145,5 +145,3 @@ class Weather extends Component {
     await this.setWeather();
   }
 }
-
-customElements.define('weather-forecast', Weather);

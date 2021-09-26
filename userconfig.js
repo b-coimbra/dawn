@@ -16,5 +16,6 @@ const GLOBAL_CONFIG = new Config({
       y: ['https://youtube.com/results?search_query=', 'Youtube'],
       w: ['https://en.wikipedia.org/w/index.php?search=', 'Wikipedia']
     }
-  }
+  },
+  disabled: []
 });

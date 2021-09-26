@@ -29,6 +29,8 @@ class Statusbar extends Component {
 
   style() {
     return `
+      *:not(:defined) { display: none; }
+
       #tabs,
       #tabs .widgets,
       #tabs ul li:last-child {
@@ -212,5 +214,3 @@ class Statusbar extends Component {
     });
   }
 }
-
-customElements.define('status-bar', Statusbar);

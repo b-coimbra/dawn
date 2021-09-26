@@ -179,5 +179,3 @@ class Search extends Component {
     });
   }
 }
-
-customElements.define('search-bar', Search);

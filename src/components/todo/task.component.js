@@ -5,7 +5,13 @@ class Tasks extends Component {
 
   static directions = {
     UP: 'move-up',
-    DOWN: 'move-down'
+    DOWN: 'move-down',
+    isUp: function(dir) {
+      return this.UP === dir;
+    },
+    isDown: function(dir) {
+      return this.DOWN === dir;
+    }
   };
 
   static create(data) {

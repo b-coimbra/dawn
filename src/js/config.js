@@ -16,6 +16,7 @@ class Config {
         y: ['https://youtube.com/results?search_query=', 'Youtube'],
       }
     },
+    disabled: [],
     keybindings: {
       "t": Actions.activate('todo-list'),
       "s": Actions.activate('search-bar')

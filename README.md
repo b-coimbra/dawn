@@ -17,7 +17,18 @@ A startpage called "dawn".
 
 ## Configuration
 
-Some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `./userconfig.js`.
+For now, some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `./userconfig.js`.
+
+### Disabling a component
+
+To disable a component, put their name into the list of `disabled` components:
+
+```js
+const GLOBAL_CONFIG = new Config({
+    // ...
+    disabled: ['todo-list'] // search-bar, crypto-rate, current-time, weather-forecast, status-bar
+});
+```
 
 ### Clock
 
@@ -76,8 +87,14 @@ const GLOBAL_CONFIG = new Config({
     - [X] Search
   - [X] Update low-res task close button
   - [X] Handle component loading (fix pop-in)
-  - [ ] Weather
-    - [ ] `REFACTOR` Show weather location on hover
+  - [X] Setting to disable components
+  - [ ] `REFACTOR` Show weather location on hover
+    - [ ] Settings tab/modal/page
+    - [ ] Statusbar tab indicator (roman numerals, hiragana, numbers)
+    - [ ] Colorscheme manipulation
+    - [ ] Toggle statusbar sections
+    - [ ] Toggle TODO panel
+    - [ ] `MAYBE` Optional sound fx
   - [ ] Task section
     - [X] Task reordering
     - [X] Task clean all button
@@ -102,10 +119,6 @@ const GLOBAL_CONFIG = new Config({
     - [ ] Create statusbar button for search
   - [ ] Import/export todos
   - [ ] Import/export settings
-  - [ ] Settings tab/modal/page
-    - [ ] Statusbar tab indicator (roman numerals, hiragana, numbers)
-    - [ ] Colorscheme manipulation
-    - [ ] `MAYBE` Optional sound fx
   - [ ] `MAYBE` Sync todo with google calendar
   - [ ] Randomize banner gifs
   - [ ] Create favicon

@@ -53,5 +53,3 @@ class Clock extends Component {
     });
   }
 }
-
-customElements.define('current-time', Clock);

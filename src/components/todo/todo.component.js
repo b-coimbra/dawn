@@ -247,6 +247,9 @@ class Todo extends Component {
           position: relative;
           grid-template-columns: 30px auto 50px auto 30px;
           width: 100%;
+          padding: 8px;
+          border-radius: 10px;
+          box-shadow: inset 0 0 0 2px #18181d;
       }
 
       .counter {
@@ -260,9 +263,10 @@ class Todo extends Component {
       .task-action {
           cursor: pointer;
           height: 25px;
+          min-width: 30px;
           background: #18181d;
           border-radius: 5px;
-          box-shadow: 0 0 0 1px #27272a;
+          box-shadow: 0 0 0 1px #27272a, 0 5px 5px rgb(0 0 0 / 20%);
       }
 
       .clean-tasks {
@@ -280,13 +284,15 @@ class Todo extends Component {
           display: block;
       }
 
-      .clean-tasks-icon,
-      .add-task-icon {
+      .clean-tasks-icon {
           color: #474752;
       }
 
-      .clean-tasks.active:hover .clean-tasks-icon,
       .add-task:hover .add-task-icon {
+          color: #c8ffe5;
+      }
+
+      .clean-tasks.active:hover .clean-tasks-icon {
           color: #6c6c80;
       }
 
@@ -329,11 +335,16 @@ class Todo extends Component {
       .add-task {
           position: absolute;
           top: 0;
+          grid-column: 1;
+          grid-row: 1;
           transition: top .3s;
+          background: #306554;
+          box-shadow: 0 0 0 1px #5ea991, 0 5px 5px rgb(0 0 0 / 20%);
       }
 
       .add-task .add-task-icon {
           transition: transform .3s;
+          color: #79bf9e;
       }
 
       .tasks {
@@ -380,7 +391,7 @@ class Todo extends Component {
       }
 
       task.expand {
-          min-height: 200px;
+          min-height: 240px;
       }
 
       .tasks task[status=todo] { --state: var(--todo); }
@@ -444,7 +455,7 @@ class Todo extends Component {
           margin: 0 0 1.5em 0;
       }
 
-      .tasks task:hover span {
+      .tasks task:hover .added-at span {
           color: var(--state) !important;
       }
 
@@ -458,7 +469,7 @@ class Todo extends Component {
       }
 
       .tasks task .added-at span {
-          color: #fff;
+          color: #c1c1c1;
           font-weight: 700 !important;
           transition: color .2s;
       }
@@ -467,7 +478,7 @@ class Todo extends Component {
           position: absolute;
           flex-wrap: wrap;
           width: calc(100% - 1px);
-          top: -230px;
+          top: -285px;
           background: #18181d;
           transition: top .5s;
           padding: 0 1.5em 1em;
@@ -614,21 +625,26 @@ class Todo extends Component {
       .edit-task-fields label,
       .create-task-form label {
           position: relative;
+          display: block;
       }
 
       .edit-task-fields label p,
       .create-task-form label p {
-          position: absolute;
-          top: -12px;
-          font-size: 9px;
-          font-family: 'Roboto', sans-serif;
-          text-transform: uppercase;
-          color: #b5b5b5;
-          letter-spacing: 1px;
-          margin-left: 10px;
-          transition: top .1s;
-          background: #181818;
-          white-space: nowrap;
+            position: absolute;
+            top: -100%;
+            font-size: 9px;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            color: #b5b5b5;
+            letter-spacing: 1px;
+            transition: top .1s;
+            background: #181818;
+            white-space: nowrap;
+            bottom: 0;
+            margin: auto 1.5em;
+            height: 10px;
+            display: flex;
+            align-items: center;
       }
 
       .create-task-priority,
@@ -667,21 +683,22 @@ class Todo extends Component {
 
       .edit-task-field:required:invalid + p,
       .create-task-field:required:invalid + p {
-          top: 4px;
           background: transparent;
+          height: 10px;
+          top: 0;
       }
 
       .create-task-field:required:invalid + .required-field-label::before {
           content: '*';
           font-size: 17px;
           float: left;
-          margin: -2px 5px 0 0;
+          margin: 5px 5px 0 0;
           position: relative;
           color: #ff1b91;
       }
 
-      .edit-task-field:not(:last-child),
-      .create-task-field:not(:last-child) {
+      .edit-task-panel label:not(:last-child),
+      .create-task-form label:not(:last-child) {
           margin-bottom: 1em;
       }
 
@@ -691,13 +708,26 @@ class Todo extends Component {
           border-radius: 5px 5px 2px 2px;
       }
 
+      .create-task-url-icon,
+      .edit-task-url-icon {
+          font-size: 17px;
+          margin-right: 5px;
+      }
+
+      .add-task-link { display: none; }
+
+      task[has-url=true] .add-task-link {
+          display: block;
+      }
+
       .task-options {
           position: absolute;
           display: grid;
           grid-template-columns: [edit-task] 24px
-                                 [add-task-link] 24px
+                                 [open-task-url] 24px
                                  [move-task-down] 24px auto
                                  [close] 20px;
+          gap: 3px;
           align-items: center;
           width: 98%;
           height: 30px;
@@ -722,7 +752,7 @@ class Todo extends Component {
           grid-column: edit-task;
       }
 
-      .add-task-link {
+      .open-task-url {
           grid-column: add-task-link;
       }
 
@@ -732,9 +762,8 @@ class Todo extends Component {
           font-size: 16px;
       }
 
-      .add-task-link i {
-          font-size: 22px;
-      }
+      .open-task-url i { font-size: 22px; }
+      .add-task-alert i { font-size: 19px; }
 
       .task-option {
           position: relative;
@@ -944,6 +973,10 @@ class Todo extends Component {
             <input class="create-task-field create-task-description" name="description" required></input>
             <p>Description</p>
           </label>
+          <label>
+            <input class="create-task-field create-task-url" name="url" required></input>
+            <p><i class="material-icons create-task-url-icon">link</i><span>URL</span></p>
+          </label>
           <div class="create-task-priority">
             <input type="radio" class="task-priority priority-low" name="priority" value="0">
             <input type="radio" class="task-priority priority-medium" name="priority" value="1">
@@ -956,14 +989,14 @@ class Todo extends Component {
         <div class="+ header">
           <p class="+ header-title">todo</p>
           <div class="task-actions">
-            <button class="+ add-task task-action">
+            <button class="+ add-task task-action" title="Add new task">
               <i class="material-icons add-task-icon">add</i>
             </button>
             <div class="+ counter task-action">
               <button class="+ todo-count">0</button>|
               <button class="+ done-count">0</button>
             </div>
-            <button class="+ clean-tasks task-action">
+            <button class="+ clean-tasks task-action" title="Clear all tasks">
               <i class="material-icons clean-tasks-icon">clear_all</i>
             </button>
           </div>

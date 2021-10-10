@@ -19,9 +19,11 @@ class Tasks extends Component {
       id: this.id,
       title: data.title,
       description: data?.description ?? '',
+      url: data?.url ?? '',
       createdAt: this.getCreationDate(),
       priority: data?.priority ?? -1,
-      state: 0
+      state: 0,
+      alert: false
     };
 
     this.save(task);
@@ -147,9 +149,26 @@ class Tasks extends Component {
     return (this.getAll().length - 1) === idx;
   }
 
+  static toggleAlert(target, taskId, hasAlert) {
+    const icon = target.firstElementChild;
+    const tasks = this.getAll();
+
+    const task = tasks.find(x => x.id === taskId);
+
+    task.alert = !hasAlert;
+    icon.innerText = hasAlert ? 'notifications_none' : 'notifications';
+
+    localStorage.tasks = JSON.stringify(tasks);
+  }
+
+  static followUrl(taskId) {
+    const url = this.getById(taskId).url;
+    if (url) window.open(url, '_blank').focus();
+  }
+
   static template(task, index = -1) {
     return `
-        <task index="${index}" status="${this.getStatus(task.state)}" priority="${this.getPriority(task.priority)}" id="${task.id}" class="slide-in">
+        <task index="${index}" status="${this.getStatus(task.state)}" priority="${this.getPriority(task.priority)}" id="${task.id}" has-url="${Boolean(task.url)}" class="slide-in">
             ${EditTaskPanel.template(task)}
             <div class="task-controls">
               <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
@@ -172,8 +191,11 @@ class Tasks extends Component {
                   <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
                     <i class="material-icons">edit</i>
                   </button>
-                  <button class="task-option add-task-link">
+                  <button class="task-option add-task-link" onclick="Tasks.followUrl('${task.id}')">
                     <i class="material-icons">link</i>
+                  </button>
+                  <button class="task-option add-task-alert" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})">
+                    <i class="material-icons">${task.alert ? 'notifications' : 'notifications_none'}</i>
                   </button>
                   <button class="task-option close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)">
                     <i class="material-icons">close</i>
@@ -222,7 +244,12 @@ class EditTaskPanel extends Component {
 
     target.setAttribute('value', target.value);
 
-    Tasks.update(task, this.taskElemRef, fieldName);
+    if (fieldName === 'url') {
+      this.taskElemRef.setAttribute('has-url', Boolean(target.value));
+      Tasks.update(task, this.taskElemRef, null);
+    }
+    else
+      Tasks.update(task, this.taskElemRef, fieldName);
   }
 
   static updatePriority(priority, idx) {
@@ -267,6 +294,10 @@ class EditTaskPanel extends Component {
               <label>
                 <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
                 <p>Description</p>
+              </label>
+              <label>
+                <input class="edit-task-field edit-task-url" value="${task.url}" onkeyup="EditTaskPanel.updateField('url', event)" required></input>
+                <p><i class="material-icons edit-task-url-icon">link</i><span>URL</span></p>
               </label>
               ${EditTaskPanel.prioritiesTemplate(parseInt(task.priority))}
             </div>

@@ -2,7 +2,7 @@
 A startpage called "dawn".
 
 <p align="center">
-  <img src="https://i.imgur.com/IsZKWNu.png">
+  <img src="https://i.imgur.com/cTT6yNk.png">
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 
@@ -104,7 +104,7 @@ const GLOBAL_CONFIG = new Config({
     - [X] Make todo list scrollable
     - [X] Task filter by completion state
     - [X] Task add priority
-    - [ ] Task add hyperlinks
+    - [X] Task add external URLs
     - [ ] Task add reminder
     - [ ] Ability to schedule deadlines for tasks
       - [ ] Add option in the addTodo pane or in the task itself

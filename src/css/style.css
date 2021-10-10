@@ -147,7 +147,7 @@ body {
 }
 
 #panels ul::after {
-content: attr(class);
+    content: attr(class);
     position: absolute;
     display: flex;
     text-transform: uppercase;
@@ -179,11 +179,13 @@ content: attr(class);
 }
 
 #panels > ul:first-child .links li h1 {
-    color: #383838;
-    font-size: 22px;
-    margin-bottom: .5em;
-    font-weight: 700;
+    color: #36363c;
+    font-size: 17px;
+    margin-bottom: 1em;
+    font-weight: 600;
     letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Raleway', sans-serif;
 }
 
 #panels > ul:not(:first-child) li {

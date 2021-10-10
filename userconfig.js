@@ -1,7 +1,8 @@
 const GLOBAL_CONFIG = new Config({
   crypto: {
     coin: 'ETH',
-    currency: 'USD'
+    currency: 'USD',
+    refreshIn: 60
   },
   temperature: {
     location: 'New York',

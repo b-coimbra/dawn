@@ -61,7 +61,9 @@ class Tasks extends Component {
     let index = tasks.findIndex(x => x.id === task.id);
 
     tasks[index] = { ...tasks[index], ...task };
-    elemRef.querySelector(`.task-${updatedField}`).innerText = task[updatedField];
+
+    if (updatedField)
+      elemRef.querySelector(`.task-${updatedField}`).innerText = task[updatedField];
 
     localStorage.tasks = stringify(tasks);
   }
@@ -223,27 +225,37 @@ class EditTaskPanel extends Component {
     Tasks.update(task, this.taskElemRef, fieldName);
   }
 
+  static updatePriority(priority, idx) {
+    let task = Tasks.getById(this.taskElemRef.id);
+    task = { ...task, priority: idx };
+
+    this.taskElemRef.setAttribute('priority', priority);
+
+    Tasks.update(task, this.taskElemRef, null);
+  }
+
   static prioritiesTemplate(priority) {
     const priorities = ['low', 'medium', 'high'];
 
-    priorities.forEach((p, i) => {
-      return `
-        <input type="radio" class="task-priority priority-${p}" name="priority" value="${i}" ${priority === i ? 'checked' : ''}>
-      `;
-    });
-
     return `
       <div class="edit-task-priority">
+        ${priorities.map((p, i) => {
+          return `
+            <input type="radio" class="task-priority priority-${p}" name="priority" value="${i}"
+              ${priority === i ? 'checked' : ''}
+              onchange="EditTaskPanel.updatePriority('${p}', '${i}')">
+          `;
+        }).join('')}
       </div>
     `;
   }
 
   static template(task) {
     return `
-        <div class="edit-task-panel">
+        <form class="edit-task-panel">
             <div class="edit-task-header heading">
               <h1 class="edit-task-header-title">Edit task</h1>
-              <button class="task-option heading-close close-edit-task-panel" onclick="EditTaskPanel.close(this.parentNode.parentNode)">
+              <button class="task-option heading-close close-edit-task-panel" type="button" onclick="EditTaskPanel.close(this.parentNode.parentNode)">
                 <i class="material-icons">close</i>
               </button>
             </div>
@@ -256,8 +268,9 @@ class EditTaskPanel extends Component {
                 <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
                 <p>Description</p>
               </label>
+              ${EditTaskPanel.prioritiesTemplate(parseInt(task.priority))}
             </div>
-        </div>
+        </form>
       `;
   }
 }

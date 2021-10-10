@@ -69,6 +69,7 @@ const GLOBAL_CONFIG = new Config({
   crypto: {
     coin: 'ETH', // BTC, LINK, DOGE etc
     currency: 'USD', // EUR, JPY, BRL etc
+    refreshIn: 15 // refresh time (in seconds)
   },
 });
 ```
@@ -112,12 +113,13 @@ const GLOBAL_CONFIG = new Config({
       - [ ] Use windows' notification feature
     - [ ] Task menu
       - [X] Edit task
-      - [ ] Edit priority
+      - [X] Edit priority
     - [ ] `MAYBE` Subtasks with todos
       - [ ] Progress bar at the top
   - [ ] Make search bar more accessible
     - [ ] Create statusbar button for search
   - [ ] Unify storage into a single JSON object
+  - [ ] Change search engine prefix
   - [ ] Ability to add link icons
   - [ ] Import/export todos
   - [ ] Import/export settings

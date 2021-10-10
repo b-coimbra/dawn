@@ -23,6 +23,7 @@ class Crypto extends Component {
   constructor() {
     super();
 
+    this.refreshInterval = GLOBAL_CONFIG.crypto?.refreshIn || 10;
     this.setAttributes();
     this.setDependencies();
     this.setEvents();

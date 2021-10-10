@@ -3,7 +3,7 @@ class Config {
     crypto: {
       currency: 'USD',
       coin: 'ETH',
-      disabled: true,
+      refreshIn: 15
     },
     temperature: {
       location: 'New York',

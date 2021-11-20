@@ -1,5 +1,8 @@
 # dawn
-A startpage called "dawn".
+
+<p align="center">
+  <img src="https://i.imgur.com/vjfMONS.png">
+</div>
 
 <p align="center">
   <img src="https://i.imgur.com/cTT6yNk.png">
@@ -74,62 +77,45 @@ const GLOBAL_CONFIG = new Config({
 });
 ```
 
-## Features / TODOs
-
-  - [ ] Add more statusbar sections
-    - [X] Live crypto price
+## Features
+  
+  - [X] No external libraries
+  - [X] Web component based
+  - [X] Status bar components
+    - [X] Clock/Date
+    - [X] Live crypto
+    - [X] Current weather
+      - [ ] `REFACTOR` Show weather location on hover
     - [ ] `MAYBE` RSS reader
-  - [X] `REFACTOR` Use web components
-    - [X] Crypto
-    - [X] Weather
-    - [X] Clock
-    - [X] Todo
-    - [X] Statusbar
-    - [X] Search
-  - [X] Update low-res task close button
-  - [X] Handle component loading (fix pop-in)
-  - [X] Setting to disable components
-  - [ ] `REFACTOR` Show weather location on hover
-    - [ ] Settings tab/modal/page
-    - [ ] Statusbar tab indicator (roman numerals, hiragana, numbers)
+    - [ ] Add new panels
+    - [ ] Store last visited panel
+  - [X] Quick search panel
+  - [ ] Todo/schedule panel
+    - [X] Reordering
+    - [X] Task priority
+    - [ ] Task reminder
+      - [ ] `MAYBE` Sync todo with google calendar
+    - [X] Link to external URL
+    - [X] Filter by task status (TODO/DONE)
+    - [ ] Filter by task priority
+    - [X] Clean all tasks button
+    - [X] Edit task button
+    - [ ] `MAYBE` Subtasks w/ progress bar
+    - [ ] `MAYBE` Subsections for todo DEADLINE ("today", "upcoming")
+  - [ ] Links section
+    - [ ] Add new links button
+    - [ ] Add link icon
+    - [ ] Drag/drop reorganize
+  - [ ] Configuration
+    - [X] Disable components
+    - [ ] Change keybindings
+    - [ ] Import/export settings
+    - [ ] Randomize banner gifs
+    - [ ] Toggle status bar sections
+    - [ ] Status bar tab indicator (roman numerals, hiragana, numbers)
     - [ ] Colorscheme manipulation
-    - [ ] Toggle statusbar sections
-    - [ ] Toggle TODO panel
     - [ ] `MAYBE` Optional sound fx
-  - [ ] Task section
-    - [X] Task reordering
-    - [X] Task clean all button
-    - [X] Filter by done/TBD
-    - [X] Task add subtitles
-    - [X] Make todo list scrollable
-    - [X] Task filter by completion state
-    - [X] Task add priority
-    - [X] Task add external URLs
-    - [ ] Task add reminder
-      - [X] Clicking on reminder opens the link assigned to the task
-    - [ ] Ability to schedule deadlines for tasks
-      - [ ] Add option in the addTodo pane or in the task itself
-      - [ ] Calendar select
-      - [ ] Time diff when completing tasks
-      - [ ] Use windows' notification feature
-    - [ ] Task menu
-      - [X] Edit task
-      - [X] Edit priority
-    - [ ] `MAYBE` Subtasks with todos
-      - [ ] Progress bar at the top
-  - [ ] Make search bar more accessible
-    - [ ] Create statusbar button for search
-  - [ ] Unify storage into a single JSON object
-  - [ ] Change search engine prefix
-  - [ ] Ability to add link icons
-  - [ ] Import/export todos
-  - [ ] Import/export settings
-  - [ ] Keybinding cheatsheet
-  - [ ] `MAYBE` Sync todo with google calendar
-  - [ ] Randomize banner gifs
+  - [ ] `REFACTOR` Unify storage into a single JSON object
   - [ ] Create favicon
-  - [ ] Store last visited panel
-  - [ ] `MAYBE` Subsections for todo DEADLINE ("today", "upcoming")
-  - [ ] Ability to add panels dynamically
-    - [ ] Specific folder to keep default settings
+  - [ ] Keybinding cheatsheet
   - [ ] Verify updates on startup

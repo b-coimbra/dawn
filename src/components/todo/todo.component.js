@@ -478,7 +478,7 @@ class Todo extends Component {
           position: absolute;
           flex-wrap: wrap;
           width: calc(100% - 1px);
-          top: -285px;
+          top: -335px;
           background: #18181d;
           transition: top .5s;
           padding: 0 1.5em 1em;
@@ -714,6 +714,27 @@ class Todo extends Component {
           margin-right: 5px;
       }
 
+      .create-task-reminder {
+          padding-left: 35px;
+          color: #b5b5b5;
+      }
+
+      .create-task-reminder::-webkit-calendar-picker-indicator {
+          color: transparent;
+          background: none;
+          width: 100%;
+          position: absolute;
+          left: 0;
+      }
+
+      .create-task-reminder::after {
+          content: '\\e935';
+          font-family: 'Material Icons', sans-serif;
+          position: absolute;
+          left: 15px;
+          color: #b5b5b5;
+      }
+
       .add-task-link { display: none; }
 
       task[has-url=true] .add-task-link {
@@ -773,6 +794,10 @@ class Todo extends Component {
           cursor: pointer;
           color: white;
           opacity: .6;
+      }
+
+      .task-option.disabled {
+          display: none;
       }
 
       .task-option:hover {
@@ -976,6 +1001,9 @@ class Todo extends Component {
           <label>
             <input class="create-task-field create-task-url" name="url" required></input>
             <p><i class="material-icons create-task-url-icon">link</i><span>URL</span></p>
+          </label>
+          <label>
+            <input type="datetime-local" class="create-task-field create-task-reminder" name="reminder" required></input>
           </label>
           <div class="create-task-priority">
             <input type="radio" class="task-priority priority-low" name="priority" value="0">

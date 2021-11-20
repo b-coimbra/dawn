@@ -22,10 +22,12 @@ class Tasks extends Component {
       url: data?.url ?? '',
       createdAt: this.getCreationDate(),
       priority: data?.priority ?? -1,
+      reminder: data?.reminder,
       state: 0,
       alert: false
     };
 
+    this.setReminder(task);
     this.save(task);
 
     return task;
@@ -38,6 +40,36 @@ class Tasks extends Component {
       date: date.strftime('e b'),
       time: date.strftime('h:i')
     };
+  }
+
+  static async setReminder(task) {
+    if (!task.reminder) return;
+
+    const hasPermission = async () => {
+      if (Notification.permission === 'granted')
+        return true;
+
+      if (Notification.permission !== 'denied') {
+        let permission = await Notification.requestPermission();
+        return permission === 'granted';
+      }
+
+      return false;
+    };
+
+    const showNotification = () => {
+      const notification = new Notification(task.title, {
+        body: task.description,
+        timestamp: task.reminder
+      });
+
+      notification.onclick = this.followUrl(task);
+
+      setTimeout(() => notification.close(), 10 * 1000);
+    };
+
+    if (await hasPermission())
+      showNotification();
   }
 
   static get id() {
@@ -162,13 +194,18 @@ class Tasks extends Component {
   }
 
   static followUrl(taskId) {
-    const url = this.getById(taskId).url;
+    const url = this.getById(taskId)?.url;
     if (url) window.open(url, '_blank').focus();
   }
 
   static template(task, index = -1) {
     return `
-        <task index="${index}" status="${this.getStatus(task.state)}" priority="${this.getPriority(task.priority)}" id="${task.id}" has-url="${Boolean(task.url)}" class="slide-in">
+        <task index="${index}"
+              status="${this.getStatus(task.state)}"
+              priority="${this.getPriority(task.priority)}"
+              id="${task.id}"
+              has-url="${Boolean(task.url)}"
+              class="slide-in">
             ${EditTaskPanel.template(task)}
             <div class="task-controls">
               <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
@@ -191,7 +228,7 @@ class Tasks extends Component {
                   <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
                     <i class="material-icons">edit</i>
                   </button>
-                  <button class="task-option add-task-link" onclick="Tasks.followUrl('${task.id}')">
+                  <button class="task-option add-task-link ${!task.url ? 'disabled' : ''}" onclick="Tasks.followUrl('${task.id}')">
                     <i class="material-icons">link</i>
                   </button>
                   <button class="task-option add-task-alert" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})">

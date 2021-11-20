@@ -106,6 +106,7 @@ const GLOBAL_CONFIG = new Config({
     - [X] Task add priority
     - [X] Task add external URLs
     - [ ] Task add reminder
+      - [X] Clicking on reminder opens the link assigned to the task
     - [ ] Ability to schedule deadlines for tasks
       - [ ] Add option in the addTodo pane or in the task itself
       - [ ] Calendar select

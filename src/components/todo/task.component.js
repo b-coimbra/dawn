@@ -45,31 +45,11 @@ class Tasks extends Component {
   static async setReminder(task) {
     if (!task.reminder) return;
 
-    const hasPermission = async () => {
-      if (Notification.permission === 'granted')
-        return true;
-
-      if (Notification.permission !== 'denied') {
-        let permission = await Notification.requestPermission();
-        return permission === 'granted';
-      }
-
-      return false;
-    };
-
-    const showNotification = () => {
-      const notification = new Notification(task.title, {
-        body: task.description,
-        timestamp: task.reminder
-      });
-
-      notification.onclick = this.followUrl(task);
-
-      setTimeout(() => notification.close(), 10 * 1000);
-    };
-
-    if (await hasPermission())
-      showNotification();
+    await Notify.create({
+      title: task.title,
+      body: task.description,
+      timestamp: task.reminder
+    }, () => this.followUrl(task));
   }
 
   static get id() {

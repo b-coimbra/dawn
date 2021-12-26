@@ -45,7 +45,7 @@ class Crypto extends Component {
 
   imports() {
     return [
-      this.resources.icons.bitonics,
+      this.resources.icons.cryptofont,
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
@@ -143,7 +143,7 @@ class Crypto extends Component {
 
     return `
         <!-- <crypto-popup></crypto-popup> -->
-        <i class="bt bt-${this.from.toLowerCase()} crypto-icon"></i>
+        <i class="cf cf-${this.from.toLowerCase()} crypto-icon"></i>
         <div class="crypto-value crypto-icon">
             <span class="crypto-type">${this.from}</span>
             <span class="crypto-price">

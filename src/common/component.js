@@ -8,7 +8,7 @@ class Component extends HTMLElement {
     },
     icons: {
       material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">',
-      bitonics: '<link href="https://bitonics.net/vendor/bitonics/bitonics.min.css" rel="stylesheet" type="text/css">'
+      cryptofont: '<link rel="stylesheet" href="https://cdn.cryptofonts.com/1.3.5/cryptofont.css">'
     },
     libs: {
       awoo: '<link rel="stylesheet" type="text/css" href="src/css/awoo.min.css">'

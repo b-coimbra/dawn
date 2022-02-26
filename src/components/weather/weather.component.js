@@ -40,8 +40,8 @@ class Weather extends Component {
   }
 
   setDependencies() {
-    this.weatherForecast = new WeatherForecast(GLOBAL_CONFIG.temperature.location);
-    this.temperatureScale = GLOBAL_CONFIG.temperature.scale;
+    this.weatherForecast = new WeatherForecast(CONFIG.temperature.location);
+    this.temperatureScale = CONFIG.temperature.scale;
   }
 
   imports() {
@@ -102,8 +102,8 @@ class Weather extends Component {
   swapScale() {
     this.temperatureScale = this.temperatureScale === 'C' ? 'F' : 'C';
 
-    GLOBAL_CONFIG.temperature = {
-      ...GLOBAL_CONFIG.temperature,
+    CONFIG.temperature = {
+      ...CONFIG.temperature,
       scale: this.temperatureScale
     };
 

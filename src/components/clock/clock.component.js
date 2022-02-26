@@ -42,7 +42,7 @@ class Clock extends Component {
   setTime() {
     const date = new Date();
 
-    this.refs.clock = date.strftime(GLOBAL_CONFIG.clock);
+    this.refs.clock = date.strftime(CONFIG.clock);
   }
 
   connectedCallback() {

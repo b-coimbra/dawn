@@ -17,6 +17,7 @@ class Config {
       }
     },
     disabled: [],
+    tabs: [],
     keybindings: {
       "t": Actions.activate('todo-list'),
       "s": Actions.activate('search-bar')

@@ -2,7 +2,7 @@ class Statusbar extends Component {
   externalRefs = {};
 
   refs = {
-    panels: '#panels > ul',
+    categories: '.categories ul',
     tabs: '#tabs ul li',
     indicator: '.indicator'
   };
@@ -15,7 +15,7 @@ class Statusbar extends Component {
 
   setDependencies() {
     this.externalRefs = {
-      panels: this.parentNode.querySelectorAll(this.refs.panels)
+      categories: this.parentNode.querySelectorAll(this.refs.categories)
     };
   }
 
@@ -44,10 +44,10 @@ class Statusbar extends Component {
 
       #tabs ul {
           counter-reset: tabs;
-          margin: 0 0 0 1.5em;
           height: 100%;
           position: relative;
           list-style: none;
+          margin-left: 1em;
       }
 
       #tabs ul li:not(:last-child)::after {
@@ -139,6 +139,8 @@ class Statusbar extends Component {
 
       #tabs > cols {
           position: relative;
+          /* grid-template-columns: [add-tab] 35px [tabs] auto [widgets] auto; */
+          grid-template-columns: [tabs] auto [widgets] auto;
       }
 
       #tabs .time span {
@@ -158,6 +160,22 @@ class Statusbar extends Component {
           width: 1px;
           background: rgb(255 255 255 / 10%);
       }
+
+      .add-tab {
+          border: 0;
+          background: #282830;
+          color: #9898a5;
+          cursor: pointer;
+          border-radius: 5px 15px 15px 5px;
+      }
+
+      .add-tab:hover {
+          filter: brightness(1.2);
+      }
+
+      .add-tab-icon {
+          font-size: 13pt;
+      }
     `;
   }
 
@@ -165,6 +183,11 @@ class Statusbar extends Component {
     return `
         <div id="tabs">
             <cols>
+                <!-- TODO: Add tab button
+                <button class="+ add-tab">
+                  <span class="material-icons add-tab-icon">add</span>
+                </button>
+                -->
                 <ul class="- indicator"></ul>
                 <div class="+ widgets col-end">
                     <crypto-rate class="+ widget"></crypto-rate>
@@ -184,7 +207,7 @@ class Statusbar extends Component {
       if (e !== undefined) {
         let { key } = e;
 
-        if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.panels.length)
+        if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length)
           this.activateByKey(key - 1);
       }
     };
@@ -192,13 +215,13 @@ class Statusbar extends Component {
 
   activateByKey(key) {
     this.activate(this.refs.tabs, this.refs.tabs[key]);
-    this.activate(this.externalRefs.panels, this.externalRefs.panels[key]);
+    this.activate(this.externalRefs.categories, this.externalRefs.categories[key]);
   }
 
   createTabs() {
-    const panelsCount = this.externalRefs.panels.length;
+    const categoriesCount = this.externalRefs.categories.length;
 
-    for (let i = 0; i <= panelsCount; i++)
+    for (let i = 0; i <= categoriesCount; i++)
       this.refs.indicator.innerHTML += `<li tab-index=${i} ${i == 0 ? 'active' : ''}></li>`;
   }
 

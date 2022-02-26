@@ -23,8 +23,7 @@ class Tasks extends Component {
       createdAt: this.getCreationDate(),
       priority: data?.priority ?? -1,
       reminder: data?.reminder,
-      state: 0,
-      alert: false
+      state: 0
     };
 
     this.setReminder(task);
@@ -76,8 +75,10 @@ class Tasks extends Component {
 
     tasks[index] = { ...tasks[index], ...task };
 
-    if (updatedField)
-      elemRef.querySelector(`.task-${updatedField}`).innerText = task[updatedField];
+    if (updatedField) {
+      const field = elemRef.querySelector(`.task-${updatedField}`);
+      if (field) field.innerText = task[updatedField];
+    }
 
     localStorage.tasks = stringify(tasks);
   }
@@ -186,7 +187,7 @@ class Tasks extends Component {
               id="${task.id}"
               has-url="${Boolean(task.url)}"
               class="slide-in">
-            ${EditTaskPanel.template(task)}
+            ${EditTask.template(task)}
             <div class="task-controls">
               <button class='task-control task-move-up control-arrows' onclick="Tasks.move(this.parentNode.parentNode, Tasks.directions.UP)">
                 <i class="material-icons">keyboard_arrow_up</i>
@@ -200,18 +201,19 @@ class Tasks extends Component {
                 <p class="task-title">${task.title}</p>
                 <p class="task-description">${task.description}</p>
                 <div class="row-end task-footer">
-                  <p class="added-at">${task.createdAt.date} - <span>${task.createdAt.time}</span></p>
-                  <div class="+ priority">
-                  </div>
+                  <p class="added-at">
+                    ${task.createdAt.date} - <span>${task.createdAt.time}</span>
+                  </p>
+                  <div class="+ priority"></div>
                 </div>
                 <div class="task-options">
-                  <button class="task-option edit-task" onclick="EditTaskPanel.open(this.parentNode.parentNode.parentNode)">
+                  <button class="task-option edit-task" onclick="EditTask.open(this.parentNode.parentNode.parentNode)">
                     <i class="material-icons">edit</i>
                   </button>
                   <button class="task-option add-task-link ${!task.url ? 'disabled' : ''}" onclick="Tasks.followUrl('${task.id}')">
                     <i class="material-icons">link</i>
                   </button>
-                  <button class="task-option add-task-alert" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})">
+                  <button class="task-option add-task-alert ${!task.reminder ? 'disabled' : ''}" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})">
                     <i class="material-icons">${task.alert ? 'notifications' : 'notifications_none'}</i>
                   </button>
                   <button class="task-option close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)">
@@ -220,105 +222,5 @@ class Tasks extends Component {
                 </div>
             </rows>
         </task>`;
-  }
-}
-
-class EditTaskPanel extends Component {
-  static refs = {
-    editTaskPanel: '.edit-task-panel'
-  };
-
-  static taskElemRef;
-
-  constructor() {
-    super();
-  }
-
-  static close(panel) {
-    this.taskElemRef.classList.remove('expand');
-    panel.classList.remove('active');
-  }
-
-  static open(task) {
-    this.taskElemRef = task;
-
-    const panel = task.querySelector(this.refs.editTaskPanel);
-
-    task.classList.add('expand');
-    panel.classList.add('active');
-  }
-
-  static updateField(fieldName, event) {
-    const { target, key } = event;
-
-    if (key === 'Escape' || key === 'Enter') {
-      this.close(target.parentNode.parentNode.parentNode);
-      return;
-    }
-
-    let task = Tasks.getById(this.taskElemRef.id);
-    task = { ...task, [fieldName]: target.value };
-
-    target.setAttribute('value', target.value);
-
-    if (fieldName === 'url') {
-      this.taskElemRef.setAttribute('has-url', Boolean(target.value));
-      Tasks.update(task, this.taskElemRef, null);
-    }
-    else
-      Tasks.update(task, this.taskElemRef, fieldName);
-  }
-
-  static updatePriority(priority, idx) {
-    let task = Tasks.getById(this.taskElemRef.id);
-    task = { ...task, priority: idx };
-
-    this.taskElemRef.setAttribute('priority', priority);
-
-    Tasks.update(task, this.taskElemRef, null);
-  }
-
-  static prioritiesTemplate(priority) {
-    const priorities = ['low', 'medium', 'high'];
-
-    return `
-      <div class="edit-task-priority">
-        ${priorities.map((p, i) => {
-          return `
-            <input type="radio" class="task-priority priority-${p}" name="priority" value="${i}"
-              ${priority === i ? 'checked' : ''}
-              onchange="EditTaskPanel.updatePriority('${p}', '${i}')">
-          `;
-        }).join('')}
-      </div>
-    `;
-  }
-
-  static template(task) {
-    return `
-        <form class="edit-task-panel">
-            <div class="edit-task-header heading">
-              <h1 class="edit-task-header-title">Edit task</h1>
-              <button class="task-option heading-close close-edit-task-panel" type="button" onclick="EditTaskPanel.close(this.parentNode.parentNode)">
-                <i class="material-icons">close</i>
-              </button>
-            </div>
-            <div class="edit-task-fields">
-              <label>
-                <input class="edit-task-field edit-task-title" value="${task.title}" onkeyup="EditTaskPanel.updateField('title', event)" required></input>
-                <p>Title</p>
-              </label>
-              <label>
-                <input class="edit-task-field edit-task-description" value="${task.description}" onkeyup="EditTaskPanel.updateField('description', event)" required></input>
-                <p>Description</p>
-              </label>
-              <label>
-                <input class="edit-task-field edit-task-url" value="${task.url}" onkeyup="EditTaskPanel.updateField('url', event)" required></input>
-                <p><i class="material-icons edit-task-url-icon">link</i><span>URL</span></p>
-              </label>
-              ${EditTaskPanel.prioritiesTemplate(parseInt(task.priority))}
-            </div>
-        </form>
-      `;
   }
 }

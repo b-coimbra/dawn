@@ -1,3 +1,5 @@
+const RenderedComponents = {};
+
 class Component extends HTMLElement {
   refs = {};
 
@@ -8,7 +10,8 @@ class Component extends HTMLElement {
     },
     icons: {
       material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">',
-      cryptofont: '<link rel="stylesheet" href="https://cdn.cryptofonts.com/1.3.5/cryptofont.css">'
+      cryptofont: '<link rel="stylesheet" href="https://cdn.cryptofonts.com/1.3.5/cryptofont.css">',
+      tabler: '<link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.53.0/iconfont/tabler-icons.min.css">'
     },
     libs: {
       awoo: '<link rel="stylesheet" type="text/css" href="src/css/awoo.min.css">'
@@ -97,5 +100,7 @@ class Component extends HTMLElement {
   async render() {
     this.shadow.innerHTML = await this.buildHTML();
     this.refs = this.createRef();
+
+    RenderedComponents[this.localName] = this;
   }
 }

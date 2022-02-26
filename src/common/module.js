@@ -4,10 +4,11 @@ const components = {
   'status-bar': Statusbar,
   'crypto-rate': Crypto,
   'current-time': Clock,
-  'weather-forecast': Weather
+  'weather-forecast': Weather,
+  'tabs-list': Tabs
 };
 
 Object.keys(components).forEach(componentName => {
-  if (!GLOBAL_CONFIG.disabled.includes(componentName))
+  if (!CONFIG.disabled.includes(componentName))
     customElements.define(componentName, components[componentName]);
 });

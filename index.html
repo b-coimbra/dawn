@@ -7,64 +7,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200|Roboto:100,400,700" rel="stylesheet">
     <link href="https://cdn.cryptofonts.com/1.3.5/cryptofont.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons@1.53.0/iconfont/tabler-icons.min.css">
     <link href="src/css/style.css" rel="stylesheet" type="text/css">
     <title>~</title>
   </head>
   <body>
-    <div id="links" class="-">
-      <status-bar class="!-"></status-bar>
-
-      <div id="panels">
-        <ul class="boards" active>
-          <div class="links">
-            <li>
-              <h1>Fun</h1>
-              <a href="https://4chan.org/wsg/" target="_blank">/wsg/</a>
-              <a href="https://archive.arisuchan.jp/cult/catalog.html" target="_blank">/cult/</a>
-              <a href="https://4chan.org/lit/" target="_blank">/lit/</a>
-              <a href="https://4chan.org/v/" target="_blank">/v/</a>
-              <a href="https://4chan.org/a/" target="_blank">/a/</a>
-            </li>
-            <li>
-              <h1>Comfy</h1>
-              <a href="https://sushigirl.us/lounge/catalog.html" target="_blank">/lounge/</a>
-              <a href="https://anon.cafe/comfy/catalog.html" target="_blank">/comfy/</a>
-            </li>
-            <li>
-              <h1>Technology</h1>
-              <a href="https://4chan.org/g/" target="_blank">/g/</a>
-              <a href="https://archive.arisuchan.jp/%CE%94/catalog.html" target="_blank">/Δ/</a>
-              <a href="https://www.lainchan.org/%CE%BB/catalog.html" target="_blank">/λ/</a>
-              <a href="https://www.lainchan.org/sec/catalog.html" target="_blank">/sec/</a>
-              <a href="https://boards.420chan.org/prog/" target="_blank">/prog/</a>
-            </li>
-          </div>
-        </ul>
-        <ul class="music">
-          <div class="links">
-            <li><a href="https://soundcloud.com/" target="_blank">soundcloud</a></li>
-            <li><a href="https://youtu.be" target="_blank">youtu.be</a></li>
-            <li><a href="https://r-a-d.io/" target="_blank">R/a/dio</a></li>
-            <li><a href="https://lainchan.org/music/" target="_blank">/music/</a></li>
-            <li><a href="https://boards.4channel.org/mu/" target="_blank">/mu/</a></li>
-          </div>
-        </ul>
-        <ul class="tech">
-          <div class="links">
-            <li><a href="https://www.reddit.com/r/startpages/" target="_blank">r/startpages</a></li>
-            <li><a href="https://www.reddit.com/r/unixporn/" target="_blank">r/unixporn</a></li>
-            <li><a href="https://www.reddit.com/r/programming/" target="_blank">r/programming</a></li>
-            <li><a href="https://doc.rust-lang.org/book/" target="_blank">rust</a></li>
-            <li><a href="http://afternoon.dynu.com/letterbox.html" target="_blank">post office</a></li>
-            <li><a href="http://314n.org" target="_blank">314n</a></li>
-            <li><a href="https://dev.to" target="_blank">dev.to</a></li>
-            <li><a href="https://collection.mataroa.blog" target="_blank">blog collection</a></li>
-          </div>
-        </ul>
-        <search-bar></search-bar>
-      </div>
-    </div>
-
+    <tabs-list></tabs-list>
     <todo-list class="|" id="todo"></todo-list>
 
     <script type="text/javascript" src="src/common/utils.js"></script>
@@ -77,6 +25,9 @@
 
     <script type="text/javascript" src="./userconfig.js"></script>
 
+    <script type="text/javascript" src="src/components/tabs/tabs.component.js"></script>
+    <script type="text/javascript" src="src/components/todo/task-priority.component.js"></script>
+    <script type="text/javascript" src="src/components/todo/task-edit.component.js"></script>
     <script type="text/javascript" src="src/components/todo/task.component.js"></script>
     <script type="text/javascript" src="src/components/todo/todo.component.js"></script>
 

@@ -9,7 +9,7 @@ class Search extends Component {
   constructor() {
     super();
 
-    this.engines = GLOBAL_CONFIG.search.engines;
+    this.engines = CONFIG.search.engines;
   }
 
   style() {
@@ -129,8 +129,8 @@ class Search extends Component {
 
   activate() {
     this.refs.search.classList.add('active');
-    this.refs.input.focus();
     this.refs.input.scrollIntoView();
+    setTimeout(() => this.refs.input.focus(), 100);
   }
 
   deactivate() {

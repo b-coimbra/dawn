@@ -33,8 +33,8 @@ class Todo extends Component {
   }
 
   setEvents() {
-    this.refs.openTaskPanelButton.onclick = ()  => this.toggleTaskModal();
-    this.refs.closeTaskModal.onclick      = ()  => this.toggleTaskModal();
+    this.refs.openTaskPanelButton.onclick = ()  => this.activate();
+    this.refs.closeTaskModal.onclick      = ()  => this.activate();
     this.refs.cleanTasksButton.onclick    = ()  => this.cleanTasks();
     this.refs.todoCount.onclick           = (e) => this.addFilter(e, 'show:todo');
     this.refs.doneCount.onclick           = (e) => this.addFilter(e, 'show:done');
@@ -55,7 +55,7 @@ class Todo extends Component {
     fields.forEach(field => {
       field.onkeydown = ({ key }) => {
         if (key === 'Escape')
-          this.toggleTaskModal();
+          this.activate();
       };
     });
   }
@@ -145,7 +145,7 @@ class Todo extends Component {
     task.removeAttribute('move-direction');
   }
 
-  toggleTaskModal() {
+  activate() {
     this.refs.createTaskForm.reset();
     this.refs.addTaskModal.classList.toggle('active');
     this.refs.taskList.classList.toggle('dim');
@@ -168,7 +168,7 @@ class Todo extends Component {
 
     this.refs.taskList.insertAdjacentHTML('beforeend', Tasks.template(task));
     this.updateCounter();
-    this.toggleTaskModal();
+    this.activate();
     this.refs.createTaskForm.reset();
   }
 
@@ -342,6 +342,14 @@ class Todo extends Component {
           box-shadow: 0 0 0 1px #5ea991, 0 5px 5px rgb(0 0 0 / 20%);
       }
 
+      :is(.add-task,
+          .add-task-button,
+          .heading > .heading-close,
+          .task-option):focus
+      {
+          transform: scale(.85);
+      }
+
       .add-task .add-task-icon {
           transition: transform .3s;
           color: #79bf9e;
@@ -391,7 +399,7 @@ class Todo extends Component {
       }
 
       task.expand {
-          min-height: 240px;
+          min-height: 300px;
       }
 
       .tasks task[status=todo] { --state: var(--todo); }
@@ -498,6 +506,7 @@ class Todo extends Component {
           background: #0f0f12;
           border-radius: 40px;
           box-sizing: border-box;
+          transition: box-shadow .1s;
       }
 
       .add-todo-panel.active {
@@ -513,7 +522,7 @@ class Todo extends Component {
           display: grid;
           transition: all .5s;
           grid-auto-rows: min-content;
-          overflow-x: visible;
+          overflow-x: hidden;
           overflow-y: scroll;
           width: calc(100% + 45px);
           padding: 5px 10px 0 30px;
@@ -661,6 +670,7 @@ class Todo extends Component {
           margin-left: 5px;
           border: 0;
           cursor: pointer;
+          transition: box-shadow .1s;
       }
 
       .task-priority:hover {
@@ -714,12 +724,14 @@ class Todo extends Component {
           margin-right: 5px;
       }
 
-      .create-task-reminder {
+      .create-task-reminder,
+      .edit-task-reminder {
           padding-left: 35px;
           color: #b5b5b5;
       }
 
-      .create-task-reminder::-webkit-calendar-picker-indicator {
+      .create-task-reminder::-webkit-calendar-picker-indicator,
+      .edit-task-reminder::-webkit-calendar-picker-indicator{
           color: transparent;
           background: none;
           width: 100%;
@@ -727,7 +739,8 @@ class Todo extends Component {
           left: 0;
       }
 
-      .create-task-reminder::after {
+      .create-task-reminder::after,
+      .edit-task-reminder::after {
           content: '\\e935';
           font-family: 'Material Icons', sans-serif;
           position: absolute;
@@ -818,7 +831,7 @@ class Todo extends Component {
 
       .control-arrows {
           opacity: 0;
-          transition: opacity .2s, transform .2s, color .2s;
+          transition: opacity .1s, transform .1s, color .1s;
       }
 
       .task-move-down {

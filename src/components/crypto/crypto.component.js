@@ -23,15 +23,15 @@ class Crypto extends Component {
   constructor() {
     super();
 
-    this.refreshInterval = GLOBAL_CONFIG.crypto?.refreshIn || 10;
+    this.refreshInterval = CONFIG.crypto?.refreshIn || 10;
     this.setAttributes();
     this.setDependencies();
     this.setEvents();
   }
 
   setAttributes() {
-    this.from = GLOBAL_CONFIG.crypto.coin.toUpperCase();
-    this.to = GLOBAL_CONFIG.crypto.currency.toUpperCase();
+    this.from = CONFIG.crypto.coin.toUpperCase();
+    this.to = CONFIG.crypto.currency.toUpperCase();
     this.setAttribute('exchange-value', '0');
   }
 

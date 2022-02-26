@@ -20,18 +20,45 @@
 
 ## Configuration
 
-For now, some settings can be tweaked by changing the `GLOBAL_CONFIG` object located in `./userconfig.js`.
+For now, some settings can be tweaked by changing the `CONFIG` object located in `./userconfig.js`.
 
 ### Disabling a component
 
 To disable a component, put their name into the list of `disabled` components:
 
 ```js
-const GLOBAL_CONFIG = new Config({
+const CONFIG = new Config({
     // ...
     disabled: ['todo-list'] // search-bar, crypto-rate, current-time, weather-forecast, status-bar
 });
 ```
+
+### Tabs
+
+Create new tabs and categories like so:
+
+```js
+const CONFIG = new Config({
+    // ...
+    tabs: [
+        {
+            name: 'boards',
+            background_url: 'src/res/banners/bg-1.gif',
+            categories: [{
+                name: 'fun',
+                links: [{
+                    url: 'https://youtube.com',
+                    name: 'youtube',
+                    icon: 'brand-youtube',
+                    icon_color: '#996767'
+                }]
+            }]
+        }
+    ]
+)
+```
+
+All the available icons can be found on [tabler-icons](https://tabler-icons.io).
 
 ### Clock
 
@@ -40,7 +67,7 @@ Change the clock format in the status bar using [strftime.org](https://strftime.
 Config example (`userconfig.js`):
 
 ```js
-const GLOBAL_CONFIG = new Config({
+const CONFIG = new Config({
     // ...
     clock: 'h:i p',        // 13:30 PM
     clock: 'do B Y - h:i', // 18th January 2021 - 13:30
@@ -53,7 +80,7 @@ const GLOBAL_CONFIG = new Config({
 Change your location and temperature scale (celius, fahrenheit) like such:
 
 ```js
-const GLOBAL_CONFIG = new Config({
+const CONFIG = new Config({
   // ...
   temperature: {
     location: 'New York',
@@ -67,7 +94,7 @@ const GLOBAL_CONFIG = new Config({
 For the live crypto status, provide a crypto coin and a FIAT currency. Example:
 
 ```js
-const GLOBAL_CONFIG = new Config({
+const CONFIG = new Config({
   // ...
   crypto: {
     coin: 'ETH', // BTC, LINK, DOGE etc
@@ -78,7 +105,7 @@ const GLOBAL_CONFIG = new Config({
 ```
 
 ## Features
-  
+
   - [X] No external libraries
   - [X] Web component based
   - [X] Status bar components
@@ -106,6 +133,7 @@ const GLOBAL_CONFIG = new Config({
     - [ ] Add new links button
     - [ ] Add link icon
     - [ ] Drag/drop reorganize
+    - [ ] Category styles (compact, icon, full)
   - [ ] Configuration
     - [X] Disable components
     - [ ] Change keybindings

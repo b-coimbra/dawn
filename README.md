@@ -5,7 +5,7 @@
 </div>
 
 <p align="center">
-  <img src="https://i.imgur.com/cTT6yNk.png">
+  <img src="https://i.imgur.com/IrDF4LX.png">
   <a href="https://b-coimbra.github.io/dawn/">LIVE PREVIEW</a>
 </div>
 

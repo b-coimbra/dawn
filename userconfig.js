@@ -31,8 +31,10 @@ const CONFIG = new Config({
             name: '/wsg/'
           },
           {
-            name: '/cult/',
-            url: 'https://archive.arisuchan.jp/cult/catalog.html'
+            name: '/out/',
+            url: 'https://4chan.org/out',
+            icon: 'leaf',
+            icon_color: '#64876d'
           },
           {
             name: '/lit/',
@@ -42,7 +44,13 @@ const CONFIG = new Config({
           {
             name: '/v/',
             url: 'https://4chan.org/v/',
-            icon: 'device-gamepad'
+            icon: 'device-gamepad',
+            icon_color: '#8b647b'
+          },
+          {
+            name: '/p/',
+            url: 'https://4chan.org/p/',
+            icon: 'camera'
           },
           {
             name: '/a/',
@@ -99,18 +107,16 @@ const CONFIG = new Config({
           name: 'music services',
           links: [
             {
-              name: 'soundcloud',
               url: 'https://soundcloud.com/',
-              icon: 'brand-soundcloud'
+              icon: 'brand-soundcloud',
+              icon_color: '#c57750'
             },
             {
-              name: 'youtu.be',
               url: 'https://youtu.be/',
               icon: 'brand-youtube',
               icon_color: '#996767'
             },
             {
-              name: 'rad.io',
               url: 'https://r-a-d.io/',
               icon: 'radio'
             },

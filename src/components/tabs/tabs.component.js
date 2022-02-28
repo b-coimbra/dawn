@@ -25,7 +25,7 @@ class Links extends Component {
                   <div class="link-info">
                     <a href="${ link.url }" target="_blank">
                       ${Links.getIcon(link)}
-                      ${link.name ?? ''}
+                      ${link.name ? `<p class="link-name">${link.name}</p>` : ''}
                     </a>
                 </div>`).join('')
               }
@@ -236,8 +236,11 @@ class Tabs extends Component {
 
       .categories .link-icon {
           font-size: 27px;
-          margin-right: 10px;
           color: #726f6f;
+      }
+
+      .categories .link-icon + .link-name {
+          margin-left: 10px;
       }
 
       .categories .links-wrapper {

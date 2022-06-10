@@ -104,6 +104,8 @@ const CONFIG = new Config({
 });
 ```
 
+Alternatively, click on the crypto widget to change the settings.
+
 ## Features
 
   - [X] No external libraries
@@ -112,10 +114,8 @@ const CONFIG = new Config({
     - [X] Clock/Date
     - [X] Live crypto
     - [X] Current weather
-      - [ ] `REFACTOR` Show weather location on hover
+      - [X] `REFACTOR` Show weather location on hover
     - [ ] `MAYBE` RSS reader
-    - [ ] Add new panels
-    - [ ] Store last visited panel
   - [X] Quick search panel
   - [ ] Todo/schedule panel
     - [X] Reordering
@@ -124,7 +124,8 @@ const CONFIG = new Config({
       - [ ] `MAYBE` Sync todo with google calendar
     - [X] Link to external URL
     - [X] Filter by task status (TODO/DONE)
-    - [ ] Filter by task priority
+    - [ ] Sort by creation date
+    - [ ] Sort by task priority
     - [X] Clean all tasks button
     - [X] Edit task button
     - [ ] `MAYBE` Subtasks w/ progress bar
@@ -136,6 +137,8 @@ const CONFIG = new Config({
     - [ ] Category styles (compact, icon, full)
   - [ ] Configuration
     - [X] Disable components
+    - [ ] Open last visited panel on new tab
+    - [ ] Reset settings to default
     - [ ] Change keybindings
     - [ ] Import/export settings
     - [ ] Randomize banner gifs

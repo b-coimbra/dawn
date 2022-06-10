@@ -6,7 +6,8 @@ class Component extends HTMLElement {
   resources = {
     fonts: {
       roboto: '<link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet">',
-      nunito: '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet">'
+      nunito: '<link href="https://fonts.googleapis.com/css?family=Nunito:200" rel="stylesheet">',
+      raleway: '<link href="https://fonts.googleapis.com/css?family=Raleway:600" rel="stylesheet">'
     },
     icons: {
       material: '<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">',
@@ -80,13 +81,14 @@ class Component extends HTMLElement {
   createRef() {
     return new Proxy(this.refs, {
       get: (target, prop) => {
-        const elems = this.shadow.querySelectorAll(target[prop]);
+        const ref = target[prop];
+        const elems = this.shadow.querySelectorAll(ref);
 
         if (elems.length > 1) return elems;
 
         const element = elems[0];
 
-        if (!element) return target[prop];
+        if (!element) return ref;
 
         return element;
       },
@@ -100,7 +102,6 @@ class Component extends HTMLElement {
   async render() {
     this.shadow.innerHTML = await this.buildHTML();
     this.refs = this.createRef();
-
     RenderedComponents[this.localName] = this;
   }
 }

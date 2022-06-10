@@ -1,5 +1,5 @@
 class Actions {
   static activate(componentName) {
-    return () => RenderedComponents[componentName].activate();
+    return RenderedComponents[componentName].activate();
   }
 }

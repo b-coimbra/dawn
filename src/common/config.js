@@ -1,5 +1,6 @@
 class Config {
   defaults = {
+    overrideStorage: false,
     crypto: {
       currency: 'USD',
       coin: 'ETH',
@@ -19,15 +20,18 @@ class Config {
     disabled: [],
     tabs: [],
     keybindings: {
-      "t": Actions.activate('todo-list'),
-      "s": Actions.activate('search-bar')
+      "t": 'todo-list',
+      "s": 'search-bar'
     }
   };
 
+  config;
+
   constructor (config) {
+    this.config = config;
     this.storage = new Storage('config');
 
-    this.autoConfig(config);
+    this.autoConfig();
     this.setKeybindings();
     this.save();
 
@@ -58,16 +62,25 @@ class Config {
    * Set default config values or load them from the local storage.
    * @returns {void}
    */
-  autoConfig(config) {
+  autoConfig() {
     Object.keys(this.defaults).forEach(setting => {
-      if (setting in config)
-        this[setting] = config[setting];
+      if (this.canOverrideStorage(setting))
+        this[setting] = this.config[setting];
       else
-        if (this.storage.hasValue('setting'))
+        if (this.storage.hasValue(setting))
           this[setting] = this.storage.get(setting);
         else
           this[setting] = this.defaults[setting];
     });
+  }
+
+  /**
+   * Determines whether the localStorage can be overridden.
+   * If the setting is for the tabs section, always override.
+   * @returns {bool}
+   */
+  canOverrideStorage(setting) {
+    return setting in this.config && (this.config.overrideStorage || setting === 'tabs');
   }
 
   /**
@@ -86,8 +99,8 @@ class Config {
     document.onkeypress = ({ key }) => {
       if (document.activeElement !== document.body) return;
 
-      if (Object.keys(this.defaults.keybindings).includes(key))
-        this.defaults.keybindings[key]();
+      if (Object.keys(this.config.keybindings).includes(key))
+        Actions.activate(this.config.keybindings[key]);
     };
   }
 

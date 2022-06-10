@@ -5,7 +5,8 @@ const components = {
   'crypto-rate': Crypto,
   'current-time': Clock,
   'weather-forecast': Weather,
-  'tabs-list': Tabs
+  'tabs-list': Tabs,
+  'modal-popup': Modal
 };
 
 Object.keys(components).forEach(componentName => {

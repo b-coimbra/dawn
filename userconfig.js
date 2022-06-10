@@ -4,6 +4,7 @@ const CONFIG = new Config({
     currency: 'USD',
     refreshIn: 10
   },
+  overrideStorage: false, // override localStorage with fixed userconfig values
   temperature: {
     location: 'Matão, São Paulo',
     scale: 'C'
@@ -17,6 +18,10 @@ const CONFIG = new Config({
       y: ['https://youtube.com/results?search_query=', 'Youtube'],
       w: ['https://en.wikipedia.org/w/index.php?search=', 'Wikipedia']
     }
+  },
+  keybindings: {
+    "t": 'todo-list',
+    "s": 'search-bar'
   },
   disabled: [],
   tabs: [
@@ -51,10 +56,6 @@ const CONFIG = new Config({
             name: '/p/',
             url: 'https://4chan.org/p/',
             icon: 'camera'
-          },
-          {
-            name: '/a/',
-            url: 'https://4chan.org/a/'
           }
         ]
       },

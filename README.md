@@ -112,11 +112,9 @@ Alternatively, click on the crypto widget to change the settings:
   <img src="https://i.imgur.com/aUnoJLA.png">
 </div>
 
-## Features
+## Features/TODO
 
-  - [X] No external libraries
-  - [X] Web component based
-  - [X] Status bar components
+  - [X] Status bar
     - [X] Clock/Date
     - [X] Live crypto
     - [X] Current weather
@@ -136,25 +134,25 @@ Alternatively, click on the crypto widget to change the settings:
     - [X] Edit task button
     - [ ] `MAYBE` Subtasks w/ progress bar
     - [ ] `MAYBE` Subsections for todo DEADLINE ("today", "upcoming")
-  - [ ] Links section
-    - [ ] Add new links button
-    - [ ] Add link icon
-    - [ ] Drag/drop reorganize
+  - [ ] Tabs/Links section
+    - [ ] Show link domain on hover
     - [ ] Category styles (compact, icon, full)
+    - [ ] Add "create new tab" button
+    - [X] Add link icon
+    - [ ] Drag/drop reorganize
   - [ ] Crypto section
     - [ ] Load top 10 coins and currencies via API
   - [ ] Configuration
     - [X] Disable components
+    - [ ] Toggle status bar sections
     - [ ] Open last visited panel on new tab
     - [ ] Reset settings to default
     - [ ] Change keybindings
     - [ ] Import/export settings
     - [ ] Randomize banner gifs
-    - [ ] Toggle status bar sections
     - [ ] Status bar tab indicator (roman numerals, hiragana, numbers)
     - [ ] Colorscheme manipulation
     - [ ] `MAYBE` Optional sound fx
-  - [ ] `REFACTOR` Unify storage into a single JSON object
   - [ ] Create favicon
   - [ ] Keybinding cheatsheet
   - [ ] Verify updates on startup

@@ -27,7 +27,6 @@ class Clock extends Component {
             color: #ff7b95;
             font-size: 10pt;
             margin-right: 10px;
-            margin-bottom: 1px;
         }
     `;
   }

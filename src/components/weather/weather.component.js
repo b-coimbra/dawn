@@ -28,6 +28,8 @@ class Weather extends Component {
     }
   ];
 
+  location;
+
   constructor() {
     super();
 
@@ -40,8 +42,9 @@ class Weather extends Component {
   }
 
   setDependencies() {
-    this.weatherForecast = new WeatherForecast(CONFIG.temperature.location);
+    this.location = CONFIG.temperature.location;
     this.temperatureScale = CONFIG.temperature.scale;
+    this.weatherForecast = new WeatherForecastClient(this.location);
   }
 
   imports() {
@@ -64,14 +67,33 @@ class Weather extends Component {
           font: 300 9pt 'Roboto', sans-serif;
           color: #c1c1c1;
           white-space: nowrap;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 100%;
       }
 
-      .weather-temperature-value {
+      .weather-temperature:hover .weather-temperature-location {
+          display: inline-block;
+      }
+
+      .weather-temperature-location {
+          display: none;
+          margin-right: 10px;
+      }
+
+      .weather-temperature-location {
+          font-weight: 500;
+      }
+
+      .weather-temperature-value
+      {
           font-weight: bold;
       }
 
       .weather-condition-icon {
           font-size: 14pt;
+          line-height: 0;
       }
 
       .weather-condition-icon.sunny {
@@ -86,10 +108,9 @@ class Weather extends Component {
 
   async template() {
     return `
-        <p class="weather-icon" class="+">
-            <i class="material-icons weather-condition-icon sunny">wb_sunny</i>
-        </p>
-        <p class="weather-temperature">
+        <p class="+ weather-temperature">
+            <span class="weather-icon" class="+"><i class="material-icons weather-condition-icon sunny">wb_sunny</i></span>
+            <span class="weather-temperature-location">${this.location}</span>
             <span class="weather-temperature-value">1</span>
             º<span class="weather-temperature-scale">${this.temperatureScale}</span>
         </p>`;

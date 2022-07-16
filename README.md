@@ -89,6 +89,8 @@ const CONFIG = new Config({
 });
 ```
 
+Alternatively, click on the weather widget to swap between Celius and Fahrenheit.
+
 ### Crypto status
 
 For the live crypto status, provide a crypto coin and a FIAT currency. Example:
@@ -104,7 +106,11 @@ const CONFIG = new Config({
 });
 ```
 
-Alternatively, click on the crypto widget to change the settings.
+Alternatively, click on the crypto widget to change the settings:
+
+<p align="left">
+  <img src="https://i.imgur.com/aUnoJLA.png">
+</div>
 
 ## Features
 
@@ -135,6 +141,8 @@ Alternatively, click on the crypto widget to change the settings.
     - [ ] Add link icon
     - [ ] Drag/drop reorganize
     - [ ] Category styles (compact, icon, full)
+  - [ ] Crypto section
+    - [ ] Load top 10 coins and currencies via API
   - [ ] Configuration
     - [X] Disable components
     - [ ] Open last visited panel on new tab

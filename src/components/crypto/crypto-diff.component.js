@@ -49,7 +49,7 @@ class CryptoDiff extends Component {
         </p>`;
   }
 
-  attributeChangedCallback(attrName, oldDiff, newDiff) {
+  attributeChangedCallback(attrName) {
     if (attrName === 'exchange-diff') {
       this.render();
     }
@@ -63,5 +63,3 @@ class CryptoDiff extends Component {
     this.render();
   }
 }
-
-customElements.define('crypto-diff', CryptoDiff);

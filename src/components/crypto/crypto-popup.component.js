@@ -1,5 +1,8 @@
 class CryptoPopup extends Component {
-  refs = {};
+  refs = {
+    coins: '.coins-option',
+    currencies: '.currencies-option'
+  };
 
   constructor() {
     super();
@@ -10,6 +13,37 @@ class CryptoPopup extends Component {
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
+  }
+
+  setEvents() {
+    this.refs.coins.onchange = (e) => this.onSelectChange(e);
+    this.refs.currencies.onchange = (e) => this.onSelectChange(e);
+    this.onclick = (e) => {
+      if (e.currentTarget === this) this.deactivate();
+    };
+  }
+
+  setSelectedValues() {
+    this.refs.coins.value = CONFIG.crypto.coin;
+    this.refs.currencies.value = CONFIG.crypto.currency;
+  }
+
+  onSelectChange({ target }) {
+    const { name, value } = target;
+    CONFIG.crypto = { ...CONFIG.crypto, [name]: value };
+    this.refresh();
+  }
+
+  activate() {
+    this.classList.toggle('active');
+  };
+
+  deactivate() {
+    this.classList.remove('active');
+  }
+
+  refresh() {
+    RenderedComponents['crypto-rate'].refresh();
   }
 
   style() {
@@ -48,20 +82,32 @@ class CryptoPopup extends Component {
   template() {
     return `
       <div class="crypto-options">
-        <select name="coins" class="dropdown coins-option">
+        <select name="coin" class="dropdown coins-option">
           <option value="ETH">ETH</option>
+          <option value="BTC">BTC</option>
+          <option value="USDT">USDT</option>
+          <option value="USDC">USDC</option>
+          <option value="BNB">BNB</option>
+          <option value="XRP">XRP</option>
+          <option value="ADA">ADA</option>
+          <option value="SOL">SOL</option>
+          <option value="DOGE">DOGE</option>
         </select>
         <i class="material-icons exchange-arrow-icon">arrow_forward</i>
-        <select name="currencies" class="dropdown currencies-option">
-          <option value="USD">USD</option>
+        <select name="currency" class="dropdown currencies-option">
+          <option value="USD">USD $</option>
+          <option value="EUR">EUR €</option>
+          <option value="JPY">YEN ¥</option>
+          <option value="BRL">BRL R$</option>
         </select>
       </div>
     `;
   }
 
   async connectedCallback() {
-    this.render();
+    this.render().then(() =>{
+      this.setEvents();
+      this.setSelectedValues();
+    });
   }
 }
-
-customElements.define('crypto-popup', CryptoPopup);

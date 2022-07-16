@@ -1,10 +1,12 @@
-class CryptoExchange {
-  constructor(from, to) {
-    this.url = `https://min-api.cryptocompare.com/data/price?fsym=${from}&tsyms=${to}`;
+class CryptoExchangeClient {
+  constructor() {
+    this.baseUrl = 'https://min-api.cryptocompare.com/data';
   }
 
-  async get() {
-    return await fetch(this.url)
+  async getExchangeRate(from, to) {
+    const url = `${this.baseUrl}/price?fsym=${from}&tsyms=${to}`;
+
+    return await fetch(url)
       .then(data => data.json())
       .catch(err => console.error(err));
   }

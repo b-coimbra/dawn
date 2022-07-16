@@ -2,13 +2,12 @@ class Crypto extends Component {
   refs = {
     exchangeValue: '.exchange-value',
     cryptoDiff: 'crypto-diff',
-    cryptoPopup: 'crypto-popup'
+    cryptoPopup: 'crypto-popup',
+    cryptoCoin: '.crypto-coin',
+    cryptoIcon: 'i.crypto-icon',
+    currencySymbol: '.currency-symbol'
   };
 
-  from;
-  to;
-  exchange;
-  refreshInterval = 10;
   currencies = {
     'USD': '$',
     'JPY': '¥',
@@ -20,27 +19,28 @@ class Crypto extends Component {
     }
   };
 
+  defaults = {
+    currency: 'USD',
+    coin: 'BTC',
+    currencySymbol: this.currencies[this.currency],
+    refreshInterval: 10
+  };
+
+  exchangeClient = null;
+  refreshInterval = this.defaults.refreshInterval;
+  currency = this.defaults.currency;
+
   constructor() {
     super();
 
-    this.refreshInterval = CONFIG.crypto?.refreshIn || 10;
-    this.setAttributes();
-    this.setDependencies();
-    this.setEvents();
+    this.exchangeClient = new CryptoExchangeClient();
+    this.refreshInterval = CONFIG.crypto?.refreshIn;
   }
 
   setAttributes() {
-    this.from = CONFIG.crypto.coin.toUpperCase();
-    this.to = CONFIG.crypto.currency.toUpperCase();
-    this.setAttribute('exchange-value', '0');
-  }
-
-  setEvents() {
-    this.onclick = () => this.togglePopup();
-  }
-
-  setDependencies() {
-    this.exchange = new CryptoExchange(this.from, this.to);
+    this.coin = CONFIG.crypto.coin.toUpperCase();
+    this.currency = CONFIG.crypto.currency.toUpperCase();
+    this.refs.currencySymbol = this.currencies.getSymbol(this.currency);
   }
 
   imports() {
@@ -49,6 +49,113 @@ class Crypto extends Component {
       this.resources.icons.material,
       this.resources.fonts.roboto
     ];
+  }
+
+  setEvents() {
+    this.onclick = ({ currentTarget }) => {
+      if (currentTarget === this) this.activatePopup();
+    };
+  }
+
+  setCryptoIcon() {
+    const cryptoFontPrefix = 'cf-';
+    const cryptoFontMatcher = new RegExp(`${cryptoFontPrefix}\\w+`, 'i');
+
+    const icon = this.refs.cryptoIcon;
+    const iconClassName = cryptoFontPrefix + this.coin.toLowerCase();
+
+    icon.className = icon
+        .className
+        .replace(cryptoFontMatcher, iconClassName);
+  }
+
+  /**
+   * @param {number} value
+   */
+  set coin(value) {
+    this.refs.cryptoCoin = value;
+    this.setCryptoIcon();
+  }
+
+  get coin() { return this.refs.cryptoCoin.innerText; }
+
+  /**
+   * @param {number} value
+   */
+  set exchangeValue(value) {
+    this.refs.exchangeValue = Number(value).toLocaleString();
+    localStorage.exchangeValue = value;
+  }
+
+  get exchangeValue() {
+    return localStorage.exchangeValue || 0;
+  }
+
+  /**
+   * @param {number} percentage
+   */
+  set exchangeDiff(percentage) {
+    this.refs.cryptoDiff.setAttribute('exchange-diff', percentage.toFixed(2));
+  }
+
+  setExchangeValue({ current }) {
+    this.exchangeValue = current;
+  }
+
+  setExchangeDiff(exchange) {
+    let previous = Number(exchange.previous);
+    let current = Number(exchange.current);
+
+    if (!previous) previous = current;
+
+    const diff = current - previous;
+    const diffPercent = (diff / previous) * 100;
+
+    this.exchangeDiff = diffPercent;
+  }
+
+  async getCurrentPrice() {
+    const exchangeRate =
+      await this.exchangeClient.getExchangeRate(this.coin, this.currency);
+
+    const price = parseFloat(exchangeRate[this.currency]).toFixed(2);
+
+    return price;
+  }
+
+  async setExchangeRate() {
+    const price = await this.getCurrentPrice();
+
+    const exchange = {
+      previous: this.exchangeValue,
+      current: price
+    };
+
+    this.setExchangeValue(exchange);
+    this.setExchangeDiff(exchange);
+  }
+
+  activatePopup() {
+    RenderedComponents['crypto-popup'].activate();
+  }
+
+  async connectedCallback() {
+    const REFRESH_IN_SECS = 1000 * this.refreshInterval;
+
+    await this.render();
+
+    this.setAttributes();
+    this.setEvents();
+    this.setExchangeRate();
+
+    setInterval(async () =>
+      this.setExchangeRate(),
+      REFRESH_IN_SECS);
+  }
+
+  async refresh() {
+    this.setAttributes();
+    this.setExchangeRate();
   }
 
   style() {
@@ -76,11 +183,11 @@ class Crypto extends Component {
       }
 
       .crypto-icon,
-      .crypto-type {
+      .crypto-coin {
           color: var(--main-accent);
       }
 
-      .crypto-type {
+      .crypto-coin {
           font-weight: bold;
           margin-right: 10px;
           font-size: 7pt;
@@ -139,79 +246,16 @@ class Crypto extends Component {
   }
 
   async template() {
-    const currencySymbol = this.currencies.getSymbol(this.to);
-
     return `
-        <!-- <crypto-popup></crypto-popup> -->
-        <i class="cf cf-${this.from.toLowerCase()} crypto-icon"></i>
+        <crypto-popup></crypto-popup>
+        <i class="cf cf-${this.defaults.coin.toLowerCase()} crypto-icon"></i>
         <div class="crypto-value crypto-icon">
-            <span class="crypto-type">${this.from}</span>
+            <span class="crypto-coin">${this.coin}</span>
             <span class="crypto-price">
-                <span class="currency-symbol">${currencySymbol}</span>
+                <span class="currency-symbol">${this.defaults.currencySymbol}</span>
                 <span class="exchange-value">0</span>
             </span>
             <crypto-diff></crypto-diff>
         </div>`;
-  }
-
-  /**
-   * Calculate new exchange diff percentage when the exchange value is updated
-   * @returns {void}
-   */
-  handleExchangeUpdate(oldExchange, newExchange) {
-    oldExchange = Number(oldExchange);
-    newExchange = Number(newExchange);
-
-    if (oldExchange == 0) {
-      const lastExchangeValue = localStorage.exchangeValue;
-      oldExchange = !lastExchangeValue ? newExchange : lastExchangeValue;
-    }
-
-    const exchangeDiff = newExchange - oldExchange;
-    const exchangeDiffPercent = (exchangeDiff / oldExchange) * 100;
-
-    this.refs.cryptoDiff.setAttribute('exchange-diff', exchangeDiffPercent.toFixed(2));
-  }
-
-  /**
-   * GET current exchange rate value based on the currency and coin specified
-   * @async
-   * @ returns {void}
-   */
-  async setExchangeRate() {
-    this.exchangeRate = await this.exchange.get();
-
-    const exchangeRate = await this.exchangeRate;
-    const exchangeValue = parseFloat(exchangeRate[this.to]).toFixed(2);
-
-    this.refs.exchangeValue = Number(exchangeValue).toLocaleString();
-    this.setAttribute('exchange-value', exchangeValue);
-
-    localStorage.exchangeValue = exchangeValue;
-  }
-
-  togglePopup() {
-    this.refs.cryptoPopup.classList.toggle('active');
-  }
-
-  attributeChangedCallback(name, oldExchange, newExchange) {
-    if (name === 'exchange-value')
-      this.handleExchangeUpdate(oldExchange, newExchange);
-  }
-
-  static get observedAttributes() {
-    return ['exchange-value'];
-  }
-
-  async connectedCallback() {
-    const REFRESH_IN_SECS = 1000 * this.refreshInterval;
-
-    this.render();
-
-    await this.setExchangeRate();
-
-    setInterval(async () =>
-      await this.setExchangeRate(),
-      REFRESH_IN_SECS);
   }
 }

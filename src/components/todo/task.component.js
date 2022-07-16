@@ -207,13 +207,13 @@ class Tasks extends Component {
                   <div class="+ priority"></div>
                 </div>
                 <div class="task-options">
-                  <button class="task-option edit-task" onclick="EditTask.open(this.parentNode.parentNode.parentNode)">
+                  <button class="task-option edit-task" onclick="EditTask.open(this.parentNode.parentNode.parentNode)" title="Edit Task">
                     <i class="material-icons">edit</i>
                   </button>
-                  <button class="task-option add-task-link ${!task.url ? 'disabled' : ''}" onclick="Tasks.followUrl('${task.id}')">
+                  <button class="task-option add-task-link ${!task.url ? 'disabled' : ''}" onclick="Tasks.followUrl('${task.id}')" title="Follow link">
                     <i class="material-icons">link</i>
                   </button>
-                  <button class="task-option add-task-alert ${!task.reminder ? 'disabled' : ''}" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})">
+                  <button class="task-option add-task-alert ${!task.reminder ? 'disabled' : ''}" onclick="Tasks.toggleAlert(this, '${task.id}', ${task.alert})" title="Toggle reminder">
                     <i class="material-icons">${task.alert ? 'notifications' : 'notifications_none'}</i>
                   </button>
                   <button class="task-option close-task" onclick="Tasks.remove(this.parentNode.parentNode.parentNode)">

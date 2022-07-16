@@ -474,6 +474,7 @@ class Todo extends Component {
           color: #929292;
           font-weight: 400;
           margin-right: 15px;
+          text-transform: uppercase;
       }
 
       .tasks task .added-at span {

@@ -1,6 +1,7 @@
 class Clock extends Component {
   refs = {
-    clock: '.clock-time'
+    clock: '.clock-time',
+    icon: '.clock-icon'
   };
 
   constructor() {
@@ -38,15 +39,20 @@ class Clock extends Component {
     `;
   }
 
+  setIconColor() {
+    this.refs.icon.style.color = CONFIG.clock.iconColor;
+  }
+
   setTime() {
     const date = new Date();
 
-    this.refs.clock = date.strftime(CONFIG.clock);
+    this.refs.clock = date.strftime(CONFIG.clock.format);
   }
 
   connectedCallback() {
     this.render().then(() => {
       this.setTime();
+      this.setIconColor();
 
       setInterval(() => this.setTime(), 1000);
     });

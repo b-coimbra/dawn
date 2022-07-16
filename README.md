@@ -68,10 +68,13 @@ Config example (`userconfig.js`):
 
 ```js
 const CONFIG = new Config({
-    // ...
-    clock: 'h:i p',        // 13:30 PM
-    clock: 'do B Y - h:i', // 18th January 2021 - 13:30
-    clock: 'h:i - m/b/Y'   // 13:30 - 3/Jul/2021
+  // ...
+  clock: {
+    format: 'h:i p',        // 13:30 PM
+    // format: 'do B Y - h:i', // 18th January 2021 - 13:30
+    // format: 'h:i - m/b/Y',  // 13:30 - 3/Jul/2021
+    iconColor: 'grey'
+  }
 });
 ```
 
@@ -147,7 +150,7 @@ Alternatively, click on the crypto widget to change the settings:
     - [ ] Toggle status bar sections
     - [ ] Open last visited panel on new tab
     - [ ] Reset settings to default
-    - [ ] Change keybindings
+    - [X] Change keybindings
     - [ ] Import/export settings
     - [ ] Randomize banner gifs
     - [ ] Status bar tab indicator (roman numerals, hiragana, numbers)

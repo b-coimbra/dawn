@@ -49,6 +49,7 @@ class Category extends Component {
     return `
       ${ tabs.map(({ name, background_url }, index) => {
           return `<ul class="${ name }" ${Category.getBackgroundStyle(background_url)} ${index == 0 ? 'active' : ''}>
+            <div class="banner"></div>
             <div class="links">${Links.getAll(name, tabs)}</div>
           </ul>`;
       }).join('')}
@@ -69,6 +70,7 @@ class Tabs extends Component {
       this.resources.icons.material,
       this.resources.icons.tabler,
       this.resources.fonts.roboto,
+      this.resources.fonts.raleway,
       this.resources.libs.awoo
     ];
   }
@@ -143,9 +145,6 @@ class Tabs extends Component {
       .categories ul .links {
           box-shadow: inset -1px 0 var(--flavour);
       }
-
-      .categories ul:nth-child(2) { background: #fff url("../img/bg-2.gif") repeat center left fixed; }
-      .categories ul:nth-child(3) { background: #fff url("../img/bg-3.gif") repeat center left fixed; }
 
       .categories ul[active] {
           right: 0;
@@ -245,6 +244,7 @@ class Tabs extends Component {
 
       .categories .links-wrapper {
           display: flex;
+          flex-wrap: wrap;
       }
     `;
   }

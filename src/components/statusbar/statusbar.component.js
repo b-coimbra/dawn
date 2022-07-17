@@ -211,7 +211,7 @@ class Statusbar extends Component {
     this.refs.tabs.forEach(tab =>
       tab.onclick = ({ target }) => this.handleTabChange(target));
 
-    document.onkeydown = (e) => this.handleKeyPress(e);;
+    document.onkeydown = (e) => this.handleKeyPress(e);
   }
 
   handleTabChange(tab) {
@@ -219,12 +219,12 @@ class Statusbar extends Component {
   }
 
   handleKeyPress(event) {
-    if (event !== undefined) {
-      let { key } = event;
+    if (!event) return;
 
-      if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length)
-        this.activateByKey(key - 1);
-    }
+    let { key } = event;
+
+    if (Number.isInteger(parseInt(key)) && key <= this.externalRefs.categories.length)
+      this.activateByKey(key - 1);
   }
 
   activateByKey(key) {

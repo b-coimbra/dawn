@@ -273,6 +273,8 @@ class Todo extends Component {
           grid-column: 5;
           opacity: .5;
           cursor: unset;
+          background: #81395e;
+          box-shadow: 0 0 0 1px #c975a0, 0 5px 5px rgb(0 0 0 / 20%);
       }
 
       .clean-tasks.active {
@@ -285,7 +287,7 @@ class Todo extends Component {
       }
 
       .clean-tasks-icon {
-          color: #474752;
+          color: #c975a0;
       }
 
       .add-task:hover .add-task-icon {
@@ -293,7 +295,7 @@ class Todo extends Component {
       }
 
       .clean-tasks.active:hover .clean-tasks-icon {
-          color: #6c6c80;
+          color: #efb2d1;
       }
 
       .todo-count {
@@ -344,6 +346,7 @@ class Todo extends Component {
 
       :is(.add-task,
           .add-task-button,
+          .clean-tasks,
           .heading > .heading-close,
           .task-option):focus
       {

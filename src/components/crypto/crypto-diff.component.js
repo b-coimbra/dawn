@@ -1,5 +1,9 @@
 class CryptoDiff extends Component {
-  exchangeDiff;
+  refs = {
+    diff: '.crypto-diff',
+    diffIcon: '.crypto-change-indicator-icon',
+    diffValue: '.crypto-change-value'
+  };
 
   constructor() {
     super();
@@ -36,23 +40,47 @@ class CryptoDiff extends Component {
   }
 
   template() {
+    return `
+      <p class="crypto-diff exchange-increase">
+        <span class="material-icons crypto-change-indicator-icon">arrow_drop_up</span>
+        <span class="crypto-change-percent">
+          <span class="crypto-change-value">0.00</span> %
+        </span>
+      </p>`;
+  }
+
+  /**
+   * @param {number} diffPercent
+   */
+  set diff(diffPercent) {
+    this.refs.diff.classList.remove('exchange-decrease', 'exchange-increase');
+    this.refs.diff.classList.add(`exchange-${(diffPercent < 0) ? 'decrease' : 'increase'}`);
+  }
+
+  /**
+   * @param {number} diffPercent
+   */
+  set diffValue(diffPercent) {
+    this.refs.diffValue.innerText = Math.abs(diffPercent).toFixed(2);
+  }
+
+  /**
+   * @param {number} diffPercent
+   */
+  set diffIcon(diffPercent) {
+    this.refs.diffIcon.innerText = (diffPercent < 0) ? 'arrow_drop_down' : 'arrow_drop_up';
+  }
+
+  refresh() {
     const exchangeDiff = this.getAttribute('exchange-diff');
 
-    return `
-        <p class="crypto-diff exchange-${ (exchangeDiff < 0) ? 'decrease' : 'increase' }">
-            <span class="material-icons crypto-change-indicator-icon">
-                ${ (exchangeDiff < 0) ? 'arrow_drop_down' : 'arrow_drop_up' }
-            </span>
-            <span class="crypto-change-value">
-                <span class="crypto-change-value">${Math.abs(exchangeDiff).toFixed(2)} %</span>
-            </span>
-        </p>`;
+    this.diff = exchangeDiff;
+    this.diffIcon = exchangeDiff;
+    this.diffValue = exchangeDiff;
   }
 
   attributeChangedCallback(attrName) {
-    if (attrName === 'exchange-diff') {
-      this.render();
-    }
+    if (attrName === 'exchange-diff') this.refresh();
   }
 
   static get observedAttributes() {
@@ -60,6 +88,6 @@ class CryptoDiff extends Component {
   }
 
   connectedCallback() {
-    this.render();
+    this.render().then(() => this.refresh());
   }
 }

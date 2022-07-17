@@ -9,6 +9,7 @@ class Statusbar extends Component {
   };
 
   modal;
+  currentTabIndex = 0;
 
   constructor() {
     super();
@@ -212,6 +213,18 @@ class Statusbar extends Component {
       tab.onclick = ({ target }) => this.handleTabChange(target));
 
     document.onkeydown = (e) => this.handleKeyPress(e);
+
+    if (CONFIG.openLastVisitedTab)
+      window.onbeforeunload = () => this.saveCurrentTab();
+  }
+
+  saveCurrentTab() {
+    localStorage.lastVisitedTab = this.currentTabIndex;
+  }
+
+  openLastVisitedTab() {
+    if (!CONFIG.openLastVisitedTab) return;
+    this.activateByKey(localStorage.lastVisitedTab);
   }
 
   handleTabChange(tab) {
@@ -228,6 +241,8 @@ class Statusbar extends Component {
   }
 
   activateByKey(key) {
+    this.currentTabIndex = key;
+
     this.activate(this.refs.tabs, this.refs.tabs[key]);
     this.activate(this.externalRefs.categories, this.externalRefs.categories[key]);
   }
@@ -262,6 +277,7 @@ class Statusbar extends Component {
       this.createTabs();
       this.setEvents();
       this.setAttributes();
+      this.openLastVisitedTab();
     });
   }
 }

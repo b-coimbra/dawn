@@ -27,6 +27,7 @@ const CONFIG = new Config({
     "s": 'search-bar'
   },
   disabled: [],
+  openLastVisitedTab: false,
   tabs: [
     {
       name: 'boards',

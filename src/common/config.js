@@ -21,6 +21,7 @@ class Config {
       }
     },
     disabled: [],
+    openLastVisitedTab: false,
     tabs: [],
     keybindings: {
       "t": 'todo-list',

@@ -40,6 +40,7 @@ Create new tabs and categories like so:
 ```js
 const CONFIG = new Config({
     // ...
+    openLastVisitedTab: false,
     tabs: [
         {
             name: 'boards',
@@ -148,7 +149,7 @@ Alternatively, click on the crypto widget to change the settings:
   - [ ] Configuration
     - [X] Disable components
     - [ ] Toggle status bar sections
-    - [ ] Open last visited panel on new tab
+    - [X] Open last visited panel on new tab
     - [ ] Reset settings to default
     - [X] Change keybindings
     - [ ] Import/export settings

@@ -750,6 +750,7 @@ class Todo extends Component {
           position: absolute;
           left: 15px;
           color: #b5b5b5;
+          top: 11px;
       }
 
       .add-task-link { display: none; }

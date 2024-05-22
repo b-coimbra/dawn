@@ -173,7 +173,12 @@ class Todo extends Component {
   }
 
   cleanTasks() {
-    if (!Object.values(this.refs.cleanTasks.classList).includes('active')) return;
+    if (!confirm(`Clean all your tasks?`))
+      return;
+
+    if (!Object.values(this.refs.cleanTasks.classList).includes('active'))
+      return;
+
     Tasks.clean(this.refs.task);
   }
 

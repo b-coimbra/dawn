@@ -1,4 +1,8 @@
 class TaskPriority extends Component {
+  static refs = {
+    priorities: '.edit-task-priority input'
+  };
+
   constructor() {
     super();
   }
@@ -7,9 +11,21 @@ class TaskPriority extends Component {
     const taskElemRef = EditTask.taskElemRef;
     let task = Tasks.getById(taskElemRef.id);
 
-    task = { ...task, priority: idx };
+    if (task.priority === idx) {
+      idx = -1;
 
-    taskElemRef.setAttribute('priority', priority);
+      const priorityRef = taskElemRef
+            .querySelector(this.refs.priorities + `.priority-${priority}`);
+
+      taskElemRef.removeAttribute('priority');
+
+      priorityRef.checked = false;
+      priorityRef.blur();
+    }
+    else
+      taskElemRef.setAttribute('priority', priority);
+
+    task = { ...task, priority: idx };
 
     Tasks.update(task, taskElemRef, null);
   }
@@ -23,7 +39,7 @@ class TaskPriority extends Component {
           return `
             <input type="radio" class="task-priority priority-${p}" name="priority" value="${i}"
               ${priority === i ? 'checked' : ''}
-              onchange="TaskPriority.update('${p}', '${i}')">
+              onclick="TaskPriority.update('${p}', '${i}')">
           `;
         }).join('')}
       </div>
